@@ -39,8 +39,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		glfwPollEvents();
 	}
 
-	// SList created on the stack to check dependency on Library.Desktop
-	MahatmaGameEngine::SList(10);
-
     return 0;
 }

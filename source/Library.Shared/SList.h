@@ -1,11 +1,15 @@
 #pragma once
 
+#include <cstdint>
+#include <exception>
+
 namespace MahatmaGameEngine
 {
 	//*SList Class
 	/**
 	* This a templated singly linked list class present in the 'MahatmaGameEngine' namespace.
 	*/
+	template <typename T>
 	class SList
 	{
 	public:
@@ -18,12 +22,12 @@ namespace MahatmaGameEngine
 		/**
 		* Copy constructor of the class.
 		*/
-		SList(const SList &listObject);
+		SList(const SList& obj);
 
 		/**
 		* Assignment operator method for SList
 		*/
-		SList& operator= (const SList& listObject);
+		SList& operator= (const SList& obj);
 
 		/** 
 		* The destructor of the SList.
@@ -34,18 +38,18 @@ namespace MahatmaGameEngine
 		* Push new item into the front of the list.
 		* @param data The data to be put into the node of the list.
 		*/
-		void pushFront(std::int32_t data);
+		void pushFront(T data);
 
 		/**
 		* Pop the front item from the list and return the item value.
 		*/
-		std::int32_t popFront();
+		T popFront();
 
 		/**
 		* Push new item into the back of the list.
 		* @param data The data to be put into the node of the list.
 		*/
-		void pushBack(std::int32_t data);
+		void pushBack(T data);
 
 		/**
 		* Remove all the items from the list and resets it.
@@ -60,38 +64,43 @@ namespace MahatmaGameEngine
 		/**
 		* Returns the item in the front node of the list.
 		*/
-		std::int32_t front();
+		T& front();
 
 		/**
 		* Returns the item in the back node of the list.
 		*/
-		std::int32_t back();
+		T& back();
 
 		/**
 		* Returns a const reference to the item in the front node of the list.
 		*/
-		const std::int32_t& front() const;
+		const T& front() const;
 
 		/**
 		* Returns a const reference to the item in the back node of the list.
 		*/
-		const std::int32_t& back() const;
+		const T& back() const;
 
 		/**
 		* Returns the current number of items in the list.
 		*/
-		std::int32_t size() const;
+		std::uint32_t size() const;
 
 	private:
-		std::int32_t listSize;		/**< Current number of Node elements in the class.*/
+		std::uint32_t mSize;		/**< Current number of Node elements in the class.*/
 
+		/**
+		* Private struct Node holds the data of a node and the pointer to the next node.
+		*/
 		struct Node
 		{
-			std::int32_t item;
-			Node* next;
+			T item;				/**< Used to store the data item as defined by the user.*/
+			Node* next = nullptr;			/**< Pointer to the next node in the list.*/
 		};
 
-		Node* listFront;			/**< Pointer to the first Node in the SList.*/
-		Node* listBack;				/**< Pointer to the last Node in the SList.*/
+		Node* mFront;			/**< Pointer to the first Node in the SList.*/
+		Node* mBack;			/**< Pointer to the last Node in the SList.*/
 	};
 }
+
+#include "SList.inl"

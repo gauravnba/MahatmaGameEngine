@@ -42,9 +42,6 @@ int WINAPI WinMain(HINSTANCE hInstance,	HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		DispatchMessage(&msg);
 	}
 
-	// SList created on the stack to check dependency on Library.Desktop
-	MahatmaGameEngine::SList(10);
-
 	return (int)msg.wParam;
 }
 

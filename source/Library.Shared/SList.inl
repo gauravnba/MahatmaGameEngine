@@ -1,155 +1,183 @@
-#include "pch.h"
-
-#include "SList.h"
-
-using namespace MahatmaGameEngine;
-using namespace std;
-
-template <typename T>
-SList<T>::SList() :
-	mFront(nullptr), mBack(nullptr), mSize(0)
+namespace MahatmaGameEngine
 {
-}
-
-template <typename T>
-SList<T>::SList(const SList<T> &obj) :
-	mFront(nullptr), mBack(nullptr), mSize(0)
-{
-	mSize	= obj.mSize;
-
-	Node* temp	= obj.mFront;
-	while(temp != nullptr)
+	template <typename T>
+	SList<T>::SList() :
+		mFront(nullptr), mBack(nullptr), mSize(0)
 	{
-		pushBack(temp->item);
-		temp = temp->next;
 	}
-}
 
-template <typename T>
-SList& SList::operator=(const SList &obj)
-{
-	if (this != &obj)
+	template <typename T>
+	SList<T>::SList(const SList<T> &obj) :
+		mFront(nullptr), mBack(nullptr), mSize(0)
 	{
-		clear();
-
-		//Deep copy
 		Node* temp = obj.mFront;
-		while (temp != nullptr)
+		while ( temp != nullptr )
 		{
 			pushBack(temp->item);
 			temp = temp->next;
 		}
 	}
-	return *this;
-}
 
-template <typename T>
-SList::~SList()
-{
-	// Clear the list from front to back.
-	for (int i = 0; i < mSize; i++)
+	template <typename T>
+	SList<T>& SList<T>::operator=(const SList<T> &obj)
+	{
+		if (this != &obj)
+		{
+			clear();
+
+			//Deep copy
+			Node* temp = obj.mFront;
+			while (temp != nullptr)
+			{
+				pushBack(temp->item);
+				temp = temp->next;
+			}
+		}
+		return *this;
+	}
+
+	template <typename T>
+	SList<T>::~SList()
+	{
+		//Remove all nodes from front to back.
+		while(mFront != nullptr)
+		{
+			Node* temp = mFront;
+			mFront = temp->next;
+			delete temp;
+		}
+	}
+
+	template <typename T>
+	void SList<T>::pushFront(T data)
+	{
+		Node* temp = new Node;
+		temp->item = data;
+		temp->next = mFront;
+		mFront = temp;
+		if (mSize == 0)
+		{
+			mBack = mFront;
+		}
+
+		mSize++;
+	}
+
+	template <typename T>
+	T SList<T>::popFront()
+	{
+		if (mSize == 0)
+		{
+			throw std::runtime_error("You attempted to pop an item from an empty list.");
+		}
+
+		Node* temp = mFront;
+		T returnItem = temp->item;
+
+		mFront = temp->next;
+		delete temp;
+
+		mSize--;
+
+		//If there are no elements in the list, have the front and back point to nullptr.
+		if (mSize == 0)
+		{
+			mFront = nullptr;
+			mBack = nullptr;
+		}
+
+		return returnItem;
+	}
+
+	template <typename T>
+	void SList<T>::pushBack(T data)
 	{
 		Node* temp	= new Node;
-		temp		= mFront;
-		mFront			= temp->next;
-		delete temp;
+		temp->item	= data;
+		if (mSize != 0)
+		{
+			mBack->next = temp;
+			mBack = temp;
+		}
+		else
+		{
+			mBack = temp;
+			mFront = mBack;
+		}
+
+		mSize++;
 	}
-}
 
-template <typename T>
-void SList::pushFront(int32_t data)
-{
-	Node* tempNode	= new Node;
-	tempNode->item	= data;
-	tempNode->next	= mFront;
-	mFront		= tempNode;
-
-	mSize		+= 1;
-}
-
-template <typename T>
-int32_t SList::popFront()
-{
-	Node* tempNode		= new Node;
-	tempNode			= mFront;
-	int32_t returnItem	= tempNode->item;
-
-	mFront		= tempNode->next;
-	delete tempNode;
-
-	mSize		-= 1;
-
-	return returnItem;
-}
-
-template <typename T>
-void SList::pushBack(int32_t data)
-{
-	Node* tempNode	= new Node;
-	tempNode->item	= data;
-	tempNode->next	= mBack;
-	mBack		= tempNode;
-
-	mSize		+= 1;
-}
-
-template <typename T>
-void SList::clear()
-{
-	//Remove all nodes from front to back.
-	for (int i = 0; i < mSize; i++)
+	template <typename T>
+	void SList<T>::clear()
 	{
-		Node* tempNode	= new Node;
-		tempNode		= mFront;
-		mFront		= tempNode->next;
-		delete tempNode;
+		//Remove all nodes from front to back.
+		while(mFront != nullptr)
+		{
+			Node* temp = mFront;
+			mFront = temp->next;
+			delete temp;
+		}
+
+		//Reset the member variables.
+		mFront = nullptr;
+		mBack = nullptr;
+		mSize = 0;
 	}
 
-	//Reset the member variables.
-	mFront	= nullptr;
-	mBack	= nullptr;
-	mSize	= 0;
-}
-
-template <typename T>
-int32_t SList::size() const
-{
-	return mSize;
-}
-
-template <typename T>
-bool SList::isEmpty() const
-{
-	if (mSize == 0)
+	template <typename T>
+	std::uint32_t SList<T>::size() const
 	{
-		return true;
+		return mSize;
 	}
 
-	return false;
-}
+	template <typename T>
+	bool SList<T>::isEmpty() const
+	{
+		if (mSize == 0)
+		{
+			return true;
+		}
+		return false;
+	}
 
-template <typename T>
-int32_t SList::front()
-{
-	int32_t frontItem = mFront->item;
-	return frontItem;
-}
+	template <typename T>
+	T& SList<T>::front()
+	{
+		if (mSize == 0)
+		{
+			throw std::runtime_error("You attempted to get an item from an empty list.");
+		}
+		return (mFront->item);
+	}
 
-template <typename T>
-int32_t SList::back()
-{
-	int32_t backItem = mBack->item;
-	return backItem;
-}
+	template <typename T>
+	T& SList<T>::back()
+	{
+		if (mSize == 0)
+		{
+			throw std::runtime_error("You attempted to get an item from an empty list.");
+		}
+		return (mBack->item);
+	}
 
-template <typename T>
-const int32_t& SList::front() const
-{
-	return (const int32_t)(mFront->item);
-}
+	template <typename T>
+	const T& SList<T>::front() const
+	{
+		if (mSize == 0)
+		{
+			throw std::runtime_error("You attempted to get an item from an empty list.");
+		}
+		return (const T&)(mFront->item);
+	}
 
-template <typename T>
-const int32_t& SList::back() const
-{
-	return (const int32_t)(mBack->item);
+	template <typename T>
+	const T& SList<T>::back() const
+	{
+		if (mSize == 0)
+		{
+			throw std::runtime_error("You attempted to get an item from an empty list.");
+		}
+		return (const T&)(mBack->item);
+	}
 }
