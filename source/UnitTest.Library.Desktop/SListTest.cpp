@@ -25,6 +25,8 @@ using namespace MahatmaGameEngine;
 namespace UnitTestLibraryDesktop
 {
 	using namespace std;
+	//This Class tests all the methods in the SList class using an integer list, a pointer list and
+	//a list of a custom class Foo.
 	TEST_CLASS(SListTest)
 	{
 	public:
@@ -117,6 +119,7 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(fooList1.front(), fooList2.front());
 		}
 
+		//The test method tests the assignment operator by assigning a non-empty list to an empty one.
 		TEST_METHOD(defaultAssignmentOperatorTest)
 		{
 			//Integer
@@ -155,6 +158,7 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(fooList1.front(), fooList2.front());
 		}
 
+		//Test assignment of a non-empty list to another non-empty list with different data in it.
 		TEST_METHOD(nonEmptyListAssignmentOperatorTest)
 		{
 				//Integer
@@ -199,6 +203,8 @@ namespace UnitTestLibraryDesktop
 				Assert::AreEqual(fooList1.front(), fooList2.front());
 		}
 
+		//Test the push front method in the SList class.
+		//Tests both pushFront on empty list and on a non-empty list.
 		TEST_METHOD(pushFrontTest)
 		{
 			//Integer
@@ -232,6 +238,7 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(fooList.front(), Foo(20));
 		}
 
+		//Tests the popFront method on lists that are empty and then on non-empty lists.
 		TEST_METHOD(popFrontTest)
 		{
 			//Integer
@@ -292,6 +299,7 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(fooList.size(), static_cast<uint32_t>(1));
 		}
 
+		//Tests pushBack on an empty and then a non-empty list.
 		TEST_METHOD(pushBackTest)
 		{
 			//Integer
@@ -324,6 +332,7 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(fooList.back(), Foo(20));
 		}
 
+		//Tests the clear method on a list with size 2.
 		TEST_METHOD(clearListTest)
 		{
 			//Integer
@@ -358,6 +367,7 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(fooList.size(), static_cast<uint32_t>(0));
 		}
 
+		//Tests both cases of the boolean method isEmpty.
 		TEST_METHOD(isEmptyTest)
 		{
 			//Integer
@@ -384,6 +394,7 @@ namespace UnitTestLibraryDesktop
 			Assert::IsFalse(fooList.isEmpty());
 		}
 
+		//Tests the front method on an empty list and then a non-empty list.
 		TEST_METHOD(frontTest)
 		{
 			//Integer
@@ -418,6 +429,7 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(fooList.front(), Foo(20));
 		}
 
+		//Tests the back method on an empty and a non-empty list.
 		TEST_METHOD(backTest)
 		{
 			//Integer
@@ -452,7 +464,7 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(fooList.back(), Foo(10));
 		}
 
-		//TODO--Complete const tests.
+		//Similar to the frontTest, but here, we check the const version of the method on const lists.
 		TEST_METHOD(constFrontTest)
 		{
 			//Integer
@@ -495,6 +507,7 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(constFooList.front(), Foo(20));
 		}
 
+		//Const lists used to test the const version of back.
 		TEST_METHOD(constBackTest)
 		{
 			//Integer
