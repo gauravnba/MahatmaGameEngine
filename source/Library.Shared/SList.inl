@@ -49,7 +49,7 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	void SList<T>::pushFront(T data)
+	typename SList<T>::Iterator SList<T>::pushFront(T data)
 	{
 		Node* temp = new Node;
 		temp->item = data;
@@ -61,6 +61,7 @@ namespace MahatmaGameEngine
 		}
 
 		mSize++;
+		return begin();
 	}
 
 	template <typename T>
@@ -90,7 +91,7 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	void SList<T>::pushBack(T data)
+	typename SList<T>::Iterator SList<T>::pushBack(T data)
 	{
 		Node* temp	= new Node;
 		temp->item	= data;
@@ -106,6 +107,8 @@ namespace MahatmaGameEngine
 		}
 
 		mSize++;
+
+		return Iterator(mBack, this);
 	}
 
 	template <typename T>
@@ -179,5 +182,87 @@ namespace MahatmaGameEngine
 			throw std::runtime_error("You attempted to get an item from an empty list.");
 		}
 		return (const T&)(mBack->item);
+	}
+
+	template <typename T>
+	typename SList<T>::Iterator SList<T>::begin()
+	{
+		return Iterator(mFront, this);
+	}
+
+	template <typename T>
+	const typename SList<T>::Iterator& SList<T>::begin() const
+	{
+		return Iterator(mFront, this);
+	}
+
+	template <typename T>
+	typename SList<T>::Iterator SList<T>::end()
+	{
+		Node* tempNode = this->back;
+		return Iterator(tempNode->next, this);
+	}
+
+	template <typename T>
+	const typename SList<T>::Iterator& SList<T>::end() const
+	{
+		Node* tempNode = this->back;
+		return Iterator(tempNode->next, this);
+	}
+
+	template <typename T>
+	typename SList<T>::Iterator SList<T>::insertAfter(const Iterator& it, T data)
+	{
+		if (it.mCurrentList == this)
+		{
+			if (isEmpty())
+			{
+				pushBack(data);
+			}
+			Node* temp = new Node;
+			temp->item = data;
+			temp->next = ++it;
+
+			return Iterator(temp, this);
+		}
+		else
+		{
+			throw std::runtime_error("The iterator argument passed belongs to another list.");
+		}
+	}
+
+	template <typename T>
+	typename SList<T>::Iterator SList<T>::find(const T& value) const
+	{
+		Iterator it = begin();
+
+		while ((*it != value))
+		{
+			if (it == end())
+			{
+				break;
+			}
+			++it;
+		}
+		return it;
+	}
+
+	template <typename T>
+	void SList<T>::remove(const T& value)
+	{
+		Iterator it = begin();
+
+		while (*it != value)
+		{
+			if (it != end())
+			{
+				return;
+			}
+
+			Iterator previous = it++;
+		}
+
+		previous.mCurrentNode->next = it.mCurrentNode->next;
+		delete it.mCurrentNode;
 	}
 }

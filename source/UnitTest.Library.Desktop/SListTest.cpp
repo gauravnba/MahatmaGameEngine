@@ -1,8 +1,6 @@
 #include "CppUnitTest.h"
 #include "SList.h"
 #include "Foo.h"
-#include <cstdint>
-#include <exception>
 
 //Create ToString function for the Foo class.
 namespace Microsoft {
@@ -88,8 +86,9 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(copyConstructorTest)
 		{
 			//Integer
+			int32_t a = 10;
 			SList<int32_t> intList1;
-			intList1.pushFront(10);
+			intList1.pushFront(a);
 
 			SList<int32_t> intList2 = intList1;
 
@@ -111,7 +110,7 @@ namespace UnitTestLibraryDesktop
 
 			//Class Foo
 			SList<Foo> fooList1;
-			fooList1.pushFront(Foo(10));
+			fooList1.pushFront(Foo(a));
 
 			SList<Foo> fooList2 = fooList1;
 
@@ -124,8 +123,8 @@ namespace UnitTestLibraryDesktop
 		{
 			//Integer
 			SList<int32_t> intList1;
-
-			intList1.pushFront(10);
+			int32_t a = 10;
+			intList1.pushFront(a);
 
 			SList<int32_t> intList2;
 			intList2 = intList1;
@@ -149,7 +148,7 @@ namespace UnitTestLibraryDesktop
 
 			//Class Foo
 			SList<Foo> fooList1;
-			fooList1.pushFront(Foo(10));
+			fooList1.pushFront(Foo(a));
 
 			SList<Foo> fooList2;
 			fooList2 = fooList1;
@@ -163,11 +162,13 @@ namespace UnitTestLibraryDesktop
 		{
 				//Integer
 				SList<int32_t> intList1;
+				int32_t a = 10;
+				int32_t b = 10;
 
-				intList1.pushFront(10);
+				intList1.pushFront(a);
 
 				SList<int32_t> intList2;
-				intList2.pushFront(20);
+				intList2.pushFront(b);
 
 				intList2 = intList1;
 
@@ -192,10 +193,10 @@ namespace UnitTestLibraryDesktop
 
 				//Class Foo
 				SList<Foo> fooList1;
-				fooList1.pushFront(Foo(10));
+				fooList1.pushFront(Foo(a));
 
 				SList<Foo> fooList2;
-				fooList2.pushFront(Foo(20));
+				fooList2.pushFront(Foo(b));
 
 				fooList2 = fooList1;
 
@@ -208,12 +209,14 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(pushFrontTest)
 		{
 			//Integer
+			int32_t a = 10;
+			int32_t b = 20;
 			SList<int32_t> intList;
-			intList.pushFront(10);
-			Assert::AreEqual(intList.front(), static_cast<int32_t>(10));
+			intList.pushFront(a);
+			Assert::AreEqual(intList.front(), a);
 
-			intList.pushFront(20);
-			Assert::AreEqual(intList.front(), static_cast<int32_t>(20));
+			intList.pushFront(b);
+			Assert::AreEqual(intList.front(), b);
 
 			//Pointer
 			SList<int32_t*> pointerList;
@@ -231,32 +234,34 @@ namespace UnitTestLibraryDesktop
 			//Class Foo
 			SList<Foo> fooList;
 
-			fooList.pushFront(Foo(10));
-			Assert::AreEqual(fooList.front(), Foo(10));
+			fooList.pushFront(Foo(a));
+			Assert::AreEqual(fooList.front(), Foo(a));
 
-			fooList.pushFront(Foo(20));
-			Assert::AreEqual(fooList.front(), Foo(20));
+			fooList.pushFront(Foo(b));
+			Assert::AreEqual(fooList.front(), Foo(b));
 		}
 
 		//Tests the popFront method on lists that are empty and then on non-empty lists.
 		TEST_METHOD(popFrontTest)
 		{
 			//Integer
+			int32_t a = 10;
+			int32_t b = 20;
 			SList<int32_t> intList;
 			
 			auto popNullFromInt = [&intList] {intList.popFront(); };
 			Assert::ExpectException<runtime_error>(popNullFromInt);
 
-			intList.pushFront(10);
+			intList.pushFront(a);
 			Assert::AreEqual(intList.size(), static_cast<uint32_t>(1));
-			Assert::AreEqual(intList.popFront(), static_cast<int32_t>(10));
+			Assert::AreEqual(intList.popFront(), a);
 			Assert::AreEqual(intList.size(), static_cast<uint32_t>(0));
 
-			intList.pushFront(10);
-			intList.pushFront(20);
+			intList.pushFront(a);
+			intList.pushFront(b);
 
 			Assert::AreEqual(intList.size(), static_cast<uint32_t>(2));
-			Assert::AreEqual(intList.popFront(), static_cast<int32_t>(20));
+			Assert::AreEqual(intList.popFront(), b);
 			Assert::AreEqual(intList.size(), static_cast<uint32_t>(1));
 
 			//Pointer
@@ -286,16 +291,16 @@ namespace UnitTestLibraryDesktop
 			auto popNullFromFoo = [&fooList] {fooList.popFront(); };
 			Assert::ExpectException<runtime_error>(popNullFromFoo);
 
-			fooList.pushFront(Foo(10));
+			fooList.pushFront(Foo(a));
 			Assert::AreEqual(fooList.size(), static_cast<uint32_t>(1));
-			Assert::AreEqual(fooList.popFront(), Foo(10));
+			Assert::AreEqual(fooList.popFront(), Foo(a));
 			Assert::AreEqual(fooList.size(), static_cast<uint32_t>(0));
 
-			fooList.pushFront(Foo(10));
-			fooList.pushFront(Foo(20));
+			fooList.pushFront(Foo(a));
+			fooList.pushFront(Foo(b));
 
 			Assert::AreEqual(fooList.size(), static_cast<uint32_t>(2));
-			Assert::AreEqual(fooList.popFront(), Foo(20));
+			Assert::AreEqual(fooList.popFront(), Foo(b));
 			Assert::AreEqual(fooList.size(), static_cast<uint32_t>(1));
 		}
 
@@ -303,12 +308,15 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(pushBackTest)
 		{
 			//Integer
-			SList<int32_t> intList;
-			intList.pushBack(10);
-			Assert::AreEqual(intList.back(), static_cast<int32_t>(10));
+			int32_t a = 10;
+			int32_t b = 20;
 
-			intList.pushBack(20);
-			Assert::AreEqual(intList.back(), static_cast<int32_t>(20));
+			SList<int32_t> intList;
+			intList.pushBack(a);
+			Assert::AreEqual(intList.back(), a);
+
+			intList.pushBack(b);
+			Assert::AreEqual(intList.back(), b);
 
 			//Pointer
 			SList<int32_t*> pointerList;
@@ -325,21 +333,23 @@ namespace UnitTestLibraryDesktop
 			//Class Foo
 			SList<Foo> fooList;
 
-			fooList.pushBack(Foo(10));
-			Assert::AreEqual(fooList.back(), Foo(10));
+			fooList.pushBack(Foo(a));
+			Assert::AreEqual(fooList.back(), Foo(a));
 
-			fooList.pushBack(Foo(20));
-			Assert::AreEqual(fooList.back(), Foo(20));
+			fooList.pushBack(Foo(b));
+			Assert::AreEqual(fooList.back(), Foo(b));
 		}
 
 		//Tests the clear method on a list with size 2.
 		TEST_METHOD(clearListTest)
 		{
 			//Integer
+			int32_t a = 10;
+			int32_t b = 20;
 			SList<int32_t> intList;
 
-			intList.pushFront(10);
-			intList.pushFront(20);
+			intList.pushFront(a);
+			intList.pushFront(b);
 
 			Assert::AreEqual(intList.size(), static_cast<uint32_t>(2));
 			intList.clear();
@@ -359,8 +369,8 @@ namespace UnitTestLibraryDesktop
 
 			//Class Foo
 			SList<Foo> fooList;
-			fooList.pushFront(Foo(10));
-			fooList.pushFront(Foo(20));
+			fooList.pushFront(Foo(a));
+			fooList.pushFront(Foo(b));
 
 			Assert::AreEqual(fooList.size(), static_cast<uint32_t>(2));
 			fooList.clear();
@@ -371,9 +381,11 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(isEmptyTest)
 		{
 			//Integer
+			int32_t a = 10;
+
 			SList<int32_t> intList;
 			Assert::IsTrue(intList.isEmpty());
-			intList.pushFront(10);
+			intList.pushFront(a);
 			Assert::IsFalse(intList.isEmpty());
 
 			//Pointer
@@ -390,7 +402,7 @@ namespace UnitTestLibraryDesktop
 			SList<Foo> fooList;
 			Assert::IsTrue(fooList.isEmpty());
 
-			fooList.pushFront(Foo(10));
+			fooList.pushFront(Foo(a));
 			Assert::IsFalse(fooList.isEmpty());
 		}
 
@@ -398,13 +410,16 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(frontTest)
 		{
 			//Integer
+			int32_t a = 10;
+			int32_t b = 20;
+
 			SList<int32_t> intList;
 			auto frontOfInt = [&intList] {intList.front(); };
 			Assert::ExpectException<runtime_error>(frontOfInt);
 
-			intList.pushFront(10);
-			intList.pushFront(20);
-			Assert::AreEqual(intList.front(), static_cast<int32_t>(20));
+			intList.pushFront(a);
+			intList.pushFront(b);
+			Assert::AreEqual(intList.front(), b);
 
 			//Pointer
 			SList<int32_t*> pointerList;
@@ -424,22 +439,25 @@ namespace UnitTestLibraryDesktop
 			auto frontOfFoo = [&fooList] {fooList.front(); };
 			Assert::ExpectException<runtime_error>(frontOfFoo);
 
-			fooList.pushFront(Foo(10));
-			fooList.pushFront(Foo(20));
-			Assert::AreEqual(fooList.front(), Foo(20));
+			fooList.pushFront(Foo(a));
+			fooList.pushFront(Foo(b));
+			Assert::AreEqual(fooList.front(), Foo(b));
 		}
 
 		//Tests the back method on an empty and a non-empty list.
 		TEST_METHOD(backTest)
 		{
 			//Integer
+			int32_t a = 10;
+			int32_t b = 20;
+
 			SList<int32_t> intList;
 			auto backOfInt = [&intList] {intList.back(); };
 			Assert::ExpectException<runtime_error>(backOfInt);
 
-			intList.pushFront(10);
-			intList.pushFront(20);
-			Assert::AreEqual(intList.back(), static_cast<int32_t>(10));
+			intList.pushFront(a);
+			intList.pushFront(b);
+			Assert::AreEqual(intList.back(), a);
 
 			//Pointer
 			SList<int32_t*> pointerList;
@@ -459,25 +477,27 @@ namespace UnitTestLibraryDesktop
 			auto backOfFoo = [&fooList] {fooList.back(); };
 			Assert::ExpectException<runtime_error>(backOfFoo);
 
-			fooList.pushFront(Foo(10));
-			fooList.pushFront(Foo(20));
-			Assert::AreEqual(fooList.back(), Foo(10));
+			fooList.pushFront(Foo(a));
+			fooList.pushFront(Foo(b));
+			Assert::AreEqual(fooList.back(), Foo(a));
 		}
 
 		//Similar to the frontTest, but here, we check the const version of the method on const lists.
 		TEST_METHOD(constFrontTest)
 		{
 			//Integer
+			int32_t a = 10;
+			int32_t b = 20;
 			const SList<int32_t> emptyIntList;
 			auto frontOfInt = [&emptyIntList] {emptyIntList.front(); };
 			Assert::ExpectException<runtime_error>(frontOfInt);
 
 			SList<int32_t> intList;
-			intList.pushFront(10);
-			intList.pushFront(20);
+			intList.pushFront(a);
+			intList.pushFront(b);
 
 			const SList<int32_t> constIntList = intList;
-			Assert::AreEqual(constIntList.front(), static_cast<int32_t>(20));
+			Assert::AreEqual(constIntList.front(), b);
 
 			//Pointer
 			const SList<int32_t*> emptyPointerList;
@@ -500,27 +520,29 @@ namespace UnitTestLibraryDesktop
 			Assert::ExpectException<runtime_error>(frontOfFoo);
 
 			SList<Foo> fooList;
-			fooList.pushFront(Foo(10));
-			fooList.pushFront(Foo(20));
+			fooList.pushFront(Foo(a));
+			fooList.pushFront(Foo(b));
 
 			const SList<Foo> constFooList = fooList;
-			Assert::AreEqual(constFooList.front(), Foo(20));
+			Assert::AreEqual(constFooList.front(), Foo(b));
 		}
 
 		//Const lists used to test the const version of back.
 		TEST_METHOD(constBackTest)
 		{
 			//Integer
+			int32_t a = 10;
+			int32_t b = 20;
 			const SList<int32_t> emptyIntList;
 			auto backOfInt = [&emptyIntList] {emptyIntList.back(); };
 			Assert::ExpectException<runtime_error>(backOfInt);
 
 			SList<int32_t> intList;
-			intList.pushFront(10);
-			intList.pushFront(20);
+			intList.pushFront(a);
+			intList.pushFront(b);
 
 			const SList<int32_t> constIntList = intList;
-			Assert::AreEqual(constIntList.back(), static_cast<int32_t>(10));
+			Assert::AreEqual(constIntList.back(), a);
 
 			//Pointer
 			const SList<int32_t*> emptyPointerList;
@@ -543,11 +565,11 @@ namespace UnitTestLibraryDesktop
 			Assert::ExpectException<runtime_error>(backOfFoo);
 
 			SList<Foo> fooList;
-			fooList.pushFront(Foo(10));
-			fooList.pushFront(Foo(20));
+			fooList.pushFront(Foo(a));
+			fooList.pushFront(Foo(b));
 
 			const SList<Foo> constFooList = fooList;
-			Assert::AreEqual(constFooList.back(), Foo(10));
+			Assert::AreEqual(constFooList.back(), Foo(a));
 		}
 
 	private:
