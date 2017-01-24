@@ -65,11 +65,7 @@ namespace MahatmaGameEngine
 	{
 		if (mCurrentNode == nullptr)
 		{
-			throw std::runtime_error("The iterator is not initialized.");
-		}
-		if (mCurrentNode->next == nullptr)
-		{
-			throw std::runtime_error("Iterator is at the end of the list.");
+			throw std::runtime_error("The iterator is pointing to null.");
 		}
 		
 		mCurrentNode = mCurrentNode->next;
@@ -86,11 +82,6 @@ namespace MahatmaGameEngine
 		if (mCurrentNode == nullptr)
 		{
 			throw std::runtime_error("The iterator is not initialized.");
-		}
-
-		if (mCurrentNode->next == nullptr)
-		{
-			throw std::runtime_error("Iterator is at the end of the list.");
 		}
 		
 		mCurrentNode = mCurrentNode->next;

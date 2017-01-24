@@ -1,76 +1,9 @@
 #include "CppUnitTest.h"
 #include "SList.h"
 #include "Foo.h"
+#include "ToStringFunctions.h"
 #include <cstdint>
 #include <exception>
-
-//Create ToString function for the Foo class.
-namespace Microsoft 
-{
-	namespace VisualStudio 
-	{
-		namespace CppUnitTestFramework
-		{
-			template<>
-			std::wstring ToString<Foo>(const Foo& obj)
-			{
-				std::uint32_t returnVal = obj.getVar();
-				return std::to_wstring(returnVal);
-			}
-		}
-	}
-}
-
-//Create ToString function for the integer Iterator class.
-namespace Microsoft 
-{
-	namespace VisualStudio 
-	{
-		namespace CppUnitTestFramework
-		{
-			template<>
-			std::wstring ToString<MahatmaGameEngine::SList<std::int32_t>::Iterator>(const MahatmaGameEngine::SList<std::int32_t>::Iterator& obj)
-			{
-				std::int32_t returnVal = *obj;
-				return std::to_wstring(returnVal);
-			}
-		}
-	}
-}
-
-//Created ToString function for the pointer Iterator class.
-namespace Microsoft 
-{
-	namespace VisualStudio 
-	{
-		namespace CppUnitTestFramework
-		{
-			template<>
-			std::wstring ToString<MahatmaGameEngine::SList<std::int32_t*>::Iterator>(const MahatmaGameEngine::SList<std::int32_t*>::Iterator& obj)
-			{
-				std::int32_t* returnVal = *obj;
-				return std::to_wstring(*returnVal);
-			}
-		}
-	}
-}
-
-//Created ToString function for the Foo Iterator class
-namespace Microsoft
-{
-	namespace VisualStudio
-	{
-		namespace CppUnitTestFramework
-		{
-			template<>
-			std::wstring ToString<MahatmaGameEngine::SList<Foo>::Iterator>(const MahatmaGameEngine::SList<Foo>::Iterator& obj)
-			{
-				Foo returnVal = *obj;
-				return std::to_wstring(returnVal.getVar());
-			}
-		}
-	}
-}
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace MahatmaGameEngine;

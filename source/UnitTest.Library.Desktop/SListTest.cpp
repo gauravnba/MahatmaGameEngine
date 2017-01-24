@@ -1,21 +1,9 @@
 #include "CppUnitTest.h"
 #include "SList.h"
+#include "ToStringFunctions.h"
 #include "Foo.h"
 
-//Create ToString function for the Foo class.
-namespace Microsoft {
-	namespace VisualStudio {
-		namespace CppUnitTestFramework
-		{
-			template<>
-			std::wstring ToString<Foo>(const Foo& obj)
-			{
-				std::uint32_t returnVal = obj.getVar();
-				return std::to_wstring(returnVal);
-			}
-		}
-	}
-}
+#pragma warning(disable: 4505)
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace MahatmaGameEngine;
@@ -570,6 +558,237 @@ namespace UnitTestLibraryDesktop
 
 			const SList<Foo> constFooList = fooList;
 			Assert::AreEqual(constFooList.back(), Foo(a));
+		}
+
+		TEST_METHOD(sListBeginTest)
+		{
+			//Integer
+			int32_t a = 0;
+			SList<int32_t> intList;
+			SList<int32_t>::Iterator intIt1 = intList.pushFront(a);
+			Assert::AreEqual(intIt1, intList.begin());
+			SList<int32_t>::Iterator intIt2;
+			Assert::AreNotEqual(intIt2, intList.begin());
+
+			//Pointer
+			int32_t* test = new int32_t;
+			SList<int32_t*> pointerList;
+			SList<int32_t*>::Iterator pointerIt1 = pointerList.pushFront(test);
+			Assert::AreEqual(pointerIt1, pointerList.begin());
+			SList<int32_t*>::Iterator pointerIt2;
+			Assert::AreNotEqual(pointerIt2, pointerList.begin());
+			delete test;
+
+			//Foo
+			SList<Foo> fooList;
+			SList<Foo>::Iterator fooIt1 = fooList.pushFront(Foo(a));
+			Assert::AreEqual(fooIt1, fooList.begin());
+			SList<Foo>::Iterator fooIt2;
+			Assert::AreNotEqual(fooIt2, fooList.begin());
+		}
+
+		TEST_METHOD(sListEndTest)
+		{
+			//Integer
+			int32_t a = 0;
+			SList<int32_t> intList;
+			SList<int32_t>::Iterator intIt1 = intList.pushFront(a);
+			Assert::AreNotEqual(intIt1, intList.end());
+
+			//Pointer
+			int32_t* test = new int32_t;
+			SList<int32_t*> pointerList;
+			SList<int32_t*>::Iterator pointerIt1 = pointerList.pushFront(test);
+			Assert::AreNotEqual(pointerIt1, pointerList.end());
+			delete test;
+
+			//Foo
+			SList<Foo> fooList;
+			SList<Foo>::Iterator fooIt1 = fooList.pushFront(Foo(a));
+			Assert::AreNotEqual(fooIt1, fooList.end());
+		}
+
+		TEST_METHOD(insertAfterTest)
+		{
+			//Integer
+			int32_t a = 10;
+			int32_t b = 20;
+			int32_t c = 30;
+			SList<int32_t> intList1;
+			SList<int32_t>::Iterator intIt1 = intList1.begin();
+
+			//insertAfter in empty list.
+			intIt1 = intList1.insertAfter(intIt1, a);
+			Assert::AreEqual(intList1.front(), a);
+
+			//insertAfter in list with one item.
+			intList1.insertAfter(intIt1, b);
+			Assert::AreEqual(intList1.back(), b);
+
+			//insertAfter with iterator belonging to another list.
+			SList<int32_t> intList2;
+			SList<int32_t>::Iterator intIt2 = intList2.begin();
+			auto intInsertException = [&intList1, &intIt2, &c] {intList1.insertAfter(intIt2, c); };
+			Assert::ExpectException<runtime_error>(intInsertException);
+			//End Integer
+
+			//Pointer
+			int32_t* test = new int32_t;
+			SList<int32_t*> pointerList1;
+			SList<int32_t*>::Iterator pointerIt1 = pointerList1.begin();
+
+			//insertAfter in empty list.
+			pointerIt1 = pointerList1.insertAfter(pointerIt1, test);
+			Assert::AreEqual(pointerList1.front(), test);
+
+			//insertAfter in list with one item.
+			pointerList1.insertAfter(pointerIt1, (test + 1));
+			Assert::AreEqual(pointerList1.back(), (test + 1));
+
+			//insertAfter with iterator belonging to another list.
+			SList<int32_t*> pointerList2;
+			SList<int32_t*>::Iterator pointerIt2 = pointerList2.begin();
+			auto pointerInsertException = [&pointerList1, &pointerIt2, &test] {pointerList1.insertAfter(pointerIt2, (test + 2)); };
+			Assert::ExpectException<runtime_error>(pointerInsertException);
+			delete test;
+			//End Pointer test
+
+			//Foo
+			SList<Foo> fooList1;
+			SList<Foo>::Iterator fooIt1 = fooList1.begin();
+
+			//insertAfter in empty list.
+			fooIt1 = fooList1.insertAfter(fooIt1, Foo(a));
+			Assert::AreEqual(fooList1.front(), Foo(a));
+
+			//insertAfter in list with one item.
+			fooList1.insertAfter(fooIt1, Foo(b));
+			Assert::AreEqual(fooList1.back(), Foo(b));
+
+			//insertAfter with iterator belonging to another list.
+			SList<Foo> fooList2;
+			SList<Foo>::Iterator fooIt2 = fooList2.begin();
+			auto fooInsertException = [&fooList1, &fooIt2, &c] {fooList1.insertAfter(fooIt2, Foo(c)); };
+			Assert::ExpectException<runtime_error>(fooInsertException);
+			//End Foo
+		}
+
+		TEST_METHOD(sListRemoveTest)
+		{
+			//Integer
+			int32_t a = 10;
+			int32_t b = 20;
+			SList<int32_t> intList;
+			SList<int32_t>::Iterator intIt = intList.begin();
+			//Test for an empty list.
+			intList.remove(a);
+
+			//Test for a list with a single item.
+			intIt = intList.insertAfter(intIt, a);
+			Assert::AreEqual(intList.size(), static_cast<uint32_t>(1));
+			Assert::AreEqual(intList.find(a), intIt);
+			intList.remove(a);
+			Assert::AreEqual(intList.size(), static_cast<uint32_t>(0));
+			Assert::AreEqual(intList.find(a), intList.begin());
+
+			//Test for a populated list.
+			intIt = intList.insertAfter(intList.begin(), a);
+			intIt = intList.insertAfter(intIt, b);
+			Assert::AreEqual(intList.size(), static_cast<uint32_t>(2));
+			Assert::AreEqual(intList.find(b), intIt);
+			intList.remove(b);
+			Assert::AreEqual(intList.size(), static_cast<uint32_t>(1));
+			Assert::AreEqual(intList.find(b), intList.end());
+			//End Integer
+
+			//Pointer
+			int32_t* test = new int32_t;
+			SList<int32_t*> pointerList;
+			SList<int32_t*>::Iterator pointerIt = pointerList.begin();
+			//Test for an empty list.
+			pointerList.remove(test);
+
+			//Test for a list with a single item.
+			pointerIt = pointerList.insertAfter(pointerIt, test);
+			Assert::AreEqual(pointerList.size(), static_cast<uint32_t>(1));
+			Assert::AreEqual(pointerList.find(test), pointerIt);
+			pointerList.remove(test);
+			Assert::AreEqual(pointerList.size(), static_cast<uint32_t>(0));
+			Assert::AreEqual(pointerList.find(test), pointerList.begin());
+
+			//Test for a populated list.
+			pointerIt = pointerList.insertAfter(pointerList.begin(), test);
+			pointerIt = pointerList.insertAfter(pointerIt, (test + 1));
+			Assert::AreEqual(pointerList.size(), static_cast<uint32_t>(2));
+			Assert::AreEqual(pointerList.find(test + 1), pointerIt);
+			pointerList.remove(test + 1);
+			Assert::AreEqual(pointerList.size(), static_cast<uint32_t>(1));
+			Assert::AreEqual(pointerList.find(test + 1), pointerList.end());
+			delete test;
+			//End Pointer
+
+			//Foo Test
+			SList<Foo> fooList;
+			SList<Foo>::Iterator fooIt = fooList.begin();
+			//Test for an empty list.
+			fooList.remove(Foo(a));
+
+			//Test for a list with a single item.
+			fooIt = fooList.insertAfter(fooIt, a);
+			Assert::AreEqual(fooList.size(), static_cast<uint32_t>(1));
+			Assert::AreEqual(fooList.find(Foo(a)), fooIt);
+			fooList.remove(Foo(a));
+			Assert::AreEqual(fooList.size(), static_cast<uint32_t>(0));
+			Assert::AreEqual(fooList.find(Foo(a)), fooList.begin());
+
+			//Test for a populated list.
+			fooIt = fooList.insertAfter(fooList.begin(), Foo(a));
+			fooIt = fooList.insertAfter(fooIt, Foo(b));
+			Assert::AreEqual(fooList.size(), static_cast<uint32_t>(2));
+			Assert::AreEqual(fooList.find(Foo(b)), fooIt);
+			fooList.remove(Foo(b));
+			Assert::AreEqual(fooList.size(), static_cast<uint32_t>(1));
+			Assert::AreEqual(fooList.find(Foo(b)), fooList.end());
+			//End Foo test
+		}
+
+		TEST_METHOD(sListFindTest)
+		{
+			//Integer test
+			int32_t a = 10;
+			int32_t b = 20;
+			SList<int32_t> intList;
+			SList<int32_t>::Iterator intIt = intList.begin();
+			//Test with empty list.
+			Assert::AreEqual(intList.find(a), intList.end());
+			//Test with populated list.
+			intIt = intList.insertAfter(intIt, a);
+			intIt = intList.insertAfter(intIt, b);
+			Assert::AreEqual(intList.find(b), intIt);
+			//End Integer test
+
+			//Pointer test
+			int32_t* test = new int32_t;
+			SList<int32_t*> pointerList;
+			SList<int32_t*>::Iterator pointerIt = pointerList.begin();
+			//Test with empty list.
+			Assert::AreEqual(pointerList.find(test), pointerList.end());
+			//Test with populated list.
+			pointerIt = pointerList.insertAfter(pointerIt, test);
+			pointerIt = pointerList.insertAfter(pointerIt, test + 1);
+			Assert::AreEqual(pointerList.find(test + 1), pointerIt);
+			delete test;
+			//End Pointer test
+
+			//Foo Test
+			SList<Foo> fooList;
+			SList<Foo>::Iterator fooIt = fooList.begin();
+			//Test with empty list.
+			Assert::AreEqual(fooList.find(Foo(a)), fooList.end());
+			//Test with populated list.
+			fooIt = fooList.insertAfter(fooIt, Foo(a));
+			fooIt = fooList.insertAfter(fooIt, Foo(b));
+			Assert::AreEqual(fooList.find(Foo(b)), fooIt);
 		}
 
 	private:

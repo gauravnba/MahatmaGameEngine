@@ -60,7 +60,7 @@ namespace MahatmaGameEngine
 			mBack = mFront;
 		}
 
-		mSize++;
+		++mSize;
 		return begin();
 	}
 
@@ -78,7 +78,7 @@ namespace MahatmaGameEngine
 		mFront = temp->next;
 		delete temp;
 
-		mSize--;
+		--mSize;
 
 		//If there are no elements in the list, have the front and back point to nullptr.
 		if (mSize == 0)
@@ -106,7 +106,7 @@ namespace MahatmaGameEngine
 			mFront = mBack;
 		}
 
-		mSize++;
+		++mSize;
 
 		return Iterator(mBack, this);
 	}
@@ -191,55 +191,60 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	const typename SList<T>::Iterator& SList<T>::begin() const
-	{
-		return Iterator(mFront, this);
-	}
-
-	template <typename T>
 	typename SList<T>::Iterator SList<T>::end()
 	{
-		Node* tempNode = this->back;
-		return Iterator(tempNode->next, this);
-	}
-
-	template <typename T>
-	const typename SList<T>::Iterator& SList<T>::end() const
-	{
-		Node* tempNode = this->back;
-		return Iterator(tempNode->next, this);
+		if (mSize == 0)
+		{
+			return begin();
+		}
+		return Iterator(mBack->next, this);
 	}
 
 	template <typename T>
 	typename SList<T>::Iterator SList<T>::insertAfter(const Iterator& it, T data)
 	{
-		if (it.mCurrentList == this)
-		{
-			if (isEmpty())
-			{
-				pushBack(data);
-			}
-			Node* temp = new Node;
-			temp->item = data;
-			temp->next = ++it;
-
-			return Iterator(temp, this);
-		}
-		else
+		if (it.mCurrentList != this)
 		{
 			throw std::runtime_error("The iterator argument passed belongs to another list.");
 		}
+
+		//Case: if the iterator is pointing to null, pushBack.
+		if (it.mCurrentNode == nullptr)
+		{
+			return pushBack(data);
+		}
+
+		Node* temp = new Node;
+		temp->item = data;
+		temp->next = it.mCurrentNode->next;
+		it.mCurrentNode->next = temp;
+
+		//Case: If there is only one element in the list, assign mBack as temp.
+		if (mFront == mBack)
+		{
+			mBack = temp;
+		}
+
+		++mSize;
+
+		return Iterator(temp, this);
 	}
 
 	template <typename T>
-	typename SList<T>::Iterator SList<T>::find(const T& value) const
+	typename SList<T>::Iterator SList<T>::find(const T& value)
 	{
+		if (begin().mCurrentNode == nullptr)
+		{
+			return end();
+		}
+
 		Iterator it = begin();
 
-		while ((*it != value))
+		while (it != end())
 		{
-			if (it == end())
+			if (*it == value)
 			{
+				//If reached the end of the list, the value was not found. Return end.
 				break;
 			}
 			++it;
@@ -250,19 +255,38 @@ namespace MahatmaGameEngine
 	template <typename T>
 	void SList<T>::remove(const T& value)
 	{
-		Iterator it = begin();
-
-		while (*it != value)
+		if (begin().mCurrentNode == nullptr)
 		{
-			if (it != end())
+			return;
+		}
+
+		Iterator it = begin();
+		Iterator previous = begin(); //iterator to the node, previous to the one where the value was found.
+
+		while (it != end())
+		{
+			if (*it == value)
 			{
-				return;
+				//If reached the end of the list, the value was not found. Return to caller.
+				break;
 			}
 
-			Iterator previous = it++;
+			previous = it++;
 		}
 
 		previous.mCurrentNode->next = it.mCurrentNode->next;
 		delete it.mCurrentNode;
+
+		--mSize;
+		if (mSize == 1)
+		{
+			mBack = mFront;
+		}
+		//If the list is empty, the mFront and the mBack need to be reinitialized to nullptr.
+		if (mSize == 0)
+		{
+			mFront = nullptr;
+			mBack = nullptr;
+		}
 	}
 }

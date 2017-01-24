@@ -7,12 +7,87 @@ namespace MahatmaGameEngine
 {
 	//*SList Class
 	/**
-	* This a templated singly linked list class present in the 'MahatmaGameEngine' namespace.
+	* This is a templated singly linked list class present in the 'MahatmaGameEngine' namespace.
 	*/
 	template <typename T>
 	class SList
 	{
+	private:
+		/**
+		* Private struct Node holds the data of a node and the pointer to the next node.
+		*/
+		struct Node
+		{
+			T item;							/**< Used to store the data item as defined by the user.*/
+			Node* next = nullptr;			/**< Pointer to the next node in the list.*/
+		};
+
 	public:
+		/**
+		* The iterator class created to traverse the SList.
+		*/
+		class Iterator
+		{
+			friend class SList<T>;
+		public:
+			/**
+			* Default constructor for embedded class Iterator.
+			* Initializes the current node and current list of the iterator to null.
+			*/
+			Iterator();
+
+			/**
+			* Copy constructor that deep copies the properties of the Iterator 'obj' object to this object.
+			*/
+			Iterator(const Iterator& obj);
+
+			/**
+			* Default Destructor for Iterator
+			*/
+			~Iterator();
+
+			/**
+			* Assignment operator that assigns the parameter obj (Iterator object) to this object.
+			*/
+			Iterator& operator=(const Iterator& obj);
+
+			/**
+			* Equality operator returns true if parameter obj (Iterator object) is equivalent to this object.
+			*/
+			bool operator==(const Iterator& obj) const;
+
+			/**
+			* Inequality operator returns true if parameter obj (Iterator object) is not equivalent to this object.
+			*/
+			bool operator!=(const Iterator& obj) const;
+
+			/**
+			* Post-increment operator increments the position of the iterator to the next Node in
+			the list and returns that node, if not at the end.
+			*/
+			Iterator& operator++();
+
+			/**
+			* Pre-increment operator increments the position of the iterator to the next Node and
+			returns the previous position, if not at the end.
+			*/
+			Iterator operator++(int temp);
+
+			/**
+			* Dereference operator returns the item of the node the iterator is currently pointing to.
+			*/
+			T& operator*() const;
+
+		private:
+			/**
+			* Constructor that accepts two arguments for the corresponding member variables of Iterator.
+			* Is private because it is only used by the SList class in certain methods.
+			*/
+			Iterator(Node* node, SList<T>* list);
+			Node*	  mCurrentNode;				/**< The node the iterator is currently pointing to.*/
+			SList<T>* mCurrentList;				/**< The list the iterator is currently associated to.*/
+		};
+
 		/** 
 		* The default constructor to generate the SList. 
 		* It generates an SList instance with nullptr front and back nodes.
@@ -34,11 +109,11 @@ namespace MahatmaGameEngine
 		*/
 		~SList();
 
-		/** 
+		/**
 		* Push new item into the front of the list.
 		* @param data The data to be put into the node of the list.
 		*/
-		void pushFront(T data);
+		Iterator pushFront(T data);
 
 		/**
 		* Pop the front item from the list and return the item value.
@@ -49,7 +124,7 @@ namespace MahatmaGameEngine
 		* Push new item into the back of the list.
 		* @param data The data to be put into the node of the list.
 		*/
-		void pushBack(T data);
+		Iterator pushBack(T data);
 
 		/**
 		* Remove all the items from the list and resets it.
@@ -86,21 +161,37 @@ namespace MahatmaGameEngine
 		*/
 		std::uint32_t size() const;
 
-	private:
-		std::uint32_t mSize;		/**< Current number of Node elements in the class.*/
+		/**
+		* Returns Iterator that points to the front of the SList.
+		*/
+		Iterator		begin();
 
 		/**
-		* Private struct Node holds the data of a node and the pointer to the next node.
+		* Returns an iterator that points to the node next to the back.
 		*/
-		struct Node
-		{
-			T item;				/**< Used to store the data item as defined by the user.*/
-			Node* next = nullptr;			/**< Pointer to the next node in the list.*/
-		};
+		Iterator		end();
 
+		/**
+		* Inserts item into the list after the input argument it (type iterator)
+		*/
+		Iterator		insertAfter(const Iterator& it, T data);
+
+		/**
+		* Returns iterator to the first node encountered with the given value stored in it.
+		*/
+		Iterator		find(const T& value);
+
+		/**
+		* Removes the first node encountered with the given data in it.
+		*/
+		void			remove(const T& value);
+
+	private:
+		std::uint32_t mSize;	/**< Current number of Node elements in the class.*/
 		Node* mFront;			/**< Pointer to the first Node in the SList.*/
 		Node* mBack;			/**< Pointer to the last Node in the SList.*/
 	};
 }
 
+#include "SListIterator.inl"
 #include "SList.inl"
