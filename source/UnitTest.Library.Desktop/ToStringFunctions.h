@@ -1,10 +1,11 @@
 #pragma once
 
+#include <cstdint>
+#include <exception>
 #include "CppUnitTest.h"
 #include "Foo.h"
 #include "SList.h"
-#include <cstdint>
-#include <exception>
+#include "Vector.h"
 
 namespace Microsoft
 {
@@ -53,6 +54,49 @@ namespace Microsoft
 			//Created ToString function for the Foo Iterator class
 			template<>
 			std::wstring ToString<MahatmaGameEngine::SList<Foo>::Iterator>(const MahatmaGameEngine::SList<Foo>::Iterator& obj)
+			{
+				try
+				{
+					Foo returnVal = *obj;
+					return std::to_wstring(returnVal.getVar());
+				}
+				catch (std::runtime_error e)
+				{
+					return L"Invalid Iterator pointer";
+				}
+			}
+
+			//Create ToString function for the integer Iterator class of Vector.
+			template<>
+			std::wstring ToString<MahatmaGameEngine::Vector<std::int32_t>::Iterator>(const MahatmaGameEngine::Vector<std::int32_t>::Iterator& obj)
+			{
+				try
+				{
+					return std::to_wstring(*obj);
+				}
+				catch (std::runtime_error e)
+				{
+					return L"Invalid Iterator pointer";
+				}
+			}
+
+			//Created ToString function for the pointer Iterator class of Vector.
+			template<>
+			std::wstring ToString<MahatmaGameEngine::Vector<std::int32_t*>::Iterator>(const MahatmaGameEngine::Vector<std::int32_t*>::Iterator& obj)
+			{
+				try
+				{
+					return std::to_wstring(**obj);
+				}
+				catch (std::runtime_error e)
+				{
+					return L"Invalid Iterator pointer";
+				}
+			}
+
+			//Created ToString function for the Foo Iterator class of Vector.
+			template<>
+			std::wstring ToString<MahatmaGameEngine::Vector<Foo>::Iterator>(const MahatmaGameEngine::Vector<Foo>::Iterator& obj)
 			{
 				try
 				{

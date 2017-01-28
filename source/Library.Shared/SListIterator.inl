@@ -27,12 +27,7 @@ namespace MahatmaGameEngine
 	template <typename T>
 	typename SList<T>::Iterator& SList<T>::Iterator::operator=(const typename SList<T>::Iterator& obj)
 	{
-		if ((mCurrentList != nullptr) && (obj.mCurrentList != mCurrentList))
-		{
-			throw std::runtime_error("The iterator passed as argument belongs to a different list.");
-		}
-
-		if (*this != obj)
+		if (this != &obj)
 		{
 			mCurrentList = obj.mCurrentList;
 			mCurrentNode = obj.mCurrentNode;
@@ -67,8 +62,15 @@ namespace MahatmaGameEngine
 		{
 			throw std::runtime_error("The iterator is pointing to null.");
 		}
-		
-		mCurrentNode = mCurrentNode->next;
+
+		if (mCurrentNode->next == nullptr)
+		{
+			mCurrentNode = nullptr;
+		}
+		else
+		{
+			mCurrentNode = mCurrentNode->next;
+		}
 		return *this;
 	}
 
@@ -83,8 +85,16 @@ namespace MahatmaGameEngine
 		{
 			throw std::runtime_error("The iterator is not initialized.");
 		}
-		
-		mCurrentNode = mCurrentNode->next;
+
+		if (mCurrentNode->next == nullptr)
+		{
+			mCurrentNode = nullptr;
+		}
+		else
+		{
+			mCurrentNode = mCurrentNode->next;
+		}
+
 		return tempNode;
 	}
 

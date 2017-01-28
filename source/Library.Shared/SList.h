@@ -48,16 +48,19 @@ namespace MahatmaGameEngine
 
 			/**
 			* Assignment operator that assigns the parameter obj (Iterator object) to this object.
+			* @param Iterator is input as the right hand side.
 			*/
 			Iterator& operator=(const Iterator& obj);
 
 			/**
 			* Equality operator returns true if parameter obj (Iterator object) is equivalent to this object.
+			* @param Iterator is input as the right hand side.
 			*/
 			bool operator==(const Iterator& obj) const;
 
 			/**
 			* Inequality operator returns true if parameter obj (Iterator object) is not equivalent to this object.
+			* @param Iterator is input as the right hand side.
 			*/
 			bool operator!=(const Iterator& obj) const;
 
@@ -96,13 +99,15 @@ namespace MahatmaGameEngine
 
 		/**
 		* Copy constructor of the class.
+		* @param the list to be copied from
 		*/
 		SList(const SList& obj);
 
 		/**
 		* Assignment operator method for SList
+		* @param the list to be copied from
 		*/
-		SList& operator= (const SList& obj);
+		SList& operator=(const SList& obj);
 
 		/** 
 		* The destructor of the SList.
@@ -173,16 +178,20 @@ namespace MahatmaGameEngine
 
 		/**
 		* Inserts item into the list after the input argument it (type iterator)
+		* @param it - the operator to be inserted after.
+		* @param data - the data to be inserted.
 		*/
 		Iterator		insertAfter(const Iterator& it, T data);
 
 		/**
 		* Returns iterator to the first node encountered with the given value stored in it.
+		* @param value - the value to find the iterator with
 		*/
 		Iterator		find(const T& value);
 
 		/**
 		* Removes the first node encountered with the given data in it.
+		* @param value - the value to find and remove the iterator with.
 		*/
 		void			remove(const T& value);
 

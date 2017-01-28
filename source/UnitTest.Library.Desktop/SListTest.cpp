@@ -1,9 +1,6 @@
-#include "CppUnitTest.h"
-#include "SList.h"
-#include "ToStringFunctions.h"
-#include "Foo.h"
+#include "pch.h"
 
-#pragma warning(disable: 4505)
+#include "SList.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace MahatmaGameEngine;

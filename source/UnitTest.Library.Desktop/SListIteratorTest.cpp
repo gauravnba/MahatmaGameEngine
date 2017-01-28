@@ -1,9 +1,6 @@
-#include "CppUnitTest.h"
+#include "pch.h"
+
 #include "SList.h"
-#include "Foo.h"
-#include "ToStringFunctions.h"
-#include <cstdint>
-#include <exception>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace MahatmaGameEngine;
@@ -115,40 +112,6 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(fooIt1, fooIt2);
 		}
 
-		TEST_METHOD(separateListAssignmentOpTest)
-		{
-			//Integer
-			int32_t a = 10;
-			int32_t b = 20;
-			SList<int32_t> intList1;
-			SList<int32_t> intList2;
-			SList<int32_t>::Iterator intIt1 = intList1.pushBack(a);
-			SList<int32_t>::Iterator intIt2 = intList2.pushBack(b);
-
-			auto assignInt = [&intIt1, &intIt2] {intIt1 = intIt2; };
-			Assert::ExpectException<runtime_error>(assignInt);
-
-			//Pointer
-			int32_t* test = new int32_t;
-			SList<int32_t*> pointerList1;
-			SList<int32_t*> pointerList2;
-			SList<int32_t*>::Iterator pointerIt1 = pointerList1.pushBack(test);
-			SList<int32_t*>::Iterator pointerIt2 = pointerList2.pushBack(test + 1);
-
-			auto assignPointer = [&pointerIt1, &pointerIt2] {pointerIt1 = pointerIt2; };
-			Assert::ExpectException<runtime_error>(assignPointer);
-			delete test;
-
-			//Foo
-			SList<Foo> fooList1;
-			SList<Foo> fooList2;
-			SList<Foo>::Iterator fooIt1 = fooList1.pushBack(Foo(a));
-			SList<Foo>::Iterator fooIt2 = fooList2.pushBack(Foo(b));
-
-			auto assignFoo = [&fooIt1, &fooIt2] {fooIt1 = fooIt2; };
-			Assert::ExpectException<runtime_error>(assignFoo);
-		}
-
 		TEST_METHOD(equalityOperatorTest)
 		{
 			//Integer
@@ -253,13 +216,16 @@ namespace UnitTestLibraryDesktop
 			auto intNullIncrement = [&intIt1] {++intIt1; };
 			Assert::ExpectException<runtime_error>(intNullIncrement);
 
-			//Check for iterator at end exception
+			//Check for increment iterator to end
 			intIt1 = intList.pushFront(a);
-			Assert::ExpectException<runtime_error>(intNullIncrement);
+			SList<int32_t>::Iterator intIt2 = ++intIt1;
+			Assert::AreEqual(intIt1, intIt2);
+			Assert::AreEqual(intIt1, intList.end());
+			Assert::AreNotEqual(intIt2, intList.begin());
 
 			//Check for functionality of pre-increment operator.
-			intList.pushBack(b);
-			SList<int32_t>::Iterator intIt2 = ++intIt1;
+			intIt1 = intList.pushBack(b);
+			intIt2 = ++intIt1;
 			Assert::AreEqual(intIt1, intIt2);
 			Assert::AreNotEqual(intIt1, intList.begin());
 			//End Integer test
@@ -275,11 +241,14 @@ namespace UnitTestLibraryDesktop
 
 			//Check for iterator at end exception
 			pointerIt1 = pointerList.pushFront(test);
-			Assert::ExpectException<runtime_error>(pointerNullIncrement);
+			SList<int32_t*>::Iterator pointerIt2 = ++pointerIt1;
+			Assert::AreEqual(pointerIt1, pointerIt2);
+			Assert::AreNotEqual(pointerIt1, pointerList.begin());
+			Assert::AreEqual(pointerIt2, pointerList.end());
 
 			//Check for functionality of pre-increment operator.
-			pointerList.pushBack(test + 1);
-			SList<int32_t*>::Iterator pointerIt2 = ++pointerIt1;
+			pointerIt1 = pointerList.pushBack(test + 1);
+			pointerIt2 = ++pointerIt1;
 			Assert::AreEqual(pointerIt1, pointerIt2);
 			Assert::AreNotEqual(pointerIt1, pointerList.begin());
 			delete test;
@@ -293,13 +262,16 @@ namespace UnitTestLibraryDesktop
 			auto fooNullIncrement = [&fooIt1] {++fooIt1; };
 			Assert::ExpectException<runtime_error>(fooNullIncrement);
 
-			//Check for iterator at end exception
+			//Check for increment iterator to end
 			fooIt1 = fooList.pushFront(Foo(a));
-			Assert::ExpectException<runtime_error>(fooNullIncrement);
+			SList<Foo>::Iterator fooIt2 = ++fooIt1;
+			Assert::AreEqual(fooIt1, fooIt2);
+			Assert::AreEqual(fooIt1, fooList.end());
+			Assert::AreNotEqual(fooIt2, fooList.begin());
 
 			//Check for functionality of pre-increment operator.
-			fooList.pushBack(Foo(b));
-			SList<Foo>::Iterator fooIt2 = ++fooIt1;
+			fooIt1 = fooList.pushBack(Foo(b));
+			fooIt2 = ++fooIt1;
 			Assert::AreEqual(fooIt1, fooIt2);
 			Assert::AreNotEqual(fooIt1, fooList.begin());
 			//End Foo test
@@ -317,13 +289,17 @@ namespace UnitTestLibraryDesktop
 			auto intNullIncrement = [&intIt1] {intIt1++; };
 			Assert::ExpectException<runtime_error>(intNullIncrement);
 
-			//Check for iterator at end exception
+			//Check for iterator increment to end
 			intIt1 = intList.pushFront(a);
-			Assert::ExpectException<runtime_error>(intNullIncrement);
+			SList<int32_t>::Iterator intIt2 = intIt1++;
+			Assert::AreNotEqual(intIt1, intIt2);
+			Assert::AreEqual(intIt1, intList.end());
+			Assert::AreEqual(intIt2, intList.begin());
 
 			//Check for functionality of post-increment operator.
+			intIt1 = intList.begin();
 			intList.pushBack(b);
-			SList<int32_t>::Iterator intIt2 = intIt1++;
+			intIt2 = intIt1++;
 			Assert::AreNotEqual(intIt1, intIt2);
 			Assert::AreNotEqual(intIt1, intList.begin());
 			Assert::AreEqual(intIt2, intList.begin());
@@ -338,13 +314,17 @@ namespace UnitTestLibraryDesktop
 			auto pointerNullIncrement = [&pointerIt1] {pointerIt1++; };
 			Assert::ExpectException<runtime_error>(pointerNullIncrement);
 
-			//Check for iterator at end exception
+			//Check for iterator increment to end
 			pointerIt1 = pointerList.pushFront(test);
-			Assert::ExpectException<runtime_error>(pointerNullIncrement);
+			SList<int32_t*>::Iterator pointerIt2 = pointerIt1++;
+			Assert::AreNotEqual(pointerIt1, pointerIt2);
+			Assert::AreEqual(pointerIt1, pointerList.end());
+			Assert::AreEqual(pointerIt2, pointerList.begin());
 
 			//Check for functionality of post-increment operator.
 			pointerList.pushBack(test + 1);
-			SList<int32_t*>::Iterator pointerIt2 = pointerIt1++;
+			pointerIt1 = pointerList.begin();
+			pointerIt2 = pointerIt1++;
 			Assert::AreNotEqual(pointerIt1, pointerIt2);
 			Assert::AreNotEqual(pointerIt1, pointerList.begin());
 			Assert::AreEqual(pointerIt2, pointerList.begin());
@@ -361,11 +341,15 @@ namespace UnitTestLibraryDesktop
 
 			//Check for iterator at end exception
 			fooIt1 = fooList.pushFront(Foo(a));
-			Assert::ExpectException<runtime_error>(fooNullIncrement);
-
-			//Check for functionality of pre-increment operator.
-			fooList.pushBack(Foo(b));
 			SList<Foo>::Iterator fooIt2 = fooIt1++;
+			Assert::AreNotEqual(fooIt1, fooIt2);
+			Assert::AreEqual(fooIt1, fooList.end());
+			Assert::AreEqual(fooIt2, fooList.begin());
+
+			//Check for functionality of post-increment operator.
+			fooList.pushBack(Foo(b));
+			fooIt1 = fooList.begin();
+			fooIt2 = fooIt1++;
 			Assert::AreNotEqual(fooIt1, fooIt2);
 			Assert::AreNotEqual(fooIt1, fooList.begin());
 			Assert::AreEqual(fooIt2, fooList.begin());
