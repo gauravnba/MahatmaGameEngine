@@ -173,6 +173,7 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(interator, intVec.begin());
 			++interator;
 			Assert::AreEqual(interator, ++(intVec.begin()));
+			++interator;
 			Assert::ExpectException<runtime_error>(intIncrement);
 
 			//Pointer
@@ -186,6 +187,7 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(pointerator, pointerVec.begin());
 			++pointerator;
 			Assert::AreEqual(pointerator, ++(pointerVec.begin()));
+			++pointerator;
 			Assert::ExpectException<runtime_error>(pointerIncrement);
 			delete test;
 
@@ -199,6 +201,7 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(footerator, fooVec.begin());
 			++footerator;
 			Assert::AreEqual(footerator, ++fooVec.begin());
+			++footerator;
 			Assert::ExpectException<runtime_error>(fooIncrement);
 		}
 

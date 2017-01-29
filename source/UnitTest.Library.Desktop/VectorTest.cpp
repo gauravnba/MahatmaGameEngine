@@ -127,16 +127,6 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(fooVec.capacity(), static_cast<uint32_t>(8));
 		}
 
-		TEST_METHOD(vectorBeginTest)
-		{
-
-		}
-
-		TEST_METHOD(vectorEndTest)
-		{
-
-		}
-
 		TEST_METHOD(assignmentOperatorTest)
 		{
 			//Integer
@@ -263,22 +253,140 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(atOperatorTest)
 		{
+			//Integer
+			int32_t a = 10;
+			int32_t b = 20;
+			int32_t c = 30;
+			Vector<int32_t> intVec;
+			intVec.pushBack(a);
+			intVec.pushBack(b);
+			intVec.pushBack(c);
+			Assert::AreEqual(intVec[0], a);
+			Assert::AreEqual(intVec[1], b);
+			Assert::AreEqual(intVec[2], c);
+			auto intVecOutOfBounds = [&intVec] {intVec[3]; };
+			Assert::ExpectException<runtime_error>(intVecOutOfBounds);
+
+			//Pointer
+			int32_t* test = new int32_t;
+			Vector<int32_t*> pointerVec;
+			pointerVec.pushBack(test);
+			pointerVec.pushBack(test + a);
+			pointerVec.pushBack(test + b);
+			Assert::AreEqual(pointerVec[0], test);
+			Assert::AreEqual(pointerVec[1], test + a);
+			Assert::AreEqual(pointerVec[2], test + b);
+			auto pointerVecOutOfBounds = [&pointerVec] {pointerVec[3]; };
+			Assert::ExpectException<runtime_error>(pointerVecOutOfBounds);
+			delete test;
+
+			//Foo
+			Vector<Foo> fooVec;
+			fooVec.pushBack(Foo(a));
+			fooVec.pushBack(Foo(b));
+			fooVec.pushBack(Foo(c));
+			Assert::AreEqual(fooVec[0], Foo(a));
+			Assert::AreEqual(fooVec[1], Foo(b));
+			Assert::AreEqual(fooVec[2], Foo(c));
+			auto fooVecOutOfBounds = [&fooVec] {fooVec[3]; };
+			Assert::ExpectException<runtime_error>(fooVecOutOfBounds);
+		}
+
+		TEST_METHOD(vectorFindTest)
+		{
+			//Integer
 			int32_t a = 10;
 			int32_t b = 20;
 			int32_t c = 30;
 			int32_t d = 40;
 			int32_t e = 50;
 
-		}
+			Vector<int32_t> intVec;
+			intVec.pushBack(a);
+			intVec.pushBack(b);
+			intVec.pushBack(c);
+			intVec.pushBack(d);
+			Vector<int32_t>::Iterator interator = intVec.pushBack(e);
+			Assert::AreEqual(intVec.find(a), intVec.begin());
+			Assert::AreEqual(interator, intVec.find(e));
+			Assert::AreEqual(intVec.end(), intVec.find(100));
 
-		TEST_METHOD(vectorFindTest)
-		{
+			//Pointer
+			int32_t* test1 = new int32_t;
+			int32_t* test2 = new int32_t;
+			int32_t* test3 = new int32_t;
+			Vector<int32_t*> pointerVec;
+			pointerVec.pushBack(test1);
+			pointerVec.pushBack(test2);
+			Vector<int32_t*>::Iterator pointerator = pointerVec.pushBack(test3);
+			Assert::AreEqual(pointerVec.find(test1), pointerVec.begin());
+			Assert::AreEqual(pointerator, pointerVec.find(test3));
+			int32_t* test4 = new int32_t;
+			Assert::AreEqual(pointerVec.end(), pointerVec.find(test4));
+			delete test1;
+			delete test2;
+			delete test3;
+			delete test4;
 
+			//Foo
+			Vector<Foo> fooVec;
+			fooVec.pushBack(Foo(a));
+			fooVec.pushBack(Foo(b));
+			fooVec.pushBack(Foo(c));
+			fooVec.pushBack(Foo(d));
+			Vector<Foo>::Iterator footerator = fooVec.pushBack(Foo(e));
+			Assert::AreEqual(fooVec.find(Foo(a)), fooVec.begin());
+			Assert::AreEqual(footerator, fooVec.find(Foo(e)));
+			Assert::AreEqual(fooVec.end(), fooVec.find(Foo(100)));
 		}
 
 		TEST_METHOD(vectorRemoveTest)
 		{
+			int32_t a = 10;
+			int32_t b = 20;
+			int32_t c = 30;
 
+			Vector<int32_t> intVec;
+			intVec.pushBack(a);
+			intVec.pushBack(b);
+			intVec.pushBack(c);
+			Assert::AreEqual(intVec.size(), static_cast<uint32_t>(3));
+			intVec.remove(2); //remove arbitrary value
+			Assert::AreEqual(intVec.size(), static_cast<uint32_t>(3));
+			Assert::AreEqual(intVec.front(), a);
+			intVec.remove(a);
+			Assert::AreEqual(intVec.size(), static_cast<uint32_t>(2));
+			Assert::AreEqual(intVec.front(), b);
+
+			//Pointer
+			int32_t* test = new int32_t;
+			int32_t* test1 = new int32_t;
+			Vector<int32_t*> pointerVec;
+			pointerVec.pushBack(test);
+			pointerVec.pushBack(test + b);
+			pointerVec.pushBack(test + c);
+			Assert::AreEqual(pointerVec.size(), static_cast<uint32_t>(3));
+			pointerVec.remove(test1); //remove arbitrary value
+			Assert::AreEqual(pointerVec.size(), static_cast<uint32_t>(3));
+			Assert::AreEqual(pointerVec.front(), test);
+			pointerVec.remove(test);
+			Assert::AreEqual(pointerVec.size(), static_cast<uint32_t>(2));
+			Assert::AreEqual(pointerVec.front(), test + b);
+			delete test;
+			delete test1;
+
+			//Foo
+			Vector<Foo> fooVec;
+			fooVec.pushBack(a);
+			fooVec.pushBack(b);
+			fooVec.pushBack(c);
+			Assert::AreEqual(fooVec.size(), static_cast<uint32_t>(3));
+			fooVec.remove(2); //remove arbitrary value
+			Assert::AreEqual(fooVec.size(), static_cast<uint32_t>(3));
+			Assert::AreEqual(fooVec.front(), Foo(a));
+			fooVec.remove(Foo(a));
+			Assert::AreEqual(fooVec.size(), static_cast<uint32_t>(2));
+			Assert::AreEqual(fooVec.front(), Foo(b));
 		}
 
 		TEST_METHOD(constFrontTest)
@@ -358,11 +466,6 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(constFooVec1.back(), fooVec.back());
 			Assert::AreEqual(constFooVec1.back(), Foo(b));
 			Assert::AreNotEqual(constFooVec1.back(), constFooVec1.front());
-		}
-
-		TEST_METHOD(isEmptyTest)
-		{
-
 		}
 	private:
 		static _CrtMemState sStartMemState;

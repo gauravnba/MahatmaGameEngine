@@ -56,11 +56,13 @@ namespace MahatmaGameEngine
 			throw std::runtime_error("Iterator is uninitialized.");
 		}
 
-		if (mIndex == (mVector->mSize))
+		++mIndex;
+
+		if (mIndex > (mVector->mSize))
 		{
 			throw std::runtime_error("Iterator went out of bounds of the vector.");
 		}
-		++mIndex;
+
 		return *this;
 	}
 
@@ -71,14 +73,15 @@ namespace MahatmaGameEngine
 		{
 			throw std::runtime_error("Iterator is uninitialized.");
 		}
-		if (mIndex == (mVector->mSize))
-		{
-			throw std::runtime_error("Iterator went out of bounds of the vector.");
-		}
 
 		Iterator tempIt = *this;
 
 		++mIndex;
+
+		if (mIndex == (mVector->mSize))
+		{
+			throw std::runtime_error("Iterator went out of bounds of the vector.");
+		}
 		return tempIt;
 	}
 
@@ -88,6 +91,11 @@ namespace MahatmaGameEngine
 		if (mVector == nullptr)
 		{
 			throw std::runtime_error("The Iterator is uninitialized.");
+		}
+
+		if (mIndex >= mVector->mSize)
+		{
+			throw std::runtime_error("Trying to dereference invalid pointer.");
 		}
 		return mVector->mArray[mIndex];
 	}
@@ -149,7 +157,7 @@ namespace MahatmaGameEngine
 	template <typename T>
 	T& Vector<T>::operator[](std::uint32_t index)
 	{
-		if (index > mSize)
+		if (index >= mSize)
 		{
 			throw std::runtime_error("The index is out of bounds.");
 		}
@@ -159,7 +167,7 @@ namespace MahatmaGameEngine
 	template <typename T>
 	const T& Vector<T>::operator[](std::uint32_t index) const
 	{
-		if (index > mSize)
+		if (index >= mSize)
 		{
 			throw std::runtime_error("The index is out of bounds.");
 		}
@@ -214,7 +222,7 @@ namespace MahatmaGameEngine
 		new(&mArray[mSize]) T();
 		mArray[mSize] = data;
 		++mSize;
-		return Iterator(0, this);
+		return Iterator(mSize - 1, this);
 	}
 
 	template <typename T>
@@ -276,6 +284,32 @@ namespace MahatmaGameEngine
 		reserve(mCapacity);
 	}
 
-	
+	template <typename T>
+	typename Vector<T>::Iterator Vector<T>::find(const T& item) const
+	{
+		std::uint32_t i = 0;
+		for(auto &value: *this)
+		{
+			if (value == item)
+			{
+				break;
+			}
+			++i;
+		}
+		return Iterator(i, const_cast<Vector<T>*>(this));
+	}
+
+	template <typename T>
+	void Vector<T>::remove(const T& item)
+	{
+		Iterator it = find(item);
+		if (it != end())
+		{
+			(*it).~T();
+			Iterator source = it++;
+			memmove(&mArray[source.mIndex], &mArray[it.mIndex], (mSize - it.mIndex) * sizeof(T));
+			--mSize;
+		}
+	}
 #pragma endregion
 }

@@ -215,6 +215,19 @@ namespace MahatmaGameEngine
 		*/
 		void clear();
 
+		/**
+		* Finds a value in the vector and returns an iterator to it. If not found, returns end().
+		* @param const reference of item is the value to search for in the vector.
+		* @return returns a copy of an Iterator pointing to given item.
+		*/
+		Iterator find(const T& item) const;
+
+		/**
+		* Finds a value in the vector and removes it. Do nothing if not found.
+		* @param item is the value to seek and remove.
+		*/
+		void remove(const T& item);
+
 	private:
 		std::uint32_t mSize;						/**< The current number of elements in the vector. */
 		std::uint32_t mCapacity;					/**< The maximum number of elements the vector can store before a call to reserve.*/

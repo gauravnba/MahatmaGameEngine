@@ -2,6 +2,8 @@
 
 #include "Foo.h"
 
+using namespace UnitTestLibraryDesktop;
+
 Foo::Foo()
 {
 	mVar = new std::uint32_t(0);
@@ -32,6 +34,11 @@ Foo& Foo::operator=(const Foo& obj)
 bool Foo::operator==(const Foo& obj) const
 {
 	return (*mVar == *(obj.mVar));
+}
+
+bool Foo::operator!=(const Foo& obj) const
+{
+	return !(*this == obj);
 }
 
 std::uint32_t Foo::getVar() const

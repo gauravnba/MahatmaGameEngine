@@ -13,9 +13,9 @@ namespace Microsoft
 	{
 		namespace CppUnitTestFramework
 		{
-			//Create ToString function for the Foo class.
+			//Create ToString function for the UnitTestLibraryDesktop::Foo class.
 			template<>
-			std::wstring ToString<Foo>(const Foo& obj)
+			std::wstring ToString<UnitTestLibraryDesktop::Foo>(const UnitTestLibraryDesktop::Foo& obj)
 			{
 				std::uint32_t returnVal = obj.getVar();
 				return std::to_wstring(returnVal);
@@ -42,8 +42,7 @@ namespace Microsoft
 			{
 				try
 				{
-					std::int32_t* returnVal = *obj;
-					return std::to_wstring(*returnVal);
+					return std::to_wstring(**obj);
 				}
 				catch (std::runtime_error e)
 				{
@@ -51,13 +50,13 @@ namespace Microsoft
 				}
 			}
 
-			//Created ToString function for the Foo Iterator class
+			//Created ToString function for the UnitTestLibraryDesktop::Foo Iterator class
 			template<>
-			std::wstring ToString<MahatmaGameEngine::SList<Foo>::Iterator>(const MahatmaGameEngine::SList<Foo>::Iterator& obj)
+			std::wstring ToString<MahatmaGameEngine::SList<UnitTestLibraryDesktop::Foo>::Iterator>(const MahatmaGameEngine::SList<UnitTestLibraryDesktop::Foo>::Iterator& obj)
 			{
 				try
 				{
-					Foo returnVal = *obj;
+					UnitTestLibraryDesktop::Foo returnVal = *obj;
 					return std::to_wstring(returnVal.getVar());
 				}
 				catch (std::runtime_error e)
@@ -94,19 +93,20 @@ namespace Microsoft
 				}
 			}
 
-			//Created ToString function for the Foo Iterator class of Vector.
+			//Created ToString function for the UnitTestLibraryDesktop::Foo Iterator class of Vector.
 			template<>
-			std::wstring ToString<MahatmaGameEngine::Vector<Foo>::Iterator>(const MahatmaGameEngine::Vector<Foo>::Iterator& obj)
+			std::wstring ToString<MahatmaGameEngine::Vector<UnitTestLibraryDesktop::Foo>::Iterator>(const MahatmaGameEngine::Vector<UnitTestLibraryDesktop::Foo>::Iterator& obj)
 			{
+				std::wstring returnVal;
 				try
 				{
-					Foo returnVal = *obj;
-					return std::to_wstring(returnVal.getVar());
+					returnVal = std::to_wstring((*obj).getVar());
 				}
-				catch (std::runtime_error e)
+				catch (std::exception)
 				{
-					return L"Invalid Iterator pointer";
+					//return L"Invalid Iterator pointer";
 				}
+				return returnVal;
 			}
 		}
 	}
