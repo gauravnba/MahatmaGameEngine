@@ -191,13 +191,13 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	std::uint32_t Vector<T>::size()
+	std::uint32_t Vector<T>::size() const
 	{
 		return mSize;
 	}
 
 	template <typename T>
-	std::uint32_t Vector<T>::capacity()
+	std::uint32_t Vector<T>::capacity() const
 	{
 		return mCapacity;
 	}

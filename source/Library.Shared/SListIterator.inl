@@ -8,7 +8,7 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	SList<T>::Iterator::Iterator(Node* node, SList<T>* list) :
+	SList<T>::Iterator::Iterator(Node* node, const SList<T>* list) :
 		mCurrentNode(node), mCurrentList(list)
 	{
 	}

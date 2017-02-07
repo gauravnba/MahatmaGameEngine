@@ -185,13 +185,13 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	typename SList<T>::Iterator SList<T>::begin()
+	typename SList<T>::Iterator SList<T>::begin() const
 	{
 		return Iterator(mFront, this);
 	}
 
 	template <typename T>
-	typename SList<T>::Iterator SList<T>::end()
+	typename SList<T>::Iterator SList<T>::end() const
 	{
 		if (mSize == 0)
 		{

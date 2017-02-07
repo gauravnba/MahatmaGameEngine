@@ -14,16 +14,23 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DefaultHash.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultHash.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HashMap.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SList.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)..\UnitTest.Library.Desktop\DefaultHash.inl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)HashMap.inl" />
     <None Include="$(MSBuildThisFileDirectory)SList.inl" />
     <None Include="$(MSBuildThisFileDirectory)SListIterator.inl" />
     <None Include="$(MSBuildThisFileDirectory)Vector.inl" />

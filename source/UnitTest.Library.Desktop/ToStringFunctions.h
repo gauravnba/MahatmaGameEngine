@@ -6,6 +6,8 @@
 #include "Foo.h"
 #include "SList.h"
 #include "Vector.h"
+#include "HashMap.h"
+#include "FooDefaultHash.h"
 
 namespace Microsoft
 {
@@ -101,6 +103,81 @@ namespace Microsoft
 				try
 				{
 					returnVal = std::to_wstring((*obj).getVar());
+				}
+				catch (std::exception)
+				{
+					//return L"Invalid Iterator pointer";
+				}
+				return returnVal;
+			}
+
+			template <>
+			std::wstring ToString<MahatmaGameEngine::HashMap<int32_t, int32_t>::PairType>(const MahatmaGameEngine::HashMap<int32_t, int32_t>::PairType& obj)
+			{
+				std::wstring returnVal;
+				try
+				{
+					returnVal = std::to_wstring(obj.first);
+				}
+				catch (std::exception)
+				{
+					//return L"Invalid Iterator pointer";
+				}
+				return returnVal;
+			}
+
+			template <>
+			std::wstring ToString<MahatmaGameEngine::HashMap<int32_t, int32_t>::Iterator>(const MahatmaGameEngine::HashMap<int32_t, int32_t>::Iterator& obj)
+			{
+				std::wstring returnVal;
+				try
+				{
+					returnVal = std::to_wstring((*obj).first);
+				}
+				catch (std::exception)
+				{
+					//return L"Invalid Iterator pointer";
+				}
+				return returnVal;
+			}
+
+			template <>
+			std::wstring ToString<MahatmaGameEngine::HashMap<char*, int32_t>::Iterator>(const MahatmaGameEngine::HashMap<char*, int32_t>::Iterator& obj)
+			{
+				std::wstring returnVal;
+				try
+				{
+					returnVal = std::to_wstring((*obj).second);
+				}
+				catch (std::exception)
+				{
+					//return L"Invalid Iterator pointer";
+				}
+				return returnVal;
+			}
+
+			template <>
+			std::wstring ToString<MahatmaGameEngine::HashMap<std::string, int32_t>::Iterator>(const MahatmaGameEngine::HashMap<std::string, int32_t>::Iterator& obj)
+			{
+				std::wstring returnVal;
+				try
+				{
+					returnVal = std::to_wstring((*obj).second);
+				}
+				catch (std::exception)
+				{
+					//return L"Invalid Iterator pointer";
+				}
+				return returnVal;
+			}
+
+			template <>
+			std::wstring ToString<MahatmaGameEngine::HashMap<Foo, int32_t>::Iterator>(const MahatmaGameEngine::HashMap<Foo, int32_t>::Iterator& obj)
+			{
+				std::wstring returnVal;
+				try
+				{
+					returnVal = std::to_wstring((*obj).second);
 				}
 				catch (std::exception)
 				{

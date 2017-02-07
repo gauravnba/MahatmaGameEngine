@@ -1,5 +1,7 @@
 #pragma once
 #include <cstdint>
+#include "DefaultHash.h"
+
 namespace UnitTestLibraryDesktop
 {
 	class Foo

@@ -86,9 +86,10 @@ namespace MahatmaGameEngine
 			* Constructor that accepts two arguments for the corresponding member variables of Iterator.
 			* Is private because it is only used by the SList class in certain methods.
 			*/
-			Iterator(Node* node, SList<T>* list);
+			Iterator(Node* node, const SList<T>* list);
+
 			Node*	  mCurrentNode;				/**< The node the iterator is currently pointing to.*/
-			SList<T>* mCurrentList;				/**< The list the iterator is currently associated to.*/
+			const SList<T>* mCurrentList;		/**< The list the iterator is currently associated to.*/
 		};
 
 		/** 
@@ -169,12 +170,12 @@ namespace MahatmaGameEngine
 		/**
 		* Returns Iterator that points to the front of the SList.
 		*/
-		Iterator		begin();
+		Iterator		begin() const;
 
 		/**
 		* Returns an iterator that points to the node next to the back.
 		*/
-		Iterator		end();
+		Iterator		end() const;
 
 		/**
 		* Inserts item into the list after the input argument it (type iterator)

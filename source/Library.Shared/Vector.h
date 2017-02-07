@@ -155,13 +155,13 @@ namespace MahatmaGameEngine
 		* To access the size of the vector.
 		* @return copy of unsigned integer.
 		*/
-		std::uint32_t size();
+		std::uint32_t size() const;
 
 		/**
 		* To get the current maximum capacity of the vector.
 		* @return copy of unsigned integer.
 		*/
-		std::uint32_t capacity();
+		std::uint32_t capacity() const;
 
 		/**
 		* Returns whether the vector empty or not.
