@@ -250,3 +250,8 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+# ReportGenerator Code Coverage tool
+_ReportGenerator/
+build/CoverageReports/
+build/TestResults/
