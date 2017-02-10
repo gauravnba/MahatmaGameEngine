@@ -110,15 +110,22 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(fooMapIt, fooMap.begin());
 		}
 
-		TEST_METHOD(postIncrementOperatorTest)
+		TEST_METHOD(incrementOperatorTest)
 		{
 			//Integer
 			int32_t intKey1 = 10;
 			int32_t intKey2 = 20;
+			HashMap<int32_t, int32_t>::Iterator intMapIt;
+			auto intMapIncrement = [&intMapIt] {intMapIt++; };
+			Assert::ExpectException<std::exception>(intMapIncrement);
 			HashMap<int32_t, int32_t> intMap;
+
+			intMapIt = intMap.begin();
+			Assert::ExpectException<std::exception>(intMapIncrement);
+
 			intMap.insert(HashMap<int32_t, int32_t>::PairType(intKey1, 100));
 			intMap.insert(HashMap<int32_t, int32_t>::PairType(intKey2, 200));
-			HashMap<int32_t, int32_t>::Iterator intMapIt = intMap.begin();
+			intMapIt = intMap.begin();
 			HashMap<int32_t, int32_t>::Iterator intMapIt2 = intMapIt++;
 			Assert::AreNotEqual(intMapIt, intMapIt2);
 			Assert::AreEqual(intMapIt2, intMap.begin());
@@ -126,21 +133,39 @@ namespace UnitTestLibraryDesktop
 			//Char*
 			char* charKey1 = "test";
 			char* charKey2 = "test1";
+			char* charKey3 = "testThree";
+			HashMap<char*, int32_t>::Iterator charMapIt;
+			auto charMapIncrement = [&charMapIt] {charMapIt++; };
+			Assert::ExpectException<std::exception>(charMapIncrement);
+
 			HashMap<char*, int32_t> charMap;
+			charMapIt = charMap.begin();
+			Assert::ExpectException<std::exception>(charMapIncrement);
+			
 			charMap.insert(HashMap<char*, int32_t>::PairType(charKey1, 100));
 			charMap.insert(HashMap<char*, int32_t>::PairType(charKey2, 200));
-			HashMap<char*, int32_t>::Iterator charMapIt = charMap.begin();
+			charMap.insert(HashMap<char*, int32_t>::PairType(charKey3, 300));
+			charMapIt = charMap.begin();
 			HashMap<char*, int32_t>::Iterator charMapIt2 = charMapIt++;
+			HashMap<char*, int32_t>::Iterator charMapIt3 = charMapIt++;
+			Assert::AreNotEqual(charMapIt3, charMapIt);
 			Assert::AreNotEqual(charMapIt, charMapIt2);
 			Assert::AreEqual(charMapIt2, charMap.begin());
 
 			//String
 			string stringKey1 = "testString";
 			string stringKey2 = "testString1";
+			HashMap<string, int32_t>::Iterator stringMapIt;
+			auto stringMapIncrement = [&stringMapIt] {stringMapIt++; };
+			Assert::ExpectException<std::exception>(stringMapIncrement);
+
 			HashMap<string, int32_t> stringMap;
+			stringMapIt = stringMap.begin();
+			Assert::ExpectException<std::exception>(stringMapIncrement);
+
 			stringMap.insert(HashMap<string, int32_t>::PairType(stringKey1, 100));
 			stringMap.insert(HashMap<string, int32_t>::PairType(stringKey2, 200));
-			HashMap<string, int32_t>::Iterator stringMapIt = stringMap.begin();
+			stringMapIt = stringMap.begin();
 			HashMap<string, int32_t>::Iterator stringMapIt1 = stringMapIt++;
 			Assert::AreNotEqual(stringMapIt1, stringMapIt);
 			Assert::AreEqual(stringMapIt1, stringMap.begin());
@@ -148,10 +173,17 @@ namespace UnitTestLibraryDesktop
 			//Foo
 			Foo fooKey1 = Foo(intKey1);
 			Foo fooKey2 = Foo(intKey2);
+			HashMap<Foo, int32_t>::Iterator fooMapIt;
+			auto fooMapIncrement = [&fooMapIt] {fooMapIt++; };
+			Assert::ExpectException<std::exception>(fooMapIncrement);
+
 			HashMap<Foo, int32_t> fooMap;
+			fooMapIt = fooMap.begin();
+			Assert::ExpectException<std::exception>(fooMapIncrement);
+
 			fooMap.insert(HashMap<Foo, int32_t>::PairType(fooKey1, 100));
 			fooMap.insert(HashMap<Foo, int32_t>::PairType(fooKey2, 200));
-			HashMap<Foo, int32_t>::Iterator fooMapIt = fooMap.begin();
+			fooMapIt = fooMap.begin();
 			HashMap<Foo, int32_t>::Iterator fooMapIt1 = fooMapIt++;
 			Assert::AreNotEqual(fooMapIt, fooMapIt1);
 			Assert::AreEqual(fooMapIt1, fooMap.begin());

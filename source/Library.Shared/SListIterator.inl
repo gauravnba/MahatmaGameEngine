@@ -27,7 +27,7 @@ namespace MahatmaGameEngine
 	template <typename T>
 	typename SList<T>::Iterator& SList<T>::Iterator::operator=(const typename SList<T>::Iterator& obj)
 	{
-		if (this != &obj)
+		if (*this != obj)
 		{
 			mCurrentList = obj.mCurrentList;
 			mCurrentNode = obj.mCurrentNode;
@@ -38,21 +38,13 @@ namespace MahatmaGameEngine
 	template <typename T>
 	bool SList<T>::Iterator::operator==(const typename SList<T>::Iterator& obj) const
 	{
-		if ((mCurrentNode == obj.mCurrentNode) && (mCurrentList == obj.mCurrentList))
-		{
-			return true;
-		}
-		return false;
+		return ((mCurrentNode == obj.mCurrentNode) && (mCurrentList == obj.mCurrentList));
 	}
 
 	template <typename T>
 	bool SList<T>::Iterator::operator!=(const typename SList<T>::Iterator& obj) const
 	{
-		if ((mCurrentNode == obj.mCurrentNode) && (mCurrentList == obj.mCurrentList))
-		{
-			return false;
-		}
-		return true;
+		return !(*this == obj);
 	}
 
 	template <typename T>
@@ -75,10 +67,8 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	typename SList<T>::Iterator SList<T>::Iterator::operator++(int temp)
+	typename SList<T>::Iterator SList<T>::Iterator::operator++(int)
 	{
-		temp;//Unused parameter
-
 		Iterator tempNode = *this;
 
 		if (mCurrentNode == nullptr)
@@ -99,7 +89,17 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	T& SList<T>::Iterator::operator*() const
+	T& SList<T>::Iterator::operator*()
+	{
+		if (mCurrentNode == nullptr)
+		{
+			throw std::runtime_error("The iterator is pointing to null.");
+		}
+		return mCurrentNode->item;
+	}
+
+	template <typename T>
+	const T& SList<T>::Iterator::operator*() const
 	{
 		if (mCurrentNode == nullptr)
 		{

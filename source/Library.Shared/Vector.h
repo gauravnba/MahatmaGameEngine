@@ -76,9 +76,14 @@ namespace MahatmaGameEngine
 
 			/**
 			* Dereference operator returns the item of the node the iterator is currently pointing to.
-			* @return 
 			*/
-			T& operator*() const;
+			T& operator*();
+
+			/**
+			* Const version of dereference operator returns the item of the node the iterator is currently pointing to.
+			* @return const reference of type T
+			*/
+			const T& operator*() const;
 
 		private:
 			/**
@@ -167,7 +172,7 @@ namespace MahatmaGameEngine
 		* Returns whether the vector empty or not.
 		* @return boolean value is true if vector is empty.
 		*/
-		bool isEmpty();
+		bool isEmpty() const;
 
 		/**
 		* Pushes data into the end of the vector.

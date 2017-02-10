@@ -2,26 +2,32 @@
 
 #include <cstdint>
 #include <string>
-//#include "glm.hpp"
+#include "glm.hpp"
+#include "RTTI.h"
 
 namespace MahatmaGameEngine
 {
+	/**
+	* 
+	*/
+	enum class DatumType
+	{
+		//Unassigned will go to default in the switch
+		Integer,
+		Float,
+		Vector,
+		Matrix,
+		Table,
+		String,
+		RRTIPointer
+	};
+
 	class Datum
 	{
-		enum class DatumType
-		{
-			Unassigned,
-			Integer,
-			Float,
-			Vector,
-			Matrix,
-			Table,
-			String,
-			Pointer
-		};
-
 	public:
-		Datum() = default;
+
+
+		Datum();
 
 		~Datum();
 
@@ -29,9 +35,9 @@ namespace MahatmaGameEngine
 
 		Datum& operator=(const Datum& obj);
 
-		DatumType setType();
+		void setType(DatumType datumType);
 		
-		DatumType type();
+		DatumType type() const;
 
 		void setSize(std::uint32_t numberOfValues);
 
@@ -41,21 +47,33 @@ namespace MahatmaGameEngine
 
 		void setStorage(const DatumType& dataToInsert);
 
-		bool operator==(const Datum& obj);
+		bool operator==(const DatumType& obj);
 
-		bool operator!=(const Datum& obj);
+		bool operator!=(const DatumType& obj);
 
-		void set(Datum value, std::uint32_t index = 0);
+		void set(const DatumType& value, std::uint32_t index = 0);
 
-		Datum get(std::uint32_t index = 0);
+		DatumType get(std::uint32_t index = 0);
 
 		void setFromString(std::string value, std::uint32_t index = 0);
 
 		std::string toString(std::uint32_t index = 0);
 
 	private:
-		DatumType* mArray;
-		std::uint32_t mSize;
-		std::uint32_t mCapacity;
+		union DatumValue
+		{
+			// Unassigned
+			std::int32_t* integerType;
+			float* floatingType;
+			glm::vec4* vectorType;
+			glm::mat4x4* matrixType;
+			// Table (Scope)
+			std::string* stringType;
+			Library::RTTI* rttiType;
+		};
+		
+		DatumType mType;			/**< The type of element in this Datum. */
+		std::uint32_t mSize;		/**< The number of elements in the datum if it is not a scalar value. */
+		std::uint32_t mCapacity;	/**< The number of elements the datum can hold at the moment. */
 	};
 }

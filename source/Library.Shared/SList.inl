@@ -1,6 +1,12 @@
 namespace MahatmaGameEngine
 {
 	template <typename T>
+	SList<T>::Node::Node() :
+		next(nullptr)
+	{
+	}
+
+	template <typename T>
 	SList<T>::SList() :
 		mFront(nullptr), mBack(nullptr), mSize(0)
 	{
@@ -19,7 +25,7 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	SList<T>& SList<T>::operator=(const SList<T> &obj)
+	SList<T>& SList<T>::operator=(const SList<T>& obj)
 	{
 		if (this != &obj)
 		{
@@ -49,7 +55,7 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	typename SList<T>::Iterator SList<T>::pushFront(T data)
+	typename SList<T>::Iterator SList<T>::pushFront(const T& data)
 	{
 		Node* temp = new Node;
 		temp->item = data;
@@ -91,7 +97,7 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	typename SList<T>::Iterator SList<T>::pushBack(T data)
+	typename SList<T>::Iterator SList<T>::pushBack(const T& data)
 	{
 		Node* temp	= new Node;
 		temp->item	= data;

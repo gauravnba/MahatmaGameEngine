@@ -73,7 +73,7 @@ namespace Microsoft
 			{
 				try
 				{
-					return std::to_wstring(*obj);
+				return std::to_wstring(*obj);
 				}
 				catch (std::runtime_error e)
 				{

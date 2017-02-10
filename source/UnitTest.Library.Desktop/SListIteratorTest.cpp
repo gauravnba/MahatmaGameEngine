@@ -351,6 +351,7 @@ namespace UnitTestLibraryDesktop
 			fooIt1 = fooList.begin();
 			fooIt2 = fooIt1++;
 			Assert::AreNotEqual(fooIt1, fooIt2);
+			Assert::AreNotEqual(*fooIt1, *fooIt2);
 			Assert::AreNotEqual(fooIt1, fooList.begin());
 			Assert::AreEqual(fooIt2, fooList.begin());
 			//End Foo test

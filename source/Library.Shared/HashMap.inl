@@ -43,6 +43,11 @@ namespace MahatmaGameEngine
 	template <typename TKey, typename TData, typename HashFunction>
 	typename HashMap<TKey, TData, HashFunction>::Iterator& HashMap<TKey, TData, HashFunction>::Iterator::operator++()
 	{
+		if (this->mOwnerMap == nullptr)
+		{
+			throw std::runtime_error("Iterator not initialized.");
+		}
+
 		if (*this == mOwnerMap->end())
 		{
 			throw std::runtime_error("Index out of bounds");
@@ -81,15 +86,27 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename TKey, typename TData, typename HashFunction>
-	typename HashMap<TKey, TData, HashFunction>::PairType& HashMap<TKey, TData, HashFunction>::Iterator::operator*() const
+	typename HashMap<TKey, TData, HashFunction>::PairType& HashMap<TKey, TData, HashFunction>::Iterator::operator*()
 	{
 		return *mChainIterator;
 	}
 
 	template <typename TKey, typename TData, typename HashFunction>
-	typename HashMap<TKey, TData, HashFunction>::PairType& HashMap<TKey, TData, HashFunction>::Iterator::operator->() const
+	const typename HashMap<TKey, TData, HashFunction>::PairType& HashMap<TKey, TData, HashFunction>::Iterator::operator*() const
 	{
 		return *mChainIterator;
+	}
+
+	template <typename TKey, typename TData, typename HashFunction>
+	typename HashMap<TKey, TData, HashFunction>::PairType* HashMap<TKey, TData, HashFunction>::Iterator::operator->()
+	{
+		return &(*mChainIterator);
+	}
+
+	template <typename TKey, typename TData, typename HashFunction>
+	const typename HashMap<TKey, TData, HashFunction>::PairType* HashMap<TKey, TData, HashFunction>::Iterator::operator->() const
+	{
+		return &(*mChainIterator);
 	}
 
 #pragma endregion
@@ -154,6 +171,7 @@ namespace MahatmaGameEngine
 	template <typename TKey, typename TData, typename HashFunction>
 	typename HashMap<TKey, TData, HashFunction>::Iterator HashMap<TKey, TData, HashFunction>::end() const
 	{
+
 		return Iterator(this, mBucket.size(), mBucket[mBucket.size() - 1].end());
 	}
 

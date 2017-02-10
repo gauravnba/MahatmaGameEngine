@@ -372,6 +372,7 @@ namespace UnitTestLibraryDesktop
 			//Integer
 			int32_t intKey1 = 10;
 			HashMap<int32_t, int32_t> intMap;
+			intMap.remove(intKey1);
 			Assert::AreEqual(intMap.begin(), intMap.end());
 
 			intMap.insert(HashMap<int32_t, int32_t>::PairType(intKey1, 100));
@@ -384,6 +385,7 @@ namespace UnitTestLibraryDesktop
 			//Char*
 			char* charKey1 = "test";
 			HashMap<char*, int32_t> charMap;
+			charMap.remove(charKey1);
 			Assert::AreEqual(charMap.begin(), charMap.end());
 
 			charMap.insert(HashMap<char*, int32_t>::PairType(charKey1, 100));
@@ -396,6 +398,7 @@ namespace UnitTestLibraryDesktop
 			//String type
 			string stringKey1 = string("testString");
 			HashMap<string, int32_t> stringMap;
+			stringMap.remove(stringKey1);
 			Assert::AreEqual(stringMap.begin(), stringMap.end());
 
 			stringMap.insert(HashMap<string, int32_t>::PairType(stringKey1, 100));
@@ -408,6 +411,7 @@ namespace UnitTestLibraryDesktop
 			//Foo
 			Foo fooKey1 = Foo(10);
 			HashMap<Foo, int32_t> fooMap;
+			fooMap.remove(fooKey1);
 			Assert::AreEqual(fooMap.begin(), fooMap.end());
 
 			fooMap.insert(HashMap<Foo, int32_t>::PairType(fooKey1, 100));

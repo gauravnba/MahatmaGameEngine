@@ -82,13 +82,25 @@ namespace MahatmaGameEngine
 			* Dereference operator for the Iterator of the HashMap
 			* @return std:pair of TKey and TData that the Iterator is at
 			*/
-			PairType& operator*() const;
+			PairType& operator*();
+
+			/**
+			* Const version of the dereference operator
+			* @return std::pair of TKey and TData that the Iteraator is at
+			*/
+			const PairType& operator*() const;
 
 			/**
 			* Dereference operator for the Iterator of the HashMap
-			* @return std:pair of TKey and TData that the Iterator is at
+			* @return pointer to std:pair of TKey and TData that the Iterator is at
 			*/
-			PairType& operator->() const;
+			PairType* operator->();
+
+			/**
+			* Arrow operator for the Iterator of the HashMap
+			* @return pointer to std::pair of TKey and TData that the Iterator is at
+			*/
+			const PairType* operator->() const;
 
 		private:
 			/**

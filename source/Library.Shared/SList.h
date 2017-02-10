@@ -18,8 +18,13 @@ namespace MahatmaGameEngine
 		*/
 		struct Node
 		{
+			/**
+			* Constructor for the Node.
+			*/
+			Node();
+
 			T item;							/**< Used to store the data item as defined by the user.*/
-			Node* next = nullptr;			/**< Pointer to the next node in the list.*/
+			Node* next;						/**< Pointer to the next node in the list.*/
 		};
 
 	public:
@@ -38,6 +43,7 @@ namespace MahatmaGameEngine
 
 			/**
 			* Copy constructor that deep copies the properties of the Iterator 'obj' object to this object.
+			* @param obj address of iterator 
 			*/
 			Iterator(const Iterator& obj);
 
@@ -48,7 +54,8 @@ namespace MahatmaGameEngine
 
 			/**
 			* Assignment operator that assigns the parameter obj (Iterator object) to this object.
-			* @param Iterator is input as the right hand side.
+			* @param obj Iterator is input as the right hand side.
+			* @return Reference to the iterator assigned.
 			*/
 			Iterator& operator=(const Iterator& obj);
 
@@ -60,26 +67,36 @@ namespace MahatmaGameEngine
 
 			/**
 			* Inequality operator returns true if parameter obj (Iterator object) is not equivalent to this object.
-			* @param Iterator is input as the right hand side.
+			* @param obj Iterator is input as the right hand side.
+			* @return true if not equal.
 			*/
 			bool operator!=(const Iterator& obj) const;
 
 			/**
 			* Post-increment operator increments the position of the iterator to the next Node in
 			the list and returns that node, if not at the end.
+			* Reference to the iterator incremented.
 			*/
 			Iterator& operator++();
 
 			/**
 			* Pre-increment operator increments the position of the iterator to the next Node and
 			returns the previous position, if not at the end.
+			* @return copy of the iterator before increment.
 			*/
-			Iterator operator++(int temp);
+			Iterator operator++(int);
 
 			/**
 			* Dereference operator returns the item of the node the iterator is currently pointing to.
+			* @return reference of type T of the data that the iterator contains.
 			*/
-			T& operator*() const;
+			T& operator*();
+
+			/**
+			* Const dereference operator for const Iterator
+			* @return reference of type T of the data that the iterator contains.
+			*/
+			const T& operator*() const;
 
 		private:
 			/**
@@ -119,7 +136,7 @@ namespace MahatmaGameEngine
 		* Push new item into the front of the list.
 		* @param data The data to be put into the node of the list.
 		*/
-		Iterator pushFront(T data);
+		Iterator pushFront(const T& data);
 
 		/**
 		* Pop the front item from the list and return the item value.
@@ -130,7 +147,7 @@ namespace MahatmaGameEngine
 		* Push new item into the back of the list.
 		* @param data The data to be put into the node of the list.
 		*/
-		Iterator pushBack(T data);
+		Iterator pushBack(const T& data);
 
 		/**
 		* Remove all the items from the list and resets it.

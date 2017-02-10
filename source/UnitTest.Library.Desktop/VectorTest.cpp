@@ -199,6 +199,8 @@ namespace UnitTestLibraryDesktop
 			int32_t d = 40;
 			int32_t e = 50;
 			Vector<int32_t> intVec;
+			auto intVecEmptyPop = [&intVec] {intVec.popBack(); };
+			Assert::ExpectException<std::exception>(intVecEmptyPop);
 			intVec.pushBack(a);
 			intVec.pushBack(b);
 			intVec.pushBack(c);
@@ -217,6 +219,8 @@ namespace UnitTestLibraryDesktop
 			//Pointer
 			int32_t* test = new int32_t;
 			Vector<int32_t*> pointerVec;
+			auto pointerVecEmptyPop = [&pointerVec] {pointerVec.popBack(); };
+			Assert::ExpectException<std::exception>(pointerVecEmptyPop);
 			pointerVec.pushBack(test);
 			pointerVec.pushBack(test + a);
 			pointerVec.pushBack(test + b);
@@ -235,6 +239,8 @@ namespace UnitTestLibraryDesktop
 
 			//Foo
 			Vector<Foo> fooVec;
+			auto fooVecEmptyPop = [&fooVec] {fooVec.popBack(); };
+			Assert::ExpectException<std::exception>(fooVecEmptyPop);
 			fooVec.pushBack(Foo(a));
 			fooVec.pushBack(Foo(b));
 			fooVec.pushBack(Foo(c));
@@ -394,6 +400,8 @@ namespace UnitTestLibraryDesktop
 			//Integer
 			int32_t a = 10;
 			Vector<int32_t> intVec;
+			auto intVecEmptyBack = [&intVec] {intVec.front(); };
+			Assert::ExpectException<std::runtime_error>(intVecEmptyBack);
 			intVec.pushBack(a);
 
 			const Vector<int32_t> constIntVec = intVec;
@@ -403,6 +411,8 @@ namespace UnitTestLibraryDesktop
 			//Pointer
 			int32_t* test = new int32_t;
 			Vector<int32_t*> pointerVec;
+			auto pointerVecEmptyBack = [&pointerVec] {pointerVec.front(); };
+			Assert::ExpectException<std::runtime_error>(pointerVecEmptyBack);
 			pointerVec.pushBack(test);
 
 			const Vector<int32_t*> constPointerVec = pointerVec;
@@ -412,6 +422,8 @@ namespace UnitTestLibraryDesktop
 
 			//Foo
 			Vector<Foo> fooVec;
+			auto fooVecEmptyBack = [&fooVec] {fooVec.front(); };
+			Assert::ExpectException<std::runtime_error>(fooVecEmptyBack);
 			fooVec.pushBack(Foo(a));
 
 			const Vector<Foo> constFooVec = fooVec;
@@ -425,6 +437,8 @@ namespace UnitTestLibraryDesktop
 			int32_t a = 10;
 			int32_t b = 20;
 			Vector<int32_t> intVec;
+			auto intVecEmptyBack = [&intVec] {intVec.back(); };
+			Assert::ExpectException<std::runtime_error>(intVecEmptyBack);
 
 			intVec.pushBack(a);
 			const Vector<int32_t> constIntVec = intVec;
@@ -440,6 +454,8 @@ namespace UnitTestLibraryDesktop
 			//Pointer
 			int32_t* test = new int32_t;
 			Vector<int32_t*> pointerVec;
+			auto pointerVecEmptyBack = [&pointerVec] {pointerVec.back(); };
+			Assert::ExpectException<std::runtime_error>(pointerVecEmptyBack);
 
 			pointerVec.pushBack(test);
 			const Vector<int32_t*> constPointerVec = pointerVec;
@@ -455,9 +471,12 @@ namespace UnitTestLibraryDesktop
 
 			//Foo
 			Vector<Foo> fooVec;
-			
+			auto fooVecEmptyBack = [&fooVec] {fooVec.back(); };
+			Assert::ExpectException<std::runtime_error>(fooVecEmptyBack);
+
 			fooVec.pushBack(Foo(a));
 			const Vector<Foo> constFooVec = fooVec;
+
 			Assert::AreEqual(constFooVec.back(), fooVec.back());
 			Assert::AreEqual(constFooVec.back(), Foo(a));
 
@@ -466,6 +485,52 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(constFooVec1.back(), fooVec.back());
 			Assert::AreEqual(constFooVec1.back(), Foo(b));
 			Assert::AreNotEqual(constFooVec1.back(), constFooVec1.front());
+		}
+
+		/******************************Special Cases***************************/
+
+		TEST_METHOD(reserveExceptionTest)
+		{
+			//Integer
+			int32_t a = 10;
+			Vector<int32_t> intVec;
+			intVec.pushBack(a);
+			intVec.pushBack(a);
+			intVec.pushBack(a);
+			auto intVecReserveExcept = [&intVec] {intVec.reserve(1); };
+			Assert::ExpectException<std::exception>(intVecReserveExcept);
+
+			//Pointer
+			int32_t* test;
+			Vector<int32_t*> pointerVec;
+			pointerVec.pushBack(test);
+			pointerVec.pushBack(test);
+			pointerVec.pushBack(test);
+			auto pointerVecReserveExcept = [&pointerVec] {pointerVec.reserve(1); };
+			Assert::ExpectException<std::exception>(pointerVecReserveExcept);
+
+			//Foo
+			Vector<Foo> fooVec;
+			fooVec.pushBack(Foo(a));
+			fooVec.pushBack(Foo(a));
+			fooVec.pushBack(Foo(a));
+			auto fooVecReserveExcept = [&fooVec] {fooVec.reserve(1); };
+			Assert::ExpectException<std::exception>(fooVecReserveExcept);
+		}
+
+		TEST_METHOD(emptyEndTest)
+		{
+			//Integer
+			Vector<int32_t> intVec;
+			Assert::AreEqual(intVec.begin(), intVec.end());
+
+			//Pointer
+			Vector<int32_t*> pointerVec;
+			Assert::AreEqual(pointerVec.begin(), pointerVec.end());
+
+			//Foo
+			Vector<Foo> fooVec;
+			Assert::AreEqual(fooVec.begin(), fooVec.end());
 		}
 	private:
 		static _CrtMemState sStartMemState;

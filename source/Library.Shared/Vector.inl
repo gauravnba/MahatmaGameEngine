@@ -86,7 +86,22 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	typename T& Vector<T>::Iterator::operator*() const
+	typename T& Vector<T>::Iterator::operator*()
+	{
+		if (mVector == nullptr)
+		{
+			throw std::runtime_error("The Iterator is uninitialized.");
+		}
+
+		if (mIndex >= mVector->mSize)
+		{
+			throw std::runtime_error("Trying to dereference invalid pointer.");
+		}
+		return mVector->mArray[mIndex];
+	}
+
+	template <typename T>
+	const typename T& Vector<T>::Iterator::operator*() const
 	{
 		if (mVector == nullptr)
 		{
@@ -106,7 +121,7 @@ namespace MahatmaGameEngine
 	Vector<T>::Vector() :
 		mSize(0), mCapacity(0), mArray(nullptr)
 	{
-		reserve(mCapacity);
+		reserve(mIncreaseBy);
 	}
 
 	template <typename T>
@@ -183,10 +198,6 @@ namespace MahatmaGameEngine
 	template <typename T>
 	typename Vector<T>::Iterator Vector<T>::end() const
 	{
-		if (mSize == 0)
-		{
-			begin();
-		}
 		return Iterator(mSize, const_cast<Vector<T>*>(this));
 	}
 
@@ -203,13 +214,9 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	bool Vector<T>::isEmpty()
+	bool Vector<T>::isEmpty() const
 	{
-		if (mSize == 0)
-		{
-			return true;
-		}
-		return false;
+		return (mSize == 0);
 	}
 
 	template <typename T>
@@ -219,15 +226,17 @@ namespace MahatmaGameEngine
 		{
 			reserve(mCapacity + mIncreaseBy);
 		}
-		new(&mArray[mSize]) T();
-		mArray[mSize] = data;
-		++mSize;
+		new(&mArray[mSize++]) T(data);
 		return Iterator(mSize - 1, this);
 	}
 
 	template <typename T>
 	T Vector<T>::popBack()
 	{
+		if (mSize == 0)
+		{
+			throw std::runtime_error("Empty vector.");
+		}
 		T temp = mArray[--mSize];
 		mArray[mSize].~T();
 		return temp;
@@ -287,16 +296,15 @@ namespace MahatmaGameEngine
 	template <typename T>
 	typename Vector<T>::Iterator Vector<T>::find(const T& item) const
 	{
-		std::uint32_t i = 0;
-		for(auto &value: *this)
+		Iterator it = begin();
+		for(; it != end(); ++it)
 		{
-			if (value == item)
+			if (*it == item)
 			{
 				break;
 			}
-			++i;
 		}
-		return Iterator(i, const_cast<Vector<T>*>(this));
+		return it;
 	}
 
 	template <typename T>
