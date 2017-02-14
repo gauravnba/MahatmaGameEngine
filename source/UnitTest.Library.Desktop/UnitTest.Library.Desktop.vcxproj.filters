@@ -1,59 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
+    <Filter Include="Supporting Classes">
+      <UniqueIdentifier>{76b34f73-9bf5-4577-b0cf-fd19c7455f99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test Clases">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
+    <Filter Include="Supporting Headers">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Supporting Classes">
-      <UniqueIdentifier>{76b34f73-9bf5-4577-b0cf-fd19c7455f99}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SListTest.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Test Clases</Filter>
     </ClCompile>
     <ClCompile Include="Foo.cpp">
       <Filter>Supporting Classes</Filter>
     </ClCompile>
     <ClCompile Include="SListIteratorTest.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Test Clases</Filter>
     </ClCompile>
     <ClCompile Include="VectorTest.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Test Clases</Filter>
     </ClCompile>
     <ClCompile Include="VectorIteratorTest.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Test Clases</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Test Clases</Filter>
     </ClCompile>
     <ClCompile Include="HashMapIteratorTest.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Test Clases</Filter>
     </ClCompile>
     <ClCompile Include="HashMapTest.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Test Clases</Filter>
     </ClCompile>
     <ClCompile Include="FooDefaultHash.cpp">
       <Filter>Supporting Classes</Filter>
     </ClCompile>
+    <ClCompile Include="DatumTest.cpp">
+      <Filter>Test Clases</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">
-      <Filter>Header Files</Filter>
+      <Filter>Supporting Headers</Filter>
     </ClInclude>
     <ClInclude Include="ToStringFunctions.h">
-      <Filter>Header Files</Filter>
+      <Filter>Supporting Headers</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
+      <Filter>Supporting Headers</Filter>
     </ClInclude>
     <ClInclude Include="FooDefaultHash.h">
-      <Filter>Header Files</Filter>
+      <Filter>Supporting Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

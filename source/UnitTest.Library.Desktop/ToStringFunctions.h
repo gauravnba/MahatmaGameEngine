@@ -1,13 +1,18 @@
 #pragma once
 
+#define GLM_FORCE_CXX11
+
 #include <cstdint>
 #include <exception>
+#include <string>
+#include "glm.hpp"
 #include "CppUnitTest.h"
 #include "Foo.h"
 #include "SList.h"
 #include "Vector.h"
 #include "HashMap.h"
 #include "FooDefaultHash.h"
+#include "Datum.h"
 
 namespace Microsoft
 {
@@ -106,7 +111,6 @@ namespace Microsoft
 				}
 				catch (std::exception)
 				{
-					//return L"Invalid Iterator pointer";
 				}
 				return returnVal;
 			}
@@ -121,7 +125,6 @@ namespace Microsoft
 				}
 				catch (std::exception)
 				{
-					//return L"Invalid Iterator pointer";
 				}
 				return returnVal;
 			}
@@ -136,7 +139,6 @@ namespace Microsoft
 				}
 				catch (std::exception)
 				{
-					//return L"Invalid Iterator pointer";
 				}
 				return returnVal;
 			}
@@ -166,7 +168,6 @@ namespace Microsoft
 				}
 				catch (std::exception)
 				{
-					//return L"Invalid Iterator pointer";
 				}
 				return returnVal;
 			}
@@ -181,7 +182,62 @@ namespace Microsoft
 				}
 				catch (std::exception)
 				{
-					//return L"Invalid Iterator pointer";
+				}
+				return returnVal;
+			}
+
+			template <>
+			std::wstring ToString<MahatmaGameEngine::DatumType>(const MahatmaGameEngine::DatumType& obj)
+			{
+				std::wstring returnVal;
+				try
+				{
+					returnVal = std::to_wstring(static_cast<int32_t>(obj));
+				}
+				catch (std::exception)
+				{
+				}
+				return returnVal;
+			}
+
+			template <>
+			std::wstring ToString<glm::vec4>(const glm::vec4& obj)
+			{
+				std::wstring returnVal;
+				try
+				{
+					std::string temp;
+					sscanf_s("%f, %f, %f, %f", temp.c_str(), obj.x, obj.y, obj.z, obj.w);
+					std::wstring tempWString(temp.begin(), temp.end());
+					returnVal = tempWString;
+				}
+				catch (std::exception)
+				{
+				}
+				return returnVal;
+			}
+
+			template <>
+			std::wstring ToString<glm::mat4x4>(const glm::mat4x4& obj)
+			{
+				std::wstring returnVal;
+				try
+				{
+					std::string temp;
+					sscanf_s("%f, %f, %f, %f\n"
+						"%f, %f, %f, %f\n"
+						"%f, %f, %f, %f\n"
+						"%f, %f, %f, %f", 
+						temp.c_str(),
+						obj[0].x, obj[0].y, obj[0].z, obj[0].w,
+						obj[1].x, obj[1].y, obj[1].z, obj[1].w,
+						obj[2].x, obj[2].y, obj[2].z, obj[2].w,
+						obj[3].x, obj[3].y, obj[3].z, obj[3].w);
+					std::wstring tempWString(temp.begin(), temp.end());
+					returnVal = tempWString;
+				} 
+				catch (std::exception)
+				{
 				}
 				return returnVal;
 			}
