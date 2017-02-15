@@ -2,6 +2,7 @@
 
 #include "Datum.h"
 #include <exception>
+#include <sstream>
 
 using namespace MahatmaGameEngine;
 using namespace glm;
@@ -18,8 +19,7 @@ Datum::~Datum()
 {
 	if (!mIsExternal)
 	{
-		clear();
-		free(mDatumVal.genericType);
+		emptyOut();
 	}
 }
 
@@ -68,7 +68,7 @@ Datum::Datum(const Datum& obj) :
 	}
 }
 
-/********************************** Assignment operator definitions **************************************/
+#pragma region ASSIGNMENT_OPERATOR
 Datum& Datum::operator=(const Datum& obj)
 {
 	if (this != &obj)
@@ -155,8 +155,9 @@ Datum& Datum::operator=(RTTI* obj)
 	set(obj);
 	return *this;
 }
+#pragma endregion
 
-/********************************** Equality operator definitions ***********************************/
+#pragma region EQUALITY_OPERATOR
 
 bool Datum::operator==(const Datum& obj) const
 {
@@ -278,7 +279,9 @@ bool Datum::operator==(const RTTI* obj) const
 	return (mDatumVal.rttiType[0] == obj);
 }
 
-/********************************** Inequality operator definitions *********************************/
+#pragma endregion
+
+#pragma region INEQUALITY_OPERATOR
 
 bool Datum::operator!=(const Datum& obj) const
 {
@@ -314,6 +317,8 @@ bool Datum::operator!=(const RTTI* obj) const
 {
 	return (!(*this == obj));
 }
+
+#pragma endregion
 
 void Datum::setType(DatumType datumType)
 {
@@ -443,7 +448,7 @@ void Datum::clear()
 	}
 }
 
-/******************************************* Overloaded functions - set *******************************************/
+#pragma region SET_OVERLOADS
 
 void Datum::set(int32_t value, uint32_t index)
 {
@@ -457,6 +462,10 @@ void Datum::set(int32_t value, uint32_t index)
 	}
 	if (index >= mSize)
 	{
+		if (mIsExternal)
+		{
+			throw out_of_range("Invalid index.");
+		}
 		setSize(index + 1);
 	}
 	mDatumVal.integerType[index] = value;
@@ -474,6 +483,10 @@ void Datum::set(const float& value, uint32_t index)
 	}
 	if (index >= mSize)
 	{
+		if (mIsExternal)
+		{
+			throw out_of_range("Invalid index.");
+		}
 		setSize(index + 1);
 	}
 	mDatumVal.floatingType[index] = value;
@@ -491,6 +504,10 @@ void Datum::set(const vec4& value, uint32_t index)
 	}
 	if (index >= mSize)
 	{
+		if (mIsExternal)
+		{
+			throw out_of_range("Invalid index.");
+		}
 		setSize(index + 1);
 	}
 	mDatumVal.vectorType[index] = value;
@@ -508,6 +525,10 @@ void Datum::set(const mat4x4& value, uint32_t index)
 	}
 	if (index >= mSize)
 	{
+		if (mIsExternal)
+		{
+			throw out_of_range("Invalid index.");
+		}
 		setSize(index + 1);
 	}
 	mDatumVal.matrixType[index] = value;
@@ -525,6 +546,10 @@ void Datum::set(const string& value, uint32_t index)
 	}
 	if (index >= mSize)
 	{
+		if (mIsExternal)
+		{
+			throw out_of_range("Invalid index.");
+		}
 		setSize(index + 1);
 	}
 	mDatumVal.stringType[index] = value;
@@ -542,7 +567,176 @@ void Datum::set(RTTI* value, uint32_t index)
 	}
 	if (index >= mSize)
 	{
+		if (mIsExternal)
+		{
+			throw out_of_range("Invalid index.");
+		}
 		setSize(index + 1);
 	}
 	mDatumVal.rttiType[index] = value;
+}
+
+#pragma endregion
+
+#pragma region SET_STORAGE_OVERLOADS
+
+void Datum::setStorage(int32_t* externalArray, uint32_t numberOfElements)
+{
+	emptyOut();
+	mIsExternal = true;
+	mSize = mCapacity = numberOfElements;
+	mDatumVal.integerType = externalArray;
+}
+
+void Datum::setStorage(float* externalArray, uint32_t numberOfElements)
+{
+	emptyOut();
+	mIsExternal = true;
+	mSize = mCapacity = numberOfElements;
+	mDatumVal.floatingType = externalArray;
+}
+
+void Datum::setStorage(vec4* externalArray, uint32_t numberOfElements)
+{
+	emptyOut();
+	mIsExternal = true;
+	mSize = mCapacity = numberOfElements;
+	mDatumVal.vectorType = externalArray;
+}
+
+void Datum::setStorage(mat4x4* externalArray, uint32_t numberOfElements)
+{
+	emptyOut();
+	mIsExternal = true;
+	mSize = mCapacity = numberOfElements;
+	mDatumVal.matrixType = externalArray;
+}
+
+void Datum::setStorage(string* externalArray, uint32_t numberOfElements)
+{
+	emptyOut();
+	mIsExternal = true;
+	mSize = mCapacity = numberOfElements;
+	mDatumVal.stringType = externalArray;
+}
+
+void Datum::setStorage(RTTI** externalArray, uint32_t numberOfElements)
+{
+	emptyOut();
+	mIsExternal = true;
+	mSize = mCapacity = numberOfElements;
+	mDatumVal.rttiType = externalArray;
+}
+
+#pragma endregion
+
+void Datum::setFromString(string value, uint32_t index)
+{
+	switch (mType)
+	{
+	case DatumType::INTEGER:
+	{
+		set(stoi(value), index);
+		break;
+	}
+
+	case DatumType::FLOAT:
+	{
+		set(stof(value), index);
+		break;
+	}
+
+	case DatumType::VECTOR:
+	{
+		vec4 tempVector = stringToVector(value);
+		set(tempVector, index);
+		break;
+	}
+
+	case DatumType::MATRIX:
+	{
+		mat4x4 tempMatrix;
+		char* input = const_cast<char*>(value.c_str());
+
+		string vector0 = strtok(input, ")");
+		string vector1 = strtok(nullptr, ")");
+		string vector2 = strtok(nullptr, ")");
+		string vector3 = strtok(nullptr, ")");
+
+		tempMatrix[0] = stringToVector(vector0);
+		tempMatrix[1] = stringToVector(vector1);
+		tempMatrix[2] = stringToVector(vector2);
+		tempMatrix[3] = stringToVector(vector3);
+
+		set(tempMatrix, index);
+		break;
+	}
+	case DatumType::STRING:
+	{
+		set(value, index);
+		break;
+	}
+
+	case DatumType::RTTI_POINTER:
+		break;
+
+	default:
+		throw runtime_error("Valid type not assigned.");
+		break;
+	}
+}
+
+string Datum::toString(uint32_t index)
+{
+	string temp;
+	switch (mType)
+	{
+	case DatumType::INTEGER:
+		temp = to_string(mDatumVal.integerType[index]);
+		break;
+	case DatumType::FLOAT:
+		temp = to_string(mDatumVal.floatingType[index]);
+		break;
+	case DatumType::VECTOR:
+		temp = to_string(mDatumVal.vectorType[index]);
+		break;
+	case DatumType::MATRIX:
+		temp = to_string(mDatumVal.matrixType[index]);
+		break;
+	case DatumType::STRING:
+		temp = mDatumVal.stringType[index];
+		break;
+	case DatumType::RTTI_POINTER:
+		temp = mDatumVal.rttiType[index]->ToString();
+	default:
+		throw runtime_error("Type not set");
+	}
+	return temp;
+}
+
+void Datum::emptyOut()
+{
+	clear();
+	free(mDatumVal.genericType);
+}
+
+vec4 Datum::stringToVector(string vectorString)
+{
+	vec4 tempVector;
+	char* input = const_cast<char*>(vectorString.c_str());
+
+	//tokenize string and store the individual values of x, y, z, w as char*
+	strtok(input, "(");
+	string tempX = strtok(nullptr, "(,");
+	string tempY = strtok(nullptr, ",");
+	string tempZ = strtok(nullptr, ",");
+	string tempW = strtok(nullptr, ")");
+
+	//assign tokens to tempVector
+	tempVector.x = stof(tempX);
+	tempVector.y = stof(tempY);
+	tempVector.z = stof(tempZ);
+	tempVector.w = stof(tempW);
+
+	return tempVector;
 }

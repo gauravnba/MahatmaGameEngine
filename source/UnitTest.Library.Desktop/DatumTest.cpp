@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "Datum.h"
+#include "gtx/string_cast.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace MahatmaGameEngine;
@@ -363,7 +364,85 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(setStorageTest)
 		{
+			int32_t iA = 10;
+			int32_t iB = 20;
+			float fA = 10.5f;
+			float fB = 20.5f;
+			float fC = 30.5f;
+			float fD = 40.5f;
+			vec4 vA = vec4(vec3(fA), fB);
+			vec4 vB = vec4(vec3(fB), fA);
+			vec4 vC = vec4(vec3(fC), fD);
+			vec4 vD = vec4(vec3(fD), fC);
+			mat4x4 mA = mat4x4(vA, vB, vC, vD);
+			mat4x4 mB = mat4x4(vB, vC, vD, vA);
+			mat4x4 mC = mat4x4(vC, vD, vA, vB);
+			mat4x4 mD = mat4x4(vD, vA, vB, vC);
+			string sA = "test";
+			string sB = "anotherTest";
 
+			//Integer
+			uint32_t numElements = 2;
+			int32_t* intArray = static_cast<int32_t*>(malloc(numElements * sizeof(int32_t)));
+			intArray[0] = iA;
+			intArray[1] = iB;
+			Datum intDatum;
+			intDatum.setStorage(intArray, numElements);
+			auto externalIntSetRangeException = [&intDatum, &iA] {intDatum.set(iA, 4); };
+			Assert::ExpectException<out_of_range>(externalIntSetRangeException);
+			Assert::AreEqual(intDatum.get<int32_t>(), iA);
+			Assert::AreEqual(intDatum.get<int32_t>(1), iB);
+			free(intArray);
+
+			//Float
+			float* floatArray = static_cast<float*>(malloc(numElements * sizeof(float)));
+			floatArray[0] = fA;
+			floatArray[1] = fB;
+			Datum floatDatum;
+			floatDatum.setStorage(floatArray, numElements);
+			auto externalFloatSetRangeException = [&floatDatum, &fA] {floatDatum.set(fA, 4); };
+			Assert::ExpectException<out_of_range>(externalFloatSetRangeException);
+			Assert::AreEqual(floatDatum.get<float>(), fA);
+			Assert::AreEqual(floatDatum.get<float>(1), fB);
+			free(floatArray);
+
+			//Vector
+			vec4* vecArray = static_cast<vec4*>(malloc(numElements * sizeof(vec4)));
+			vecArray[0] = vA;
+			vecArray[1] = vB;
+			Datum vecDatum;
+			vecDatum.setStorage(vecArray, numElements);
+			auto externalVectorSetRangeException = [&vecDatum, &vA] {vecDatum.set(vA, 4); };
+			Assert::ExpectException<out_of_range>(externalVectorSetRangeException);
+			Assert::AreEqual(vecDatum.get<vec4>(), vA);
+			Assert::AreEqual(vecDatum.get<vec4>(1), vB);
+			free(vecArray);
+
+			//Matrix
+			mat4x4* matrixArray = static_cast<mat4x4*>(malloc(numElements * sizeof(mat4x4)));
+			matrixArray[0] = mA;
+			matrixArray[1] = mB;
+			Datum matrixDatum;
+			matrixDatum.setStorage(matrixArray, numElements);
+			auto externalMatrixSetRangeException = [&matrixDatum, &mA] {matrixDatum.set(mA, 4); };
+			Assert::ExpectException<out_of_range>(externalMatrixSetRangeException);
+			Assert::AreEqual(matrixDatum.get<mat4x4>(), mA);
+			Assert::AreEqual(matrixDatum.get<mat4x4>(1), mB);
+			free(matrixArray);
+
+			//String
+			string* stringArray = static_cast<string*>(malloc(numElements * sizeof(string)));
+			new(&stringArray[0]) string(sA);
+			new(&stringArray[1]) string(sB);
+			Datum stringDatum;
+			stringDatum.setStorage(stringArray, numElements);
+			auto externalStringSetRangeException = [&stringDatum, &sA] {stringDatum.set(sA, 4); };
+			Assert::ExpectException<out_of_range>(externalStringSetRangeException);
+			Assert::AreEqual(stringDatum.get<string>(), sA);
+			Assert::AreEqual(stringDatum.get<string>(1), sB);
+			stringArray[0].~string();
+			stringArray[1].~string();
+			free(stringArray);
 		}
 
 		TEST_METHOD(equalityOperatorTest)
@@ -516,14 +595,131 @@ namespace UnitTestLibraryDesktop
 			Assert::IsFalse(stringDatum != stringDatum1);
 		}
 
-		TEST_METHOD(setFromString)
+		TEST_METHOD(setFromStringTest)
 		{
+			int32_t iA = 10;
+			int32_t iB = 20;
+			float fA = 10.5f;
+			float fB = 20.5f;
+			float fC = 30.5f;
+			float fD = 40.5f;
+			vec4 vA = vec4(vec3(fA), fB);
+			vec4 vB = vec4(vec3(fB), fA);
+			vec4 vC = vec4(vec3(fC), fD);
+			vec4 vD = vec4(vec3(fD), fC);
+			mat4x4 mA = mat4x4(vA, vB, vC, vD);
+			mat4x4 mB = mat4x4(vB, vC, vD, vA);
+			mat4x4 mC = mat4x4(vC, vD, vA, vB);
+			mat4x4 mD = mat4x4(vD, vA, vB, vC);
+			string sA = "test";
+			string sB = "anotherTest";
 
+			//Integer
+			Datum intDatum;
+			auto intTypeMissingException = [&intDatum, &iA] {intDatum.setFromString(to_string(iA)); };
+			Assert::ExpectException<runtime_error>(intTypeMissingException);
+			intDatum.setType(DatumType::INTEGER);
+			intDatum.setFromString(to_string(iA));
+			Assert::AreEqual(intDatum.get<int32_t>(), iA);
+			intDatum.setFromString(to_string(iB), 1);
+			Assert::AreEqual(intDatum.get<int32_t>(1), iB);
+
+			//Float
+			Datum floatDatum;
+			floatDatum.setType(DatumType::FLOAT);
+			floatDatum.setFromString(to_string(fA));
+			Assert::AreEqual(floatDatum.get<float>(), fA);
+			floatDatum.setFromString(to_string(fB), 1);
+			Assert::AreEqual(floatDatum.get<float>(1), fB);
+
+			//Vector
+			Datum vectorDatum;
+			vectorDatum.setType(DatumType::VECTOR);
+			vectorDatum.setFromString(to_string(vA));
+			Assert::AreEqual(vectorDatum.get<vec4>(), vA);
+			vectorDatum.setFromString(to_string(vB), 1);
+			Assert::AreEqual(vectorDatum.get<vec4>(1), vB);
+
+			//Matrix
+			Datum matrixDatum;
+			matrixDatum.setType(DatumType::MATRIX);
+			matrixDatum.setFromString(to_string(mA));
+			Assert::AreEqual(matrixDatum.get<mat4x4>(), mA);
+			matrixDatum.setFromString(to_string(mB), 1);
+			Assert::AreEqual(matrixDatum.get<mat4x4>(1), mB);
+
+			//String
+			Datum stringDatum;
+			stringDatum.setType(DatumType::STRING);
+			stringDatum.setFromString(sA);
+			Assert::AreEqual(stringDatum.get<string>(), sA);
+			stringDatum.setFromString(sB, 1);
+			Assert::AreEqual(stringDatum.get<string>(1), sB);
 		}
 
 		TEST_METHOD(toStringTest)
 		{
+			int32_t iA = 10;
+			int32_t iB = 20;
+			float fA = 10.5f;
+			float fB = 20.5f;
+			float fC = 30.5f;
+			float fD = 40.5f;
+			vec4 vA = vec4(vec3(fA), fB);
+			vec4 vB = vec4(vec3(fB), fA);
+			vec4 vC = vec4(vec3(fC), fD);
+			vec4 vD = vec4(vec3(fD), fC);
+			mat4x4 mA = mat4x4(vA, vB, vC, vD);
+			mat4x4 mB = mat4x4(vB, vC, vD, vA);
+			mat4x4 mC = mat4x4(vC, vD, vA, vB);
+			mat4x4 mD = mat4x4(vD, vA, vB, vC);
+			string sA = "test";
+			string sB = "anotherTest";
 
+			//Integer
+			Datum intDatum;
+			auto intDataTypeException = [&intDatum] {intDatum.toString(); };
+			Assert::ExpectException<runtime_error>(intDataTypeException);
+			intDatum.set(iA);
+			intDatum.set(iB, 1);
+			Assert::AreEqual(intDatum.toString(), to_string(iA));
+			Assert::AreEqual(intDatum.toString(1), to_string(iB));
+
+			//Float
+			Datum floatDatum;
+			auto floatDataTypeException = [&floatDatum] {floatDatum.toString(); };
+			Assert::ExpectException<runtime_error>(floatDataTypeException);
+			floatDatum.set(fA);
+			floatDatum.set(fB, 1);
+			Assert::AreEqual(floatDatum.toString(), to_string(fA));
+			Assert::AreEqual(floatDatum.toString(1), to_string(fB));
+
+			//Vector
+			Datum vectorDatum;
+			auto vecDataTypeException = [&vectorDatum] {vectorDatum.toString(); };
+			Assert::ExpectException<runtime_error>(vecDataTypeException);
+			vectorDatum.set(vA);
+			vectorDatum.set(vB, 1);
+			Assert::AreEqual(vectorDatum.toString(), to_string(vA));
+			Assert::AreEqual(vectorDatum.toString(1), to_string(vB));
+
+			//Matrix
+			Datum matrixDatum;
+			auto matrixDataTypeException = [&matrixDatum] {matrixDatum.toString(); };
+			Assert::ExpectException<runtime_error>(matrixDataTypeException);
+			matrixDatum.set(mA);
+			matrixDatum.set(mB, 1);
+			Assert::AreEqual(matrixDatum.toString(), to_string(mA));
+			Assert::AreEqual(matrixDatum.toString(1), to_string(mB));
+
+			//String
+			Datum stringDatum;
+			auto stringDataTypeException = [&stringDatum] {stringDatum.toString(); };
+			Assert::ExpectException<runtime_error>(stringDataTypeException);
+			stringDatum.set(sA);
+			stringDatum.set(sB, 1);
+			Assert::AreEqual(stringDatum.toString(), sA);
+			Assert::AreEqual(stringDatum.toString(1), sB);
 		}
 
 	private:

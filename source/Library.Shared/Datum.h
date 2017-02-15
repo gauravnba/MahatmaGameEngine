@@ -32,7 +32,7 @@ namespace MahatmaGameEngine
 		Datum();
 
 		/**
-		* Datum destructor.
+		* Datum destructor. Does nothing if data is marked external.
 		*/
 		~Datum();
 
@@ -240,9 +240,46 @@ namespace MahatmaGameEngine
 		void clear();
 
 		/**
-		* 
+		* Sets the union to point to an external array passed as parameter. Overload for integer.
+		* @param externalArray of type integer to be assigned from.
+		* @param numberOfElements to set the size of the datum Array
 		*/
-		void setStorage(const DatumType* dataToInsert, uint32_t numberOfElements);
+		void setStorage(int32_t* externalArray, uint32_t numberOfElements);
+
+		/**
+		* Sets the union to point to an external array passed as parameter. Overload for floating point.
+		* @param externalArray of type integer to be assigned from.
+		* @param numberOfElements to set the size of the datum Array
+		*/
+		void setStorage(float* externalArray, uint32_t numberOfElements);
+
+		/**
+		* Sets the union to point to an external array passed as parameter. Overload for vector.
+		* @param externalArray of type integer to be assigned from.
+		* @param numberOfElements to set the size of the datum Array
+		*/
+		void setStorage(glm::vec4* externalArray, uint32_t numberOfElements);
+
+		/**
+		* Sets the union to point to an external array passed as parameter. Overload for matrix.
+		* @param externalArray of type integer to be assigned from.
+		* @param numberOfElements to set the size of the datum Array
+		*/
+		void setStorage(glm::mat4x4* externalArray, uint32_t numberOfElements);
+
+		/**
+		* Sets the union to point to an external array passed as parameter. Overload for string.
+		* @param externalArray of type integer to be assigned from.
+		* @param numberOfElements to set the size of the datum Array
+		*/
+		void setStorage(std::string* externalArray, uint32_t numberOfElements);
+
+		/**
+		* Sets the union to point to an external array passed as parameter. Overload for RTTI pointer.
+		* @param externalArray of type integer to be assigned from.
+		* @param numberOfElements to set the size of the datum Array
+		*/
+		void setStorage(Library::RTTI** externalArray, uint32_t numberOfElements);
 
 		/**
 		* Sets the value at the given index in the Datum
@@ -349,19 +386,28 @@ namespace MahatmaGameEngine
 		template <>
 		Library::RTTI*& get<Library::RTTI*>(std::uint32_t index);
 
+		/**
+		* Sets data into the Datum from a string value at specified index.
+		* Note that the type of the Datum needs to be set before this method.
+		* @param value is the string value to set from
+		* @param index at which the value needs to be set
+		* @exception thrown if DatumType not set
+		*/
 		void setFromString(std::string value, std::uint32_t index = 0);
 
+		/**
+		* Returns a string value of the item at the index
+		* @param index where the item is located (default is 0)
+		* @return value converted to string type
+		*/
 		std::string toString(std::uint32_t index = 0);
 
 	private:
 
 		/**
-		* Reserves the DatumVal array of length of capacity
-		* @param datumVal is the pointer to the data to be allocated to.
-		* @param capacity is the amount of memory of size of T to be created.
+		* Clears the Datum and frees the memory allocated to the Union.
 		*/
-		template <typename T>
-		void reserve(T* datumVal, uint32_t capacity);
+		void emptyOut();
 
 		/**
 		* Instantiates objects in the mDatumVal array to length of size
@@ -379,6 +425,13 @@ namespace MahatmaGameEngine
 		template <typename T>
 		void removeRecursively(T* datumVal, std::uint32_t size);
 
+		/**
+		* Converts string passed to the method to a vector
+		* @param vectorValue string to be converted to vector
+		* @return the converted vector
+		*/
+		glm::vec4 stringToVector(std::string vectorString);
+
 		union DatumValue
 		{
 			std::int32_t* integerType;
@@ -391,7 +444,7 @@ namespace MahatmaGameEngine
 			void* genericType;
 		};
 		
-		DatumValue mDatumVal;		/**< The */
+		DatumValue mDatumVal;		/**< The Union that holds the array of the Datum values. */
 		DatumType mType;			/**< The type of element in this Datum. */
 		std::uint32_t mSize;		/**< The number of elements in the datum if it is not a scalar value. */
 		std::uint32_t mCapacity;	/**< The number of elements the datum can hold at the moment. */
