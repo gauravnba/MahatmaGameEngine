@@ -117,6 +117,8 @@ Datum& Datum::operator=(const Datum& obj)
 			break;
 		}
 	}
+	mIsExternal = obj.mIsExternal;
+
 	return *this;
 }
 
