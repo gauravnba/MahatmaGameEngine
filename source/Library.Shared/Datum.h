@@ -225,13 +225,13 @@ namespace MahatmaGameEngine
 		* Returns the number of elements in the Datum.
 		* @return Unsigned integer of the size of Datum
 		*/
-		std::uint32_t size();
+		std::uint32_t size() const;
 
 		/**
 		* Returns the number of elements the Datum can hold.
 		* @return Unsigned integer of the capacity of Datum
 		*/
-		std::uint32_t capacity();
+		std::uint32_t capacity() const;
 
 		/**
 		* Clears all the elements in the Datum
@@ -385,6 +385,69 @@ namespace MahatmaGameEngine
 		*/
 		template <>
 		Library::RTTI*& get<Library::RTTI*>(std::uint32_t index);
+
+		/**
+		* Templated method get returns the value at index (default = 0)
+		* @param index where the element to be obtained is.
+		* @return type T of the type of Datum it is.
+		* @exception thrown if mType is not set.
+		*/
+		template <typename T>
+		const T& get(std::uint32_t index = 0) const;
+
+		/**
+		* Template specialization of the get method for integer type
+		* @param index where the element to be obtained is.
+		* @return int32_t reference.
+		* @exception thrown if index is out of range.
+		*/
+		template <>
+		const std::int32_t& get<int32_t>(std::uint32_t index) const;
+
+		/**
+		* Template specialization of the get method for floating type
+		* @param index where the element to be obtained is.
+		* @return float reference.
+		* @exception thrown if index is out of range.
+		*/
+		template <>
+		const float& get<float>(std::uint32_t index) const;
+
+		/**
+		* Template specialization of the get method for glm vector type
+		* @param index where the element to be obtained is.
+		* @return vec4 reference.
+		* @exception thrown if index is out of range.
+		*/
+		template <>
+		const glm::vec4& get<glm::vec4>(std::uint32_t index) const;
+
+		/**
+		* Template specialization of the get method for glm matrix type
+		* @param index where the element to be obtained is.
+		* @return mat4x4 reference.
+		* @exception thrown if index is out of range.
+		*/
+		template <>
+		const glm::mat4x4& get<glm::mat4x4>(std::uint32_t index) const;
+
+		/**
+		* Template specialization of the get method for string type
+		* @param index where the element to be obtained is.
+		* @return string reference.
+		* @exception thrown if index is out of range.
+		*/
+		template <>
+		const std::string& get<std::string>(std::uint32_t index) const;
+
+		/**
+		* Template specialization of the const get method for integer type
+		* @param index where the element to be obtained is.
+		* @return RTTI pointer reference.
+		* @exception thrown if index is out of range.
+		*/
+		template <>
+		Library::RTTI* const& get<Library::RTTI*>(std::uint32_t index) const;
 
 		/**
 		* Sets data into the Datum from a string value at specified index.

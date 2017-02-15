@@ -297,6 +297,81 @@ namespace UnitTestLibraryDesktop
 			Assert::ExpectException<exception>(stringGetException);
 		}
 
+		TEST_METHOD(datumConstGetTest)
+		{
+			//Integer
+			int32_t iA = 10;
+			int32_t iB = 20;
+			float fA = 10.5f;
+			float fB = 20.5f;
+			float fC = 30.5f;
+			float fD = 40.5f;
+			vec4 vA = vec4(vec3(fA), fB);
+			vec4 vB = vec4(vec3(fB), fA);
+			vec4 vC = vec4(vec3(fC), fD);
+			vec4 vD = vec4(vec3(fD), fC);
+			mat4x4 mA = mat4x4(vA, vB, vC, vD);
+			mat4x4 mB = mat4x4(vB, vC, vD, vA);
+			mat4x4 mC = mat4x4(vC, vD, vA, vB);
+			mat4x4 mD = mat4x4(vD, vA, vB, vC);
+			string sA = "test";
+			string sB = "anotherTest";
+
+			Datum intDatum;
+			intDatum.set(iA, 0);
+			intDatum.set(iB, 2);
+			const Datum intDatum1 = intDatum;
+			Assert::AreEqual(intDatum1.size(), 3U);
+			Assert::AreEqual(intDatum1.get<int32_t>(), iA);
+			Assert::AreEqual(intDatum1.get<int32_t>(2U), iB);
+			auto intGetException = [&intDatum1] {intDatum1.get<int32_t>(4); };
+			Assert::ExpectException<exception>(intGetException);
+
+			//Float
+			Datum floatDatum;
+			floatDatum.set(fA, 0);
+			floatDatum.set(fB, 2);
+			const Datum floatDatum1 = floatDatum;
+			Assert::AreEqual(floatDatum1.size(), 3U);
+			Assert::AreEqual(floatDatum1.get<float>(), fA);
+			Assert::AreEqual(floatDatum1.get<float>(2U), fB);
+			auto floatGetException = [&floatDatum1] {floatDatum1.get<float>(4); };
+			Assert::ExpectException<exception>(floatGetException);
+
+			//Vector
+			Datum vecDatum;
+			vecDatum.set(vA, 0);
+			vecDatum.set(vB, 2);
+			const Datum vecDatum1 = vecDatum;
+			Assert::AreEqual(vecDatum1.size(), 3U);
+			Assert::AreEqual(vecDatum1.get<vec4>(), vA);
+			Assert::AreEqual(vecDatum1.get<vec4>(2U), vB);
+			auto vecGetException = [&vecDatum1] {vecDatum1.get<vec4>(4); };
+			Assert::ExpectException<exception>(vecGetException);
+
+			//Matrix
+			Datum matDatum;
+			matDatum.set(mA, 0);
+			matDatum.set(mB, 2);
+			const Datum matDatum1 = matDatum;
+			Assert::AreEqual(matDatum1.size(), 3U);
+			Assert::AreEqual(matDatum1.get<mat4x4>(), mA);
+			Assert::AreEqual(matDatum1.get<mat4x4>(2), mB);
+			auto matGetException = [&matDatum1] {matDatum1.get<mat4x4>(4); };
+			Assert::ExpectException<exception>(matGetException);
+
+			//String
+			Datum stringDatum;
+			stringDatum.set(sA, 0);
+			stringDatum.set(sB, 2);
+			const Datum stringDatum1 = stringDatum;
+			Assert::AreEqual(stringDatum1.size(), 3U);
+			Assert::AreEqual(stringDatum1.get<string>(), sA);
+			Assert::AreEqual(stringDatum1.get<string>(2), sB);
+			auto stringGetException = [&stringDatum1] {stringDatum1.get<string>(4); };
+			Assert::ExpectException<exception>(stringGetException);
+		}
+
 		TEST_METHOD(assignmentOperatorTest)
 		{
 			int32_t iA = 10;

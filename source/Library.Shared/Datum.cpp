@@ -408,12 +408,12 @@ void Datum::setSize(uint32_t size)
 	}
 }
 
-std::uint32_t Datum::size()
+std::uint32_t Datum::size() const
 {
 	return mSize;
 }
 
-std::uint32_t Datum::capacity()
+std::uint32_t Datum::capacity() const
 {
 	return mCapacity;
 }

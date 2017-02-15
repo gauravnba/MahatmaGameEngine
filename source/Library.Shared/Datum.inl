@@ -18,6 +18,7 @@ namespace MahatmaGameEngine
 		}
 	}
 
+#pragma region SET_TEMPLATES
 	template <typename T>
 	T& Datum::get(std::uint32_t index)
 	{
@@ -84,4 +85,74 @@ namespace MahatmaGameEngine
 		}
 		return mDatumVal.rttiType[index];
 	}
+#pragma endregion
+
+#pragma region CONST_SET_TEMPLATES
+	template <typename T>
+	const T& Datum::get(std::uint32_t index) const
+	{
+		UNREFERENCED_PARAMETER(index);
+		throw std::exception("Invalid type.");
+	}
+
+	template <>
+	const std::int32_t& Datum::get<std::int32_t>(std::uint32_t index) const
+	{
+		if (index >= mSize)
+		{
+			throw std::out_of_range("Index was out of range.");
+		}
+		return mDatumVal.integerType[index];
+	}
+
+	template <>
+	const float& Datum::get<float>(std::uint32_t index) const
+	{
+		if (index >= mSize)
+		{
+			throw std::out_of_range("Index was out of range.");
+		}
+		return mDatumVal.floatingType[index];
+	}
+
+	template <>
+	const glm::vec4& Datum::get<glm::vec4>(std::uint32_t index) const
+	{
+		if (index >= mSize)
+		{
+			throw std::out_of_range("Index was out of range.");
+		}
+		return mDatumVal.vectorType[index];
+	}
+
+	template <>
+	const glm::mat4x4& Datum::get<glm::mat4x4>(std::uint32_t index) const
+	{
+		if (index >= mSize)
+		{
+			throw std::out_of_range("Index was out of range.");
+		}
+		return mDatumVal.matrixType[index];
+	}
+
+	template <>
+	const std::string& Datum::get<std::string>(std::uint32_t index) const
+	{
+		if (index >= mSize)
+		{
+			throw std::out_of_range("Index was out of range.");
+		}
+		return mDatumVal.stringType[index];
+	}
+
+	template <>
+	Library::RTTI* const& Datum::get<Library::RTTI*>(std::uint32_t index) const
+	{
+		if (index >= mSize)
+		{
+			throw std::out_of_range("Index was out of range.");
+		}
+		return mDatumVal.rttiType[index];
+	}
+#pragma endregion
 }
