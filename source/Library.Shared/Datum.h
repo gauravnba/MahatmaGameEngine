@@ -9,6 +9,9 @@
 
 namespace MahatmaGameEngine
 {
+	//Forward declaration of the class scope as a hint to the compiler.
+	class Scope;
+
 	/**
 	* Strong enum of possible types of Datum, including Unknown for before the Datum is assigned.
 	*/
@@ -79,6 +82,13 @@ namespace MahatmaGameEngine
 
 		/**
 		* Scalar assignment operator assigns the parameter to this at index 0.
+		* @param obj Scope to assign
+		* @return Reference to this
+		*/
+		Datum& operator=(Scope* obj);
+
+		/**
+		* Scalar assignment operator assigns the parameter to this at index 0.
 		* @param obj vec4 to assign
 		* @return Reference to this
 		*/
@@ -89,7 +99,7 @@ namespace MahatmaGameEngine
 		* @param obj vec4 to assign
 		* @return Reference to this
 		*/
-		Datum& operator=(Library::RTTI* obj);
+		Datum& operator=(RTTI* obj);
 
 		/**
 		* Equality operator for Datum 
@@ -133,6 +143,14 @@ namespace MahatmaGameEngine
 		/**
 		* Overloaded equality operator for scalar values i.e. checks
 		if the first element in Datum is equal to passed parameter.
+		* @param obj Scope pointer to compare to
+		* @return boolean true if equal
+		*/
+		bool operator==(const Scope* obj) const;
+
+		/**
+		* Overloaded equality operator for scalar values i.e. checks
+		if the first element in Datum is equal to passed parameter.
 		* @param obj string to compare to
 		* @return boolean true if equal
 		*/
@@ -144,7 +162,7 @@ namespace MahatmaGameEngine
 		* @param obj RTTI pointer to compare to
 		* @return boolean true if equal
 		*/
-		bool operator==(const Library::RTTI* obj) const;
+		bool operator==(const RTTI* obj) const;
 
 		/**
 		* Equality operator for Datum
@@ -191,6 +209,14 @@ namespace MahatmaGameEngine
 		* @param obj RTTI pointer to compare to
 		* @return boolean false if equal
 		*/
+		bool operator!=(const Scope* obj) const;
+
+		/**
+		* Overloaded inequality operator for scalar values i.e. checks
+		if the first element in Datum is not-equal to passed parameter.
+		* @param obj RTTI pointer to compare to
+		* @return boolean false if equal
+		*/
 		bool operator!=(const std::string& obj) const;
 
 		/**
@@ -199,7 +225,7 @@ namespace MahatmaGameEngine
 		* @param obj RTTI pointer to compare to
 		* @return boolean false if equal
 		*/
-		bool operator!=(const Library::RTTI* obj) const;
+		bool operator!=(const RTTI* obj) const;
 
 		/**
 		* Sets the type of the Datum
@@ -279,7 +305,7 @@ namespace MahatmaGameEngine
 		* @param externalArray of type integer to be assigned from.
 		* @param numberOfElements to set the size of the datum Array
 		*/
-		void setStorage(Library::RTTI** externalArray, uint32_t numberOfElements);
+		void setStorage(RTTI** externalArray, uint32_t numberOfElements);
 
 		/**
 		* Sets the value at the given index in the Datum
@@ -312,7 +338,14 @@ namespace MahatmaGameEngine
 		/**
 		* Sets the value at the given index in the Datum
 		* @param value is the const reference to the value to be assigned.
-		* @param index is the index in the Datum array at which the value will be assigned. The default is 0.
+		* @param index in the Datum array at which the value will be assigned. The default is 0.
+		*/
+		void set(Scope* value, std::uint32_t index = 0);
+
+		/**
+		* Sets the value at the given index in the Datum
+		* @param value is the const reference to the value to be assigned.
+		* @param index in the Datum array at which the value will be assigned. The default is 0.
 		*/
 		void set(const std::string& value, std::uint32_t index = 0);
 
@@ -321,7 +354,7 @@ namespace MahatmaGameEngine
 		* @param value is the const reference to the value to be assigned.
 		* @param index is the index in the Datum array at which the value will be assigned. The default is 0.
 		*/
-		void set(Library::RTTI* value, std::uint32_t index = 0);
+		void set(RTTI* value, std::uint32_t index = 0);
 
 		/**
 		* Templated method get returns the value at index (default = 0)
@@ -369,6 +402,15 @@ namespace MahatmaGameEngine
 		glm::mat4x4& get<glm::mat4x4>(std::uint32_t index);
 
 		/**
+		* Template specialization of the get method for Scope Table
+		* @param index where the element to be obtained is.
+		* @return Scope reference.
+		* @exception thrown if index is out of range.
+		*/
+		template <>
+		Scope*& get<Scope*>(std::uint32_t index);
+
+		/**
 		* Template specialization of the get method for string type
 		* @param index where the element to be obtained is.
 		* @return string reference.
@@ -384,7 +426,7 @@ namespace MahatmaGameEngine
 		* @exception thrown if index is out of range.
 		*/
 		template <>
-		Library::RTTI*& get<Library::RTTI*>(std::uint32_t index);
+		RTTI*& get<RTTI*>(std::uint32_t index);
 
 		/**
 		* Templated method get returns the value at index (default = 0)
@@ -432,6 +474,15 @@ namespace MahatmaGameEngine
 		const glm::mat4x4& get<glm::mat4x4>(std::uint32_t index) const;
 
 		/**
+		* Const version of the template specialization of the get method for Scope Table
+		* @param index where the element to be obtained is.
+		* @return Scope reference.
+		* @exception thrown if index is out of range.
+		*/
+		template <>
+		Scope* const& get<Scope*>(std::uint32_t index) const;
+
+		/**
 		* Template specialization of the get method for string type
 		* @param index where the element to be obtained is.
 		* @return string reference.
@@ -447,7 +498,7 @@ namespace MahatmaGameEngine
 		* @exception thrown if index is out of range.
 		*/
 		template <>
-		Library::RTTI* const& get<Library::RTTI*>(std::uint32_t index) const;
+		RTTI* const& get<RTTI*>(std::uint32_t index) const;
 
 		/**
 		* Sets data into the Datum from a string value at specified index.
@@ -486,7 +537,7 @@ namespace MahatmaGameEngine
 		* @param size is the amount of objects (from mSize to size) to be destroyed
 		*/
 		template <typename T>
-		void removeRecursively(T* datumVal, std::uint32_t size);
+		void removeRecursively(T* datumVal, std::uint32_t size = 0);
 
 		/**
 		* Converts string passed to the method to a vector
@@ -501,9 +552,9 @@ namespace MahatmaGameEngine
 			float* floatingType;
 			glm::vec4* vectorType;
 			glm::mat4x4* matrixType;
-			// Table (Scope)
+			Scope** tableType;
 			std::string* stringType;
-			Library::RTTI** rttiType;
+			RTTI** rttiType;
 			void* genericType;
 		};
 		

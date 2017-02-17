@@ -10,10 +10,10 @@
 namespace MahatmaGameEngine
 {
 	/**
-	* Templated HashMap class uses a key, value pair of any type with a default hash function. A user-defined hash function can be
-	passed by using the third type argument of hashfunction.
+	* Templated HashMap class uses a key, value pair of any type with a default hash function. 
+	* A user-defined hash function can be passed by using the third type argument of hash function.
 	*/
-	template <typename TKey, typename TData, typename HashFunction = DefaultHash<TKey>>
+	template <typename TKey, typename TData, typename HashFunction = DefaultHash<TKey>, typename ComparisonFunctor = DefaultCompare<TKey>>
 	class HashMap
 	{
 	public:
@@ -130,7 +130,7 @@ namespace MahatmaGameEngine
 		/**
 		* Destructor of the HashMap
 		*/
-		~HashMap();
+		virtual ~HashMap();
 
 		/**
 		* Assignment operator for HashMap.
@@ -154,7 +154,15 @@ namespace MahatmaGameEngine
 		Iterator insert(const PairType& pair);
 
 		/**
-		* Index operator returns the data associated to a key in the HashMap
+		* Inserts the given element into the HashMap.
+		* @param accepts a pair of TKey and TData to insert
+		* @param inserted is true if a value was inserted. It is an output parameter.
+		* @return an Iterator to the inserted pair
+		*/
+		Iterator insert(const PairType& pair, bool& inserted);
+
+		/**
+		* Index operator returns the data associated to a key in the HashMap.
 		* @param key that the lookup will be based on.
 		* @return address of TData that found with the key.
 		*/
@@ -204,10 +212,25 @@ namespace MahatmaGameEngine
 		Iterator end() const;
 
 	private:
+		Iterator find(const TKey& key, std::uint32_t& index) const;
 		std::uint32_t hashedValue(const TKey& key) const;
 
 		BucketType mBucket;				/**< Vector that holds the Chains (SLists)	*/
 		std::uint32_t mSize;			/**< Number of elements in the Vector		*/
+	};
+
+	template <typename T>
+	class DefaultCompare
+	{
+	public:
+		bool operator()(const T& first, const T& second);
+	};
+
+	template <>
+	class DefaultCompare <char*>
+	{
+	public:
+		bool operator()(const char* first, const char* second);
 	};
 }
 

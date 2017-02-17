@@ -1,13 +1,13 @@
 #include "pch.h"
 
 #include "Datum.h"
+#include "Scope.h"
 #include <exception>
 #include <sstream>
 
 using namespace MahatmaGameEngine;
 using namespace glm;
 using namespace std;
-using namespace Library;
 
 Datum::Datum() :
 	mIsExternal(false), mType(DatumType::UNKNOWN), mSize(0), mCapacity(0)
@@ -29,6 +29,8 @@ Datum::Datum(const Datum& obj) :
 	mDatumVal.genericType = nullptr;
 	switch (mType)
 	{
+	case DatumType::UNKNOWN:
+		break;
 	case DatumType::INTEGER:
 		while (mSize < obj.mSize)
 		{
@@ -51,6 +53,12 @@ Datum::Datum(const Datum& obj) :
 		while (mSize < obj.mSize)
 		{
 			set(obj.mDatumVal.matrixType[mSize], mSize);
+		}
+		break;
+	case DatumType::TABLE:
+		while (mSize < obj.mSize)
+		{
+			set(obj.mDatumVal.tableType[mSize], mSize);
 		}
 		break;
 	case DatumType::STRING:
@@ -76,6 +84,8 @@ Datum& Datum::operator=(const Datum& obj)
 		clear();
 		switch (obj.mType)
 		{
+		case DatumType::UNKNOWN:
+			break;
 		case DatumType::INTEGER:
 			while (mSize < obj.mSize)
 			{
@@ -141,6 +151,12 @@ Datum& Datum::operator=(const vec4& obj)
 }
 
 Datum& Datum::operator=(const mat4x4& obj)
+{
+	set(obj);
+	return *this;
+}
+
+Datum& Datum::operator=(Scope* obj)
 {
 	set(obj);
 	return *this;
@@ -271,6 +287,11 @@ bool Datum::operator==(const mat4x4& obj) const
 	return (mDatumVal.matrixType[0] == obj);
 }
 
+bool Datum::operator==(const Scope* obj) const
+{
+	return (mDatumVal.tableType[0] == obj);
+}
+
 bool Datum::operator==(const string& obj) const
 {
 	return (mDatumVal.stringType[0] == obj);
@@ -308,6 +329,11 @@ bool Datum::operator!=(const vec4& obj) const
 bool Datum::operator!=(const mat4x4& obj) const
 {
 	return (!(*this == obj));
+}
+
+bool Datum::operator!=(const Scope* obj) const
+{
+	return !(*this == obj);
 }
 
 bool Datum::operator!=(const string& obj) const
@@ -381,7 +407,13 @@ void Datum::setSize(uint32_t size)
 		break;
 
 	case DatumType::TABLE:
-		//Do nothing yet.
+		if (size > mCapacity)
+		{
+			mCapacity = size;
+			mDatumVal.tableType = static_cast<Scope**>(realloc(mDatumVal.tableType, mCapacity * sizeof(Scope*)));
+		}
+		instantiateSize<Scope*>(mDatumVal.tableType, size);
+		removeRecursively<Scope*>(mDatumVal.tableType, size);
 		break;
 
 	case DatumType::STRING:
@@ -425,27 +457,30 @@ void Datum::clear()
 	switch (mType)
 	{
 	case DatumType::INTEGER:
-		removeRecursively<int32_t>(mDatumVal.integerType, 0);
+		removeRecursively<int32_t>(mDatumVal.integerType);
 		break;
 
 	case DatumType::FLOAT:
-		removeRecursively<float>(mDatumVal.floatingType, 0);
+		removeRecursively<float>(mDatumVal.floatingType);
 		break;
 		
 	case DatumType::VECTOR:
-		removeRecursively<vec4>(mDatumVal.vectorType, 0);
+		removeRecursively<vec4>(mDatumVal.vectorType);
 		break;
 
 	case DatumType::MATRIX:
-		removeRecursively<mat4x4>(mDatumVal.matrixType, 0);
+		removeRecursively<mat4x4>(mDatumVal.matrixType);
 		break;
 
+	case DatumType::TABLE:
+		removeRecursively<Scope*>(mDatumVal.tableType);
+
 	case DatumType::STRING:
-		removeRecursively<string>(mDatumVal.stringType, 0);
+		removeRecursively<string>(mDatumVal.stringType);
 		break;
 
 	case DatumType::RTTI_POINTER:
-		removeRecursively<RTTI*>(mDatumVal.rttiType, 0);
+		removeRecursively<RTTI*>(mDatumVal.rttiType);
 		break;
 	}
 }
@@ -534,6 +569,27 @@ void Datum::set(const mat4x4& value, uint32_t index)
 		setSize(index + 1);
 	}
 	mDatumVal.matrixType[index] = value;
+}
+
+void Datum::set(Scope* value, uint32_t index)
+{
+	if ((mType != DatumType::UNKNOWN) && (mType != DatumType::TABLE))
+	{
+		throw runtime_error("The DatumType is already set to another type.");
+	}
+	if (mType == DatumType::UNKNOWN)
+	{
+		mType = DatumType::STRING;
+	}
+	if (index >= mSize)
+	{
+		if (mIsExternal)
+		{
+			throw out_of_range("Invalid index.");
+		}
+		setSize(index + 1);
+	}
+	mDatumVal.tableType[index] = value;
 }
 
 void Datum::set(const string& value, uint32_t index)
@@ -673,14 +729,12 @@ void Datum::setFromString(string value, uint32_t index)
 		set(tempMatrix, index);
 		break;
 	}
+
 	case DatumType::STRING:
 	{
 		set(value, index);
 		break;
 	}
-
-	case DatumType::RTTI_POINTER:
-		break;
 
 	default:
 		throw runtime_error("Valid type not assigned.");

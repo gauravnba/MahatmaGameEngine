@@ -10,17 +10,6 @@ namespace MahatmaGameEngine
 	class DefaultHash
 	{
 	public:
-
-		/**
-		* Default constructor for the DefaultHash.
-		*/
-		DefaultHash() = default;
-
-		/**
-		* Default destructor for the DefaultHash.
-		*/
-		~DefaultHash() = default;
-
 		/**
 		* Operator() overload to allow the class to be used as a functor.
 		* @param key of templated type required to compute the hash.
@@ -34,16 +23,6 @@ namespace MahatmaGameEngine
 	{
 	public:
 		/**
-		* Default constructor for the DefaultHash.
-		*/
-		DefaultHash() = default;
-
-		/**
-		* Default destructor for the DefaultHash.
-		*/
-		~DefaultHash() = default;
-
-		/**
 		* Operator() overload to allow the class to be used as a functor.
 		* @param key of primitive string type required to compute the hash.
 		* @return unsigned int value of the computed hash.
@@ -55,16 +34,6 @@ namespace MahatmaGameEngine
 	class DefaultHash <std::string>
 	{
 	public:
-		/**
-		* Default constructor for the DefaultHash.
-		*/
-		DefaultHash() = default;
-
-		/**
-		* Default destructor for the DefaultHash.
-		*/
-		~DefaultHash() = default;
-
 		/**
 		* Operator() overload to allow the class to be used as a functor.
 		* @param key of standard string type required to compute the hash.

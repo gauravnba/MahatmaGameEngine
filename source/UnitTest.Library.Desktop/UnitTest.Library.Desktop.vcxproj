@@ -193,6 +193,7 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ScopeTest.cpp" />
     <ClCompile Include="SListIteratorTest.cpp" />
     <ClCompile Include="SListTest.cpp" />
     <ClCompile Include="VectorIteratorTest.cpp" />

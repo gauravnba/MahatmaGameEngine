@@ -18,7 +18,7 @@ namespace MahatmaGameEngine
 		}
 	}
 
-#pragma region SET_TEMPLATES
+#pragma region GET_TEMPLATES
 	template <typename T>
 	T& Datum::get(std::uint32_t index)
 	{
@@ -67,6 +67,16 @@ namespace MahatmaGameEngine
 	}
 
 	template <>
+	Scope*& Datum::get<Scope*>(std::uint32_t index)
+	{
+		if (index >= mSize)
+		{
+			throw std::out_of_range("Index was out of range.");
+		}
+		return mDatumVal.tableType[index];
+	}
+
+	template <>
 	std::string& Datum::get<std::string>(std::uint32_t index)
 	{
 		if (index >= mSize)
@@ -77,7 +87,7 @@ namespace MahatmaGameEngine
 	}
 
 	template <>
-	Library::RTTI*& Datum::get<Library::RTTI*>(std::uint32_t index)
+	RTTI*& Datum::get<RTTI*>(std::uint32_t index)
 	{
 		if (index >= mSize)
 		{
@@ -87,7 +97,7 @@ namespace MahatmaGameEngine
 	}
 #pragma endregion
 
-#pragma region CONST_SET_TEMPLATES
+#pragma region CONST_GET_TEMPLATES
 	template <typename T>
 	const T& Datum::get(std::uint32_t index) const
 	{
@@ -136,6 +146,16 @@ namespace MahatmaGameEngine
 	}
 
 	template <>
+	Scope* const& Datum::get<Scope*>(std::uint32_t index) const
+	{
+		if (index >= mSize)
+		{
+			throw std::out_of_range("Index was out of range.");
+		}
+		return mDatumVal.tableType[index];
+	}
+
+	template <>
 	const std::string& Datum::get<std::string>(std::uint32_t index) const
 	{
 		if (index >= mSize)
@@ -146,7 +166,7 @@ namespace MahatmaGameEngine
 	}
 
 	template <>
-	Library::RTTI* const& Datum::get<Library::RTTI*>(std::uint32_t index) const
+	RTTI* const& Datum::get<RTTI*>(std::uint32_t index) const
 	{
 		if (index >= mSize)
 		{

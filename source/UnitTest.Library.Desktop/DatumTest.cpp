@@ -10,8 +10,7 @@ namespace UnitTestLibraryDesktop
 {
 	using namespace glm;
 	using namespace std;
-	//This Class tests all the methods in the Vector Iterator class using an integer vector, a pointer vector and
-	//a vector of a custom class Foo.
+	//This Class tests all the methods in the Datum class
 	TEST_CLASS(DatumTest)
 	{
 	public:

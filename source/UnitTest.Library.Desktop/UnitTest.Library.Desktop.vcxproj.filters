@@ -44,6 +44,9 @@
     <ClCompile Include="DatumTest.cpp">
       <Filter>Test Clases</Filter>
     </ClCompile>
+    <ClCompile Include="ScopeTest.cpp">
+      <Filter>Test Clases</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">

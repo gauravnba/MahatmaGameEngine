@@ -100,6 +100,7 @@ namespace MahatmaGameEngine
 	typename SList<T>::Iterator SList<T>::pushBack(const T& data)
 	{
 		Node* temp	= new Node;
+
 		temp->item	= data;
 		if (mSize != 0)
 		{
