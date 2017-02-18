@@ -179,12 +179,19 @@ Datum& Datum::operator=(RTTI* obj)
 
 bool Datum::operator==(const Datum& obj) const
 {
-	bool isEqual = false;
-	if ((this != &obj) && (mType == obj.mType))
+	bool isEqual = true;
+	if (this != &obj)
 	{
+		if (mType != obj.mType)
+		{
+			return false;
+		}
 		uint32_t i = 0;
 		switch (mType)
 		{
+		case DatumType::UNKNOWN:
+			break;
+
 		case DatumType::INTEGER:
 			while (i < mSize)
 			{
@@ -299,7 +306,7 @@ bool Datum::operator==(const string& obj) const
 
 bool Datum::operator==(const RTTI* obj) const
 {
-	return (mDatumVal.rttiType[0] == obj);
+	return (mDatumVal.rttiType[0]->equals(obj));
 }
 
 #pragma endregion
@@ -579,7 +586,7 @@ void Datum::set(Scope* value, uint32_t index)
 	}
 	if (mType == DatumType::UNKNOWN)
 	{
-		mType = DatumType::STRING;
+		mType = DatumType::TABLE;
 	}
 	if (index >= mSize)
 	{
@@ -763,7 +770,7 @@ string Datum::toString(uint32_t index)
 		temp = mDatumVal.stringType[index];
 		break;
 	case DatumType::RTTI_POINTER:
-		temp = mDatumVal.rttiType[index]->ToString();
+		temp = mDatumVal.rttiType[index]->toString();
 	default:
 		throw runtime_error("Type not set");
 	}

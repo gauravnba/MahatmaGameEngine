@@ -26,6 +26,7 @@ namespace MahatmaGameEngine
 		STRING,
 		RTTI_POINTER
 	};
+	
 	class Datum
 	{
 	public:
@@ -56,6 +57,7 @@ namespace MahatmaGameEngine
 		* Scalar assignment operator assigns the parameter to this at index 0.
 		* @param obj vec4 to assign
 		* @return Reference to this
+		* @overload Datum& operator=(const Datum& obj);
 		*/
 		Datum& operator=(int32_t obj);
 
@@ -63,6 +65,7 @@ namespace MahatmaGameEngine
 		* Scalar assignment operator assigns the parameter to this at index 0.
 		* @param obj vec4 to assign
 		* @return Reference to this
+		* @overload Datum& operator=(const Datum& obj);
 		*/
 		Datum& operator=(const float& obj);
 
@@ -70,6 +73,7 @@ namespace MahatmaGameEngine
 		* Scalar assignment operator assigns the parameter to this at index 0.
 		* @param obj vec4 to assign
 		* @return Reference to this
+		* @overload Datum& operator=(const Datum& obj);
 		*/
 		Datum& operator=(const glm::vec4& obj);
 
@@ -77,6 +81,7 @@ namespace MahatmaGameEngine
 		* Scalar assignment operator assigns the parameter to this at index 0.
 		* @param obj vec4 to assign
 		* @return Reference to this
+		* @overload Datum& operator=(const Datum& obj);
 		*/
 		Datum& operator=(const glm::mat4x4& obj);
 
@@ -84,6 +89,7 @@ namespace MahatmaGameEngine
 		* Scalar assignment operator assigns the parameter to this at index 0.
 		* @param obj Scope to assign
 		* @return Reference to this
+		* @overload Datum& operator=(const Datum& obj);
 		*/
 		Datum& operator=(Scope* obj);
 
@@ -91,6 +97,7 @@ namespace MahatmaGameEngine
 		* Scalar assignment operator assigns the parameter to this at index 0.
 		* @param obj vec4 to assign
 		* @return Reference to this
+		* @overload Datum& operator=(const Datum& obj);
 		*/
 		Datum& operator=(const std::string& obj);
 
@@ -98,6 +105,7 @@ namespace MahatmaGameEngine
 		* Scalar assignment operator assigns the parameter to this at index 0.
 		* @param obj vec4 to assign
 		* @return Reference to this
+		* @overload Datum& operator=(const Datum& obj);
 		*/
 		Datum& operator=(RTTI* obj);
 
@@ -105,6 +113,7 @@ namespace MahatmaGameEngine
 		* Equality operator for Datum 
 		* @param obj reference to Datum to be compared with
 		* @return boolean true if equal
+		* @overload bool operator==(const Datum& obj) const;
 		*/
 		bool operator==(const Datum& obj) const;
 
@@ -113,6 +122,7 @@ namespace MahatmaGameEngine
 		if the first element in Datum is equal to passed parameter.
 		* @param obj integer to compare to
 		* @return boolean true if equal
+		* @overload bool operator==(const Datum& obj) const;
 		*/
 		bool operator==(int32_t obj) const;
 
@@ -121,6 +131,7 @@ namespace MahatmaGameEngine
 		if the first element in Datum is equal to passed parameter.
 		* @param obj float to compare to
 		* @return boolean true if equal
+		* @overload bool operator==(const Datum& obj) const;
 		*/
 		bool operator==(const float& obj) const;
 
@@ -129,6 +140,7 @@ namespace MahatmaGameEngine
 		if the first element in Datum is equal to passed parameter.
 		* @param obj vector to compare to
 		* @return boolean true if equal
+		* @overload bool operator==(const Datum& obj) const;
 		*/
 		bool operator==(const glm::vec4& obj) const;
 
@@ -137,6 +149,7 @@ namespace MahatmaGameEngine
 		if the first element in Datum is equal to passed parameter.
 		* @param obj 4x4 matrix to compare to
 		* @return boolean true if equal
+		* @overload bool operator==(const Datum& obj) const;
 		*/
 		bool operator==(const glm::mat4x4& obj) const;
 
@@ -145,6 +158,7 @@ namespace MahatmaGameEngine
 		if the first element in Datum is equal to passed parameter.
 		* @param obj Scope pointer to compare to
 		* @return boolean true if equal
+		* @overload bool operator==(const Datum& obj) const;
 		*/
 		bool operator==(const Scope* obj) const;
 
@@ -153,6 +167,7 @@ namespace MahatmaGameEngine
 		if the first element in Datum is equal to passed parameter.
 		* @param obj string to compare to
 		* @return boolean true if equal
+		* @overload bool operator==(const Datum& obj) const;
 		*/
 		bool operator==(const std::string& obj) const;
 
@@ -161,6 +176,7 @@ namespace MahatmaGameEngine
 		if the first element in Datum is equal to passed parameter.
 		* @param obj RTTI pointer to compare to
 		* @return boolean true if equal
+		* @overload bool operator==(const Datum& obj) const;
 		*/
 		bool operator==(const RTTI* obj) const;
 
@@ -168,6 +184,7 @@ namespace MahatmaGameEngine
 		* Equality operator for Datum
 		* @param obj reference to Datum to be compared with
 		* @return boolean true if equal
+		* @overload bool operator!=(const Datum& obj) const;
 		*/
 		bool operator!=(const Datum& obj) const;
 
@@ -176,6 +193,7 @@ namespace MahatmaGameEngine
 		if the first element in Datum is not-equal to passed parameter.
 		* @param obj RTTI pointer to compare to
 		* @return boolean false if equal
+		* @overload bool operator!=(const Datum& obj) const;
 		*/
 		bool operator!=(int32_t obj) const;
 
@@ -184,6 +202,7 @@ namespace MahatmaGameEngine
 		if the first element in Datum is not-equal to passed parameter.
 		* @param obj RTTI pointer to compare to
 		* @return boolean false if equal
+		* @overload bool operator!=(const Datum& obj) const;
 		*/
 		bool operator!=(const float& obj) const;
 
@@ -192,6 +211,7 @@ namespace MahatmaGameEngine
 		if the first element in Datum is not-equal to passed parameter.
 		* @param obj RTTI pointer to compare to
 		* @return boolean false if equal
+		* @overload bool operator!=(const Datum& obj) const;
 		*/
 		bool operator!=(const glm::vec4& obj) const;
 
@@ -200,6 +220,7 @@ namespace MahatmaGameEngine
 		if the first element in Datum is not-equal to passed parameter.
 		* @param obj RTTI pointer to compare to
 		* @return boolean false if equal
+		* @overload bool operator!=(const Datum& obj) const;
 		*/
 		bool operator!=(const glm::mat4x4& obj) const;
 
@@ -208,6 +229,7 @@ namespace MahatmaGameEngine
 		if the first element in Datum is not-equal to passed parameter.
 		* @param obj RTTI pointer to compare to
 		* @return boolean false if equal
+		* @overload bool operator!=(const Datum& obj) const;
 		*/
 		bool operator!=(const Scope* obj) const;
 
@@ -216,6 +238,7 @@ namespace MahatmaGameEngine
 		if the first element in Datum is not-equal to passed parameter.
 		* @param obj RTTI pointer to compare to
 		* @return boolean false if equal
+		* @overload bool operator!=(const Datum& obj) const;
 		*/
 		bool operator!=(const std::string& obj) const;
 
@@ -224,6 +247,7 @@ namespace MahatmaGameEngine
 		if the first element in Datum is not-equal to passed parameter.
 		* @param obj RTTI pointer to compare to
 		* @return boolean false if equal
+		* @overload bool operator!=(const Datum& obj) const;
 		*/
 		bool operator!=(const RTTI* obj) const;
 
@@ -269,6 +293,7 @@ namespace MahatmaGameEngine
 		* Sets the union to point to an external array passed as parameter. Overload for integer.
 		* @param externalArray of type integer to be assigned from.
 		* @param numberOfElements to set the size of the datum Array
+		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
 		void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 
@@ -276,6 +301,7 @@ namespace MahatmaGameEngine
 		* Sets the union to point to an external array passed as parameter. Overload for floating point.
 		* @param externalArray of type integer to be assigned from.
 		* @param numberOfElements to set the size of the datum Array
+		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
 		void setStorage(float* externalArray, uint32_t numberOfElements);
 
@@ -283,6 +309,7 @@ namespace MahatmaGameEngine
 		* Sets the union to point to an external array passed as parameter. Overload for vector.
 		* @param externalArray of type integer to be assigned from.
 		* @param numberOfElements to set the size of the datum Array
+		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
 		void setStorage(glm::vec4* externalArray, uint32_t numberOfElements);
 
@@ -290,6 +317,7 @@ namespace MahatmaGameEngine
 		* Sets the union to point to an external array passed as parameter. Overload for matrix.
 		* @param externalArray of type integer to be assigned from.
 		* @param numberOfElements to set the size of the datum Array
+		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
 		void setStorage(glm::mat4x4* externalArray, uint32_t numberOfElements);
 
@@ -297,6 +325,7 @@ namespace MahatmaGameEngine
 		* Sets the union to point to an external array passed as parameter. Overload for string.
 		* @param externalArray of type integer to be assigned from.
 		* @param numberOfElements to set the size of the datum Array
+		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
 		void setStorage(std::string* externalArray, uint32_t numberOfElements);
 
@@ -304,6 +333,7 @@ namespace MahatmaGameEngine
 		* Sets the union to point to an external array passed as parameter. Overload for RTTI pointer.
 		* @param externalArray of type integer to be assigned from.
 		* @param numberOfElements to set the size of the datum Array
+		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
 		void setStorage(RTTI** externalArray, uint32_t numberOfElements);
 
@@ -325,6 +355,7 @@ namespace MahatmaGameEngine
 		* Sets the value at the given index in the Datum
 		* @param value is the const reference to the value to be assigned.
 		* @param index is the index in the Datum array at which the value will be assigned. The default is 0.
+		* @overload void set(const float& value, std::uint32_t index = 0);
 		*/
 		void set(const glm::vec4& value, std::uint32_t index = 0);
 
@@ -332,6 +363,7 @@ namespace MahatmaGameEngine
 		* Sets the value at the given index in the Datum
 		* @param value is the const reference to the value to be assigned.
 		* @param index is the index in the Datum array at which the value will be assigned. The default is 0.
+		* @overload void set(const float& value, std::uint32_t index = 0);
 		*/
 		void set(const glm::mat4x4& value, std::uint32_t index = 0);
 
@@ -339,6 +371,7 @@ namespace MahatmaGameEngine
 		* Sets the value at the given index in the Datum
 		* @param value is the const reference to the value to be assigned.
 		* @param index in the Datum array at which the value will be assigned. The default is 0.
+		* @overload void set(const float& value, std::uint32_t index = 0);
 		*/
 		void set(Scope* value, std::uint32_t index = 0);
 
@@ -346,6 +379,7 @@ namespace MahatmaGameEngine
 		* Sets the value at the given index in the Datum
 		* @param value is the const reference to the value to be assigned.
 		* @param index in the Datum array at which the value will be assigned. The default is 0.
+		* @overload void set(const float& value, std::uint32_t index = 0);
 		*/
 		void set(const std::string& value, std::uint32_t index = 0);
 
@@ -353,6 +387,7 @@ namespace MahatmaGameEngine
 		* Sets the value at the given index in the Datum
 		* @param value is the const reference to the value to be assigned.
 		* @param index is the index in the Datum array at which the value will be assigned. The default is 0.
+		* @overload void set(const float& value, std::uint32_t index = 0);
 		*/
 		void set(RTTI* value, std::uint32_t index = 0);
 
@@ -501,6 +536,12 @@ namespace MahatmaGameEngine
 		RTTI* const& get<RTTI*>(std::uint32_t index) const;
 
 		/**
+		* Removes the element from the datum array.
+		* @param index at which the element to remove is present. Default is zero.
+		*/
+		bool remove(std::uint32_t index = 0);
+
+		/**
 		* Sets data into the Datum from a string value at specified index.
 		* Note that the type of the Datum needs to be set before this method.
 		* @param value is the string value to set from
@@ -517,7 +558,6 @@ namespace MahatmaGameEngine
 		std::string toString(std::uint32_t index = 0);
 
 	private:
-
 		/**
 		* Clears the Datum and frees the memory allocated to the Union.
 		*/

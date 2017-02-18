@@ -62,8 +62,9 @@ namespace MahatmaGameEngine
 		}
 		++mIndex;
 
+		uint32_t bucketSize = mOwnerMap->mBucket.size();
 		//For the next indices in the mBucket.
-		while(mIndex < mOwnerMap->mBucket.size())
+		while(mIndex < bucketSize)
 		{
 			//Check if the current Chain Iterator is at end() and then check if its increment is at end().
 			if(mOwnerMap->mBucket[mIndex].size() > 0)
@@ -72,6 +73,7 @@ namespace MahatmaGameEngine
 				break;
 			}
 			++mIndex;
+			mChainIterator = mOwnerMap->mBucket[mIndex - 1].end();
 		}
 
 		return *this;

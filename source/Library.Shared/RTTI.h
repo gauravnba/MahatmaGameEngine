@@ -11,30 +11,30 @@ namespace MahatmaGameEngine
 	public:
 		virtual ~RTTI() = default;
 		
-		virtual std::uint64_t TypeIdInstance() const = 0;
+		virtual std::uint64_t typeIdInstance() const = 0;
 		
-		virtual RTTI* QueryInterface(const std::uint64_t id) const
+		virtual RTTI* queryInterface(const std::uint64_t id) const
 		{
 			UNREFERENCED_PARAMETER(id);
 			return nullptr;
 		}
 
-		virtual bool Is(std::uint64_t id) const
+		virtual bool is(std::uint64_t id) const
 		{
 			UNREFERENCED_PARAMETER(id);
 			return false;
 		}
 
-		virtual bool Is(const std::string& name) const
+		virtual bool is(const std::string& name) const
 		{
 			UNREFERENCED_PARAMETER(name);
 			return false;
 		}
 
 		template <typename T>
-		T* As() const
+		T* as() const
 		{
-			if (Is(T::TypeIdClass()))
+			if (is(T::typeIdClass()))
 			{
 				return (T*)this;
 			}
@@ -42,43 +42,43 @@ namespace MahatmaGameEngine
 			return nullptr;
 		}
 
-		virtual std::string ToString() const
+		virtual std::string toString() const
 		{
 			return "RTTI";
 		}
 
-		virtual bool Equals(const RTTI* rhs) const
+		virtual bool equals(const RTTI* rhs) const
 		{
 			return this == rhs;
 		}
 	};
 
-#define RTTI_DECLARATIONS(Type, ParentType)																	 \
+#define RTTI_DECLARATIONS(Type, parentType)																	 \
 		public:                                                                                              \
-			typedef ParentType Parent;                                                                       \
-			static std::string TypeName() { return std::string(#Type); }                                     \
-			static std::uint64_t TypeIdClass() { return sRunTimeTypeId; }                                    \
-			virtual std::uint64_t TypeIdInstance() const override { return Type::TypeIdClass(); }            \
-			virtual MahatmaGameEngine::RTTI* QueryInterface(const std::uint64_t id) const override                     \
+			typedef parentType Parent;                                                                       \
+			static std::string typeName() { return std::string(#Type); }                                     \
+			static std::uint64_t typeIdClass() { return sRunTimeTypeId; }                                    \
+			virtual std::uint64_t typeIdInstance() const override { return Type::typeIdClass(); }            \
+			virtual MahatmaGameEngine::RTTI* queryInterface(const std::uint64_t id) const override                     \
             {                                                                                                \
                 if (id == sRunTimeTypeId)                                                                    \
 					{ return (RTTI*)this; }                                                                  \
                 else                                                                                         \
-					{ return Parent::QueryInterface(id); }                                                   \
+					{ return Parent::queryInterface(id); }                                                   \
             }                                                                                                \
-			virtual bool Is(std::uint64_t id) const override                                                 \
+			virtual bool is(std::uint64_t id) const override                                                 \
 			{                                                                                                \
 				if (id == sRunTimeTypeId)                                                                    \
 					{ return true; }                                                                         \
 				else                                                                                         \
-					{ return Parent::Is(id); }                                                               \
+					{ return Parent::is(id); }                                                               \
 			}                                                                                                \
-			virtual bool Is(const std::string& name) const override                                          \
+			virtual bool is(const std::string& name) const override                                          \
 			{                                                                                                \
-				if (name == TypeName())                                                                      \
+				if (name == typeName())                                                                      \
 					{ return true; }                                                                         \
 				else                                                                                         \
-					{ return Parent::Is(name); }                                                             \
+					{ return Parent::is(name); }                                                             \
 			}                                                                                                \
 			private:                                                                                         \
 				static std::uint64_t sRunTimeTypeId;

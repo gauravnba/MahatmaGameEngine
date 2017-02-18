@@ -796,6 +796,10 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(stringDatum.toString(1), sB);
 		}
 
+		TEST_METHOD(datumRemoveTest)
+		{
+		}
+
 	private:
 		static _CrtMemState sStartMemState;
 	};
