@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "Datum.h"
+#include "Scope.h"
 #include "gtx/string_cast.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -77,6 +78,13 @@ namespace UnitTestLibraryDesktop
 			Datum vecDatum1 = vecDatum;
 			Assert::IsTrue(vecDatum == vecDatum1);
 
+			//Table
+			Datum tableDatum;
+			Scope scope;
+			tableDatum = &scope;
+			Datum tableDatum1 = tableDatum;
+			Assert::IsTrue(tableDatum == tableDatum1);
+
 			//Matrix
 			Datum matDatum;
 			matDatum.set(mA);
@@ -145,6 +153,16 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(2U, matrixDatum.size());
 			Assert::AreEqual(4U, matrixDatum.capacity());
 
+			//Table
+			Datum tableDatum;
+			tableDatum.setType(DatumType::TABLE);
+			tableDatum.setSize(4);
+			Assert::AreEqual(4U, tableDatum.size());
+			Assert::AreEqual(4U, tableDatum.capacity());
+			tableDatum.setSize(1);
+			Assert::AreEqual(1U, tableDatum.size());
+			Assert::AreEqual(4U, tableDatum.capacity());
+
 			//String
 			Datum stringDatum;
 			stringDatum.setType(DatumType::STRING);
@@ -202,8 +220,8 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(vecDatum.size(), 3U);
 			Assert::AreEqual(vecDatum.get<vec4>(), vA);
 			Assert::AreEqual(vecDatum.get<vec4>(2U), vB);
-			auto matSetException = [&vecDatum, &mA] {vecDatum.set(mA, 0); };
-			Assert::ExpectException<runtime_error>(matSetException);
+			auto vecSetException = [&vecDatum, &mA] {vecDatum.set(mA, 0); };
+			Assert::ExpectException<runtime_error>(vecSetException);
 
 			//Matrix
 			Datum matDatum;
@@ -212,8 +230,17 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(matDatum.size(), 3U);
 			Assert::AreEqual(matDatum.get<mat4x4>(), mA);
 			Assert::AreEqual(matDatum.get<mat4x4>(2), mB);
-			auto vecSetException = [&matDatum, &vA] {matDatum.set(vA, 0); };
-			Assert::ExpectException<runtime_error>(vecSetException);
+			auto matSetException = [&matDatum, &vA] {matDatum.set(vA, 0); };
+			Assert::ExpectException<runtime_error>(matSetException);
+
+			//Table
+			Datum tableDatum;
+			Scope scope;
+			tableDatum.set(&scope);
+			Assert::AreEqual(tableDatum.size(), 1U);
+			Assert::IsTrue(tableDatum.get<Scope*>() == &scope);
+			auto tableSetException = [&tableDatum, &vA] {tableDatum.set(vA); };
+			Assert::ExpectException<runtime_error>(tableSetException);
 
 			//String
 			Datum stringDatum;
@@ -284,6 +311,14 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(matDatum.get<mat4x4>(2), mB);
 			auto matGetException = [&matDatum] {matDatum.get<mat4x4>(4); };
 			Assert::ExpectException<exception>(matGetException);
+
+			//Table
+			Datum tableDatum;
+			Scope scope;
+			tableDatum = &scope;
+			Assert::IsTrue(tableDatum.get<Scope*>() == &scope);
+			auto tableGetException = [&tableDatum] {tableDatum.get<Scope*>(1); };
+			Assert::ExpectException<exception>(tableGetException);
 
 			//String
 			Datum stringDatum;
@@ -359,6 +394,15 @@ namespace UnitTestLibraryDesktop
 			auto matGetException = [&matDatum1] {matDatum1.get<mat4x4>(4); };
 			Assert::ExpectException<exception>(matGetException);
 
+			//Table
+			Datum tableDatum;
+			Scope scope;
+			tableDatum = &scope;
+			const Datum tableDatum1 = tableDatum;
+			Assert::IsTrue(tableDatum1.get<Scope*>() == &scope);
+			auto tableGetException = [&tableDatum1] {tableDatum1.get<Scope*>(1); };
+			Assert::ExpectException<exception>(tableGetException);
+
 			//String
 			Datum stringDatum;
 			stringDatum.set(sA, 0);
@@ -425,6 +469,14 @@ namespace UnitTestLibraryDesktop
 			matDatum1 = mB;
 			matDatum1 = matDatum;
 			Assert::IsTrue(matDatum == matDatum1);
+
+			//Table
+			Datum tableDatum;
+			Scope scope;
+			tableDatum = &scope;
+			Datum tableDatum1;
+			tableDatum1 = tableDatum;
+			Assert::IsTrue(tableDatum1 == tableDatum);
 
 			//String
 			Datum stringDatum;
@@ -582,6 +634,13 @@ namespace UnitTestLibraryDesktop
 			matDatum1 = matDatum;
 			Assert::IsTrue(matDatum == matDatum1);
 
+			//Table
+			Datum tableDatum;
+			Scope scope;
+			tableDatum = &scope;
+			Datum tableDatum1 = tableDatum;
+			Assert::IsTrue(tableDatum == tableDatum1);
+
 			//String
 			Datum stringDatum;
 			stringDatum = sA;
@@ -656,6 +715,13 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(matDatum != matDatum1);
 			matDatum1 = matDatum;
 			Assert::IsFalse(matDatum != matDatum1);
+
+			//Table
+			Datum tableDatum;
+			Scope scope;
+			tableDatum = &scope;
+			Datum tableDatum1 = tableDatum;
+			Assert::IsFalse(tableDatum != tableDatum1);
 
 			//String
 			Datum stringDatum;
@@ -786,6 +852,12 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(matrixDatum.toString(), to_string(mA));
 			Assert::AreEqual(matrixDatum.toString(1), to_string(mB));
 
+			//Table
+			Datum scopeDatum;
+			Scope scope;
+			scopeDatum.set(&scope);
+			Assert::AreEqual(scopeDatum.toString(), string("Scope"));
+
 			//String
 			Datum stringDatum;
 			auto stringDataTypeException = [&stringDatum] {stringDatum.toString(); };
@@ -798,6 +870,18 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(datumRemoveTest)
 		{
+			Datum tableDatum;
+			Scope scope1;
+			Scope scope2;
+			Scope scope3;
+			tableDatum.set(&scope1);
+			tableDatum.set(&scope2, 1);
+			tableDatum.set(&scope3, 2);
+			Assert::IsTrue(tableDatum.removeTable(&scope1));
+			Assert::AreEqual(tableDatum.size(), 2U);
+			Assert::IsTrue(*(tableDatum.get<Scope*>()) == scope2);
+			auto scopeRemoved = [&tableDatum]{ tableDatum.get<Scope*>(2); };
+			Assert::ExpectException<exception>(scopeRemoved);
 		}
 
 	private:

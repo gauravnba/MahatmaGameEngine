@@ -18,18 +18,6 @@ namespace MahatmaGameEngine
 		}
 	}
 
-	//template <typename T>
-	//bool Datum::remove(std::uint32_t index)
-	//{
-	//	if (index < mSize)
-	//	{
-	//		mDatumVal.genericType[index].~T;
-	//		memmove(&mDatumVal.genericType[index], &mDatumVal.genericType[index + 1], (mSize - index) * sizeof(T));
-	//		return true;
-	//	}
-	//	return false;
-	//}
-
 #pragma region GET_TEMPLATES
 	template <typename T>
 	T& Datum::get(std::uint32_t index)

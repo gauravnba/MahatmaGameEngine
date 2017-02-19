@@ -299,7 +299,7 @@ namespace MahatmaGameEngine
 
 		/**
 		* Sets the union to point to an external array passed as parameter. Overload for floating point.
-		* @param externalArray of type integer to be assigned from.
+		* @param externalArray of type float to be assigned from.
 		* @param numberOfElements to set the size of the datum Array
 		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
@@ -307,15 +307,23 @@ namespace MahatmaGameEngine
 
 		/**
 		* Sets the union to point to an external array passed as parameter. Overload for vector.
-		* @param externalArray of type integer to be assigned from.
+		* @param externalArray of type vector to be assigned from.
 		* @param numberOfElements to set the size of the datum Array
 		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
 		void setStorage(glm::vec4* externalArray, uint32_t numberOfElements);
 
 		/**
+		* Sets the union to point to an external array passed as parameter. Overload for Scope pointer.
+		* @param externalArray of type Scope pointer to be assigned from.
+		* @param numberOfElements to set the size of the datum Array
+		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
+		*/
+		void setStorage(Scope** externalArray, uint32_t numberOfElements);
+
+		/**
 		* Sets the union to point to an external array passed as parameter. Overload for matrix.
-		* @param externalArray of type integer to be assigned from.
+		* @param externalArray of type matrix to be assigned from.
 		* @param numberOfElements to set the size of the datum Array
 		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
@@ -323,7 +331,7 @@ namespace MahatmaGameEngine
 
 		/**
 		* Sets the union to point to an external array passed as parameter. Overload for string.
-		* @param externalArray of type integer to be assigned from.
+		* @param externalArray of type string to be assigned from.
 		* @param numberOfElements to set the size of the datum Array
 		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
@@ -331,7 +339,7 @@ namespace MahatmaGameEngine
 
 		/**
 		* Sets the union to point to an external array passed as parameter. Overload for RTTI pointer.
-		* @param externalArray of type integer to be assigned from.
+		* @param externalArray of type RTTI pointer to be assigned from.
 		* @param numberOfElements to set the size of the datum Array
 		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
@@ -537,9 +545,10 @@ namespace MahatmaGameEngine
 
 		/**
 		* Removes the element from the datum array.
-		* @param index at which the element to remove is present. Default is zero.
+		* @param scope at which the element to remove is present. Default is zero.
+		* @return true if table removed.
 		*/
-		bool remove(std::uint32_t index = 0);
+		bool removeTable(const Scope* scope);
 
 		/**
 		* Sets data into the Datum from a string value at specified index.

@@ -40,26 +40,54 @@ namespace MahatmaGameEngine
 		*/
 		Scope& operator=(const Scope& obj);
 
-		//TODO -- lookup adding reference to another method
+		/**
+		* Returns the datum entered at the index mentioned, based on the order of append
+		* @param index coincides with the order at which the Datum was inserted.
+		* @return The found Datum
+		* @exception if out of index
+		*/
+		Datum& operator[](std::uint32_t index);
+
 		/**
 		* Implements append.
 		* @param name with which you search for the Datum
 		* @return The found Datum or appends a new Datum
+		* @overload Datum& operator[](std::uint32_t index);
 		*/
 		Datum& operator[](const std::string& name);
 
-		Datum& operator[](std::uint32_t index);
-
+		/**
+		* Equality operator for Scope. Structural equality check
+		* @param obj The scope to compare to
+		* @return true if structurally equal
+		*/
 		bool operator==(const Scope& obj) const;
 
+		/**
+		* Inequality operator for Scope.
+		* @param obj The scope to compare to
+		* @return false if structurally equal
+		*/
 		bool operator!=(const Scope& obj) const;
 
+		/**
+		* Looks for the Datum, corresponding to the string passed, in the table
+		* @param name with which to look up the Datum
+		* @return pointer to Datum found, nullptr otherwise
+		*/
 		Datum* find(const std::string& name) const;
 
+		/**
+		* Extension of the find method, but searches for the Datum in parent Scopes as well
+		* @param name with which to look up the Datum
+		* @param scope output parameter: pointer to the pointer of the scope in which the Datum, nullptr if not found.
+		* @return pointer to the Datum found, nullptr otherwise
+		*/
 		Datum* search(const std::string& name, Scope** scope);
 
 		/**
 		* Appends a new name, Datum pair to the table.
+		* Note that append should not be used to append a type Scope (table); use appendScope(const string&) instead.
 		* The Datum is default constructed and can be manipulated with the returned value.
 		* @param name the key that associates to the Datum.
 		* @return returns the address of the Datum assigned.
@@ -74,20 +102,42 @@ namespace MahatmaGameEngine
 		*/
 		Scope& appendScope(const std::string& name);
 
-		void adopt(const Scope& child, const std::string& name, std::uint32_t index);
-
-		Scope& getParent();
-
-		const Scope& getParent() const;
-
-		void orphan();
+		/**
+		* Adopts an existing child scope.
+		* @param child Scope pointer to the child to adopt
+		* @param name to access the child with
+		*/
+		void adopt(Scope* child, const std::string& name);
 
 		/**
-		* 
+		* Returns the parent Scope of this scope.
+		* @return pointer to the parent Scope
+		*/
+		Scope* getParent();
+
+		/**
+		* const version of getParent()
+		* @return const pointer to the parent Scope
+		*/
+		Scope* const getParent() const;
+
+		/**
+		* Equals implements the Scope equality operator by casting the RTTI input to Scope.
+		* The method is an override to the RTTI equals(const RTTI*) method
+		* @param obj the RTTI pointer to be casted to Scope to check for equality
+		* @return true if parameter is equal to the contents of this
 		*/
 		bool equals(const RTTI* obj) const override;
 
+		/**
+		* Overrides toString() in RTTI to return as Scope.
+		* @return "Scope" to indicate the object the method is called is a Scope.
+		*/
+		std::string toString() const override;
+
 	private:
+		void orphan();
+
 		void clear();
 
 		HashMap<std::string, Datum> mTable;

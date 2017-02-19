@@ -76,7 +76,7 @@ bool Scope::operator==(const Scope& obj) const
 		uint32_t size = mOrder.size();
 		for (uint32_t index = 0; index < size; ++index )
 		{
-			if (mOrder[index] != mOrder[index])
+			if (*(mOrder[index]) != *(obj.mOrder[index]))
 			{
 				isEqual = false;
 				break;
@@ -118,7 +118,11 @@ void Scope::clear()
 	{
 		if (pair->second.type() == DatumType::TABLE)
 		{
-			delete pair->second.get<Scope*>();
+			uint32_t size = pair->second.size();
+			for (uint32_t index = 0; index < size; ++index)
+			{
+				delete pair->second.get<Scope*>(index);
+			}
 		}
 	}
 	mOrder.clear();
@@ -145,23 +149,24 @@ Datum& Scope::append(const std::string& name)
 
 Scope& Scope::appendScope(const std::string& name)
 {
-	Datum* scope = &append(name);
 	Scope* returnVal = new Scope;
+	Datum* scopeDatum = &append(name);
 	returnVal->mParent = this;
 
-	//set the value of the Scope.
-	scope->set(returnVal);
+	//Append scope to the Datum array
+	scopeDatum->set(returnVal, scopeDatum->size());
+
 	return *returnVal;
 }
 
-Scope& Scope::getParent()
+Scope* Scope::getParent()
 {
-	return *mParent;
+	return mParent;
 }
 
-const Scope& Scope::getParent() const
+Scope* const Scope::getParent() const
 {
-	return *mParent;
+	return mParent;
 }
 
 Datum* Scope::find(const string& name) const
@@ -181,14 +186,39 @@ Datum* Scope::search(const string& name, Scope** scope)
 	if (found)
 	{
 		*scope = this;
-		return found;
 	}
 	else if(mParent != nullptr)
 	{
-		mParent->search(name, scope);
+		found = mParent->search(name, scope);
 	}
-	else
+
+	return found;
+}
+
+void Scope::adopt(Scope* child, const std::string& name)
+{
+	//Reset parent of the child Scope to this
+	child->orphan();
+	child->mParent = this;
+
+	//Append the child to this.
+	Datum* temp = &append(name);
+	temp->set(child);
+}
+
+void Scope::orphan()
+{
+	for (Pair* pair : mParent->mOrder)
 	{
-		return nullptr;
+		if (pair->second.removeTable(this))
+		{
+			mParent = nullptr;
+			break;
+		}
 	}
+}
+
+string Scope::toString() const
+{
+	return "Scope";
 }

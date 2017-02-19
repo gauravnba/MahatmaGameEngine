@@ -104,6 +104,11 @@ Datum& Datum::operator=(const Datum& obj)
 				set(obj.mDatumVal.vectorType[mSize], mSize);
 			}
 			break;
+		case DatumType::TABLE:
+			while (mSize < obj.mSize)
+			{
+				set(obj.mDatumVal.tableType[mSize], mSize);
+			}
 		case DatumType::MATRIX:
 			while (mSize < obj.mSize)
 			{
@@ -677,6 +682,14 @@ void Datum::setStorage(mat4x4* externalArray, uint32_t numberOfElements)
 	mDatumVal.matrixType = externalArray;
 }
 
+void Datum::setStorage(Scope** externalArray, uint32_t numberOfElements)
+{
+	emptyOut();
+	mIsExternal = true;
+	mSize = mCapacity = numberOfElements;
+	mDatumVal.tableType = externalArray;
+}
+
 void Datum::setStorage(string* externalArray, uint32_t numberOfElements)
 {
 	emptyOut();
@@ -766,6 +779,9 @@ string Datum::toString(uint32_t index)
 	case DatumType::MATRIX:
 		temp = to_string(mDatumVal.matrixType[index]);
 		break;
+	case DatumType::TABLE:
+		temp = mDatumVal.tableType[index]->toString();
+		break;
 	case DatumType::STRING:
 		temp = mDatumVal.stringType[index];
 		break;
@@ -802,4 +818,24 @@ vec4 Datum::stringToVector(string vectorString)
 	tempVector.w = stof(tempW);
 
 	return tempVector;
+}
+
+bool Datum::removeTable(const Scope* scope)
+{
+	bool removed = false;
+	if (type() == DatumType::TABLE)
+	{
+		for (uint32_t i = 0; i < mSize; ++i)
+		{
+			if (mDatumVal.tableType[i] == scope)
+			{
+				//mDatumVal.tableType[i] = nullptr;
+				memmove(mDatumVal.tableType[i], mDatumVal.tableType[i + 1], (mSize - i - 1) * sizeof(Scope*));
+				--mSize;
+				removed = true;
+				break;
+			}
+		}
+	}
+	return removed;
 }

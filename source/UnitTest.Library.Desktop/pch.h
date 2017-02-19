@@ -13,3 +13,4 @@
 #include "Vector.h"
 #include "SList.h"
 #include "Datum.h"
+#include "Scope.h"

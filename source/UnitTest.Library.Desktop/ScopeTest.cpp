@@ -59,7 +59,7 @@ namespace UnitTestLibraryDesktop
 		Datum stringDatum = testScope.append(stringType);					\
 		stringDatum.set(sA);												\
 		stringDatum.set(sB);												\
-		Scope childTable = testScope.appendScope(tableType);				\
+		Scope* childTable = &testScope.appendScope(tableType);				\
 
 
 	public:
@@ -105,9 +105,13 @@ namespace UnitTestLibraryDesktop
 			POPULATE_TEST_SCOPE
 
 			Scope cloneScope = testScope;
+			Datum* test = &(childTable->append("test"));
+			test->set(iA);
 
 			Assert::IsTrue(cloneScope == testScope);
 			Assert::IsFalse(cloneScope != testScope);
+			Assert::IsTrue(cloneScope[tableType] == testScope[tableType]);
+			Assert::IsTrue(cloneScope[tableType].get<int32_t>() != testScope[tableType].get<int32_t>());
 		}
 
 		TEST_METHOD(assignmentOperatorTest)
@@ -117,8 +121,13 @@ namespace UnitTestLibraryDesktop
 
 			Scope newScope;
 			newScope = testScope;
+			Datum* test = &(childTable->append("test"));
+			test->set(iA);
 
 			Assert::IsTrue(newScope == testScope);
+			Assert::IsFalse(newScope != testScope);
+			Assert::IsTrue(newScope[tableType] == testScope[tableType]);
+			Assert::IsTrue(newScope[tableType].get<int32_t>() != testScope[tableType].get<int32_t>());
 		}
 
 		TEST_METHOD(appendScopeTest)
@@ -127,16 +136,24 @@ namespace UnitTestLibraryDesktop
 			string intType = "integer";
 			float fA = 10.05f;
 			string floatType = "float";
+			string vecType = "vector";
 
 			string tableType = "Scope";
 			Scope testScope;
-			Scope childScope = testScope.appendScope(tableType);
+			Scope* childScope = &testScope.appendScope(tableType);
 
-			Datum integer = childScope.append(intType);
-			integer = iA;
+			Datum* integer = &childScope->append(intType);
+			*integer = iA;
 
-			Datum floating = childScope.append(floatType);
-			floating = fA;
+			Datum* floating = &childScope->append(floatType);
+			*floating = fA;
+
+			string grandChild = "Pota";
+
+			Scope* childOfChild = &(childScope->appendScope(grandChild));
+			childOfChild->append(vecType);
+
+			Assert::IsTrue(childOfChild == childScope->operator[](grandChild).get<Scope*>());
 		}
 
 		TEST_METHOD(equalsOverrideTest)
@@ -147,17 +164,70 @@ namespace UnitTestLibraryDesktop
 			Scope newScope;
 			newScope = testScope;
 			Scope* scopePointer = &testScope;
+
 			Assert::IsTrue(newScope.equals(scopePointer));
+			Assert::IsFalse(newScope.equals(childTable));
 		}
 
 		TEST_METHOD(scopeFindTest)
 		{
+			SCOPE_TEST_DATA_DECLARATION
 
+			POPULATE_TEST_SCOPE
+
+			Datum* test = &(childTable->append("test"));
+			test->set(iA);
+
+			Assert::IsFalse(testScope.find(intType) == &integer);
+			Assert::IsTrue(testScope.find(intType) != nullptr);
+
+			Datum* foundDatum = testScope.find(intType);
+
+			Assert::IsTrue(testScope[intType] == *foundDatum);
+			Assert::IsTrue(testScope.find("notFound") == nullptr);
+			Assert::IsTrue(testScope.find("test") == nullptr);
 		}
 
 		TEST_METHOD(scopeSearchTest)
 		{
+			SCOPE_TEST_DATA_DECLARATION
 
+			POPULATE_TEST_SCOPE
+
+			string searchTest = "searchTest";
+
+			Datum* testDatum = &(testScope.append("searchTest"));
+			Scope* foundScope;
+
+			Assert::IsTrue(testScope.search(searchTest, &foundScope) == testDatum);
+			Assert::IsTrue(childTable->search(searchTest, &foundScope) == testDatum);
+			Assert::IsTrue(childTable->search("testNotFound", &foundScope) == nullptr);
+		}
+
+		TEST_METHOD(getParentTest)
+		{
+			Scope testScope;
+			string child = "childTable";
+			Scope* childScope = &(testScope.appendScope(child));
+			Assert::IsTrue(childScope->getParent() == &testScope);
+			Assert::IsTrue(testScope.getParent() == nullptr);
+
+			string constChild = "constChild";
+			Scope* const constChildScope = &(testScope.appendScope(constChild));
+			Assert::IsTrue(constChildScope->getParent() == &testScope);
+		}
+
+		TEST_METHOD(scopeAdoptTest)
+		{
+			SCOPE_TEST_DATA_DECLARATION
+
+			POPULATE_TEST_SCOPE
+
+			Scope newScope;
+			string newChildName = "newChild";
+			Assert::IsTrue(childTable->getParent() == &testScope);
+			newScope.adopt(childTable, newChildName);
+			Assert::IsTrue(childTable->getParent() == &newScope);
 		}
 
 	private:																			
