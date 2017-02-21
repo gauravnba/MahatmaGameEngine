@@ -37,7 +37,6 @@ Scope::Scope(const Scope& obj):
 
 Scope::~Scope()
 {
-	//orphan();
 	clear();
 }
 
@@ -121,10 +120,12 @@ void Scope::clear()
 	{
 		if (pair->second.type() == DatumType::TABLE)
 		{
-			uint32_t size = pair->second.size();
-			for (uint32_t index = 0; index < size; ++index)
+			uint32_t index = pair->second.size();
+			for (;index > 0; --index)
 			{
-				delete pair->second.get<Scope*>(index);
+				Scope* tempScope = pair->second.get<Scope*>(index - 1);
+				tempScope->orphan();
+				delete tempScope;
 			}
 		}
 	}
