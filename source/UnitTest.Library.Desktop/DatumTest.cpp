@@ -556,6 +556,15 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(matrixDatum.get<mat4x4>(1), mB);
 			free(matrixArray);
 
+			//Table
+			Scope testScope;
+			int32_t tableNumElements = 1;
+			Scope** scopeArray = static_cast<Scope**>(malloc(tableNumElements * sizeof(Scope)));
+			scopeArray[0] = &testScope;
+			Datum tableDatum;
+			tableDatum.setStorage(scopeArray, tableNumElements);
+			free(scopeArray);
+
 			//String
 			string* stringArray = static_cast<string*>(malloc(numElements * sizeof(string)));
 			new(&stringArray[0]) string(sA);
@@ -633,13 +642,6 @@ namespace UnitTestLibraryDesktop
 			Assert::IsFalse(matDatum == matDatum1);
 			matDatum1 = matDatum;
 			Assert::IsTrue(matDatum == matDatum1);
-
-			//Table
-			Datum tableDatum;
-			Scope scope;
-			tableDatum = &scope;
-			Datum tableDatum1 = tableDatum;
-			Assert::IsTrue(tableDatum == tableDatum1);
 
 			//String
 			Datum stringDatum;
@@ -882,6 +884,82 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(*(tableDatum.get<Scope*>()) == scope2);
 			auto scopeRemoved = [&tableDatum]{ tableDatum.get<Scope*>(2); };
 			Assert::ExpectException<exception>(scopeRemoved);
+		}
+
+		TEST_METHOD(tableEqualityTest)
+		{
+			SCOPE_TEST_DATA_DECLARATION
+
+			POPULATE_TEST_SCOPE
+
+			UNREFERENCED_PARAMETER(childTable);
+			//Table
+			/*string intType = "integer";											
+			int32_t iA = 10;												
+			
+			string floatType = "float";										
+			float fA = 10.5f;												
+			float fB = 20.5f;												
+			float fC = 30.5f;												
+			float fD = 40.5f;												
+			
+			string vecType = "vector";										
+			vec4 vA = vec4(vec3(fA), fB);									
+			vec4 vB = vec4(vec3(fB), fA);									
+			vec4 vC = vec4(vec3(fC), fD);									
+			vec4 vD = vec4(vec3(fD), fC);									
+			
+			string matrixType = "matrix";									
+			mat4x4 mA = mat4x4(vA, vB, vC, vD);								
+			mat4x4 mB = mat4x4(vB, vC, vD, vA);								
+			mat4x4 mC = mat4x4(vC, vD, vA, vB);								
+			mat4x4 mD = mat4x4(vD, vA, vB, vC);								
+			
+			string stringType = "string";									
+			string sA = "test";												
+			string sB = "anotherTest";										
+
+			string tableType = "table";										
+			Scope childScope;
+
+			Scope testScope;													
+			Datum* integer = &(testScope.append(intType));						
+			integer->set(iA);													
+			Datum* floatingPoint = &(testScope.append(floatType));				
+			floatingPoint->set(fA);												
+			floatingPoint->set(fB);												
+			Datum* vector4 = &(testScope.append(vecType));						
+			vector4->set(vA);													
+			vector4->set(vB);													
+			Datum* matrix4x4 = &(testScope.append(matrixType));					
+			matrix4x4->set(mA);													
+			matrix4x4->set(mB);													
+			Datum* stringDatum = &(testScope.append(stringType));				
+			stringDatum->set(sA);												
+			stringDatum->set(sB);												
+			testScope.appendScope(tableType);*/
+
+			Scope newScope = testScope;
+			Datum newScopeDatum;
+			newScopeDatum.set(&newScope);
+			Datum testScopeDatum = newScopeDatum;
+
+			Assert::IsTrue(newScopeDatum == testScopeDatum);
+
+			Datum scope1;
+			scope1.set(&newScope);
+
+			Scope inequalScope;
+			inequalScope.append(intType);
+			inequalScope.append(floatType);
+			inequalScope.append(vecType);
+			inequalScope.append(matrixType);
+			inequalScope.append(stringType);
+			inequalScope.appendScope(tableType);
+			Datum inequalScopeDatum;
+			inequalScopeDatum.set(&inequalScope);
+
+			Assert::IsFalse(inequalScopeDatum == testScopeDatum);
 		}
 
 	private:

@@ -99,6 +99,7 @@ namespace MahatmaGameEngine
 		* Appends a Scope object to this table with the string key that was passed
 		* @param name the key that associates to the Datum that has the scope.
 		* @return returns the address of the appended Scope
+		* @exception thrown if trying to append a Scope to a non Scope name.
 		*/
 		Scope& appendScope(const std::string& name);
 
@@ -140,8 +141,8 @@ namespace MahatmaGameEngine
 
 		void clear();
 
-		HashMap<std::string, Datum> mTable;
-		Vector<std::pair<std::string, Datum>*> mOrder;
+		HashMap<std::string, Datum> mTable;				/**< Table that stores string, Datum pairs. */
+		Vector<std::pair<std::string, Datum>*> mOrder;	/**< */
 		Scope* mParent;
 	};
 }

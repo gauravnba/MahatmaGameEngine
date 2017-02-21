@@ -7,6 +7,7 @@
 #include "CppUnitTest.h"
 #include "ToStringFunctions.h"
 #include "Foo.h"
+#include "TestMacros.h"
 
 #include "DefaultHash.h"
 #include "HashMap.h"

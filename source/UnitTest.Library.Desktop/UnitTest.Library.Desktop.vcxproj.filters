@@ -61,5 +61,8 @@
     <ClInclude Include="FooDefaultHash.h">
       <Filter>Supporting Headers</Filter>
     </ClInclude>
+    <ClInclude Include="TestMacros.h">
+      <Filter>Supporting Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

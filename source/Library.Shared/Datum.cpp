@@ -249,6 +249,19 @@ bool Datum::operator==(const Datum& obj) const
 			}
 			break;
 
+		case DatumType::TABLE:
+			while (i < mSize)
+			{
+				if (!(mDatumVal.tableType[i]->equals(obj.mDatumVal.tableType[i])))
+				{
+					isEqual = false;
+					break;
+				}
+				++i;
+				isEqual = true;
+			}
+			break;
+
 		case DatumType::STRING:
 			while (i < mSize)
 			{
@@ -265,7 +278,7 @@ bool Datum::operator==(const Datum& obj) const
 		case DatumType::RTTI_POINTER:
 			while (i < mSize)
 			{
-				if (mDatumVal.rttiType[i] == obj.mDatumVal.rttiType[i])
+				if (mDatumVal.rttiType[i]->equals(obj.mDatumVal.rttiType[i]))
 				{
 					isEqual = false;
 					break;
@@ -301,7 +314,7 @@ bool Datum::operator==(const mat4x4& obj) const
 
 bool Datum::operator==(const Scope* obj) const
 {
-	return (mDatumVal.tableType[0] == obj);
+	return (mDatumVal.tableType[0]->equals(obj));
 }
 
 bool Datum::operator==(const string& obj) const
@@ -684,10 +697,8 @@ void Datum::setStorage(mat4x4* externalArray, uint32_t numberOfElements)
 
 void Datum::setStorage(Scope** externalArray, uint32_t numberOfElements)
 {
-	emptyOut();
-	mIsExternal = true;
-	mSize = mCapacity = numberOfElements;
-	mDatumVal.tableType = externalArray;
+	UNREFERENCED_PARAMETER(externalArray);
+	UNREFERENCED_PARAMETER(numberOfElements);
 }
 
 void Datum::setStorage(string* externalArray, uint32_t numberOfElements)
@@ -823,14 +834,14 @@ vec4 Datum::stringToVector(string vectorString)
 bool Datum::removeTable(const Scope* scope)
 {
 	bool removed = false;
-	if (type() == DatumType::TABLE)
+	if (mType == DatumType::TABLE)
 	{
+		//Look for the scope and if found, memmove over it
 		for (uint32_t i = 0; i < mSize; ++i)
 		{
 			if (mDatumVal.tableType[i] == scope)
 			{
-				//mDatumVal.tableType[i] = nullptr;
-				memmove(mDatumVal.tableType[i], mDatumVal.tableType[i + 1], (mSize - i - 1) * sizeof(Scope*));
+				memmove(mDatumVal.tableType[i], mDatumVal.tableType[i + 1], (mSize - 1 - i) * sizeof(Scope*));
 				--mSize;
 				removed = true;
 				break;

@@ -12,56 +12,6 @@ namespace UnitTestLibraryDesktop
 	//This Class tests all the methods in the Datum class
 	TEST_CLASS(ScopeTest)
 	{
-	private:
-#define SCOPE_TEST_DATA_DECLARATION											\
-		string intType = "integer";											\
-		int32_t iA = 10;													\
-																			\
-		string floatType = "float";											\
-		float fA = 10.5f;													\
-		float fB = 20.5f;													\
-		float fC = 30.5f;													\
-		float fD = 40.5f;													\
-																			\
-		string vecType = "vector";											\
-		vec4 vA = vec4(vec3(fA), fB);										\
-		vec4 vB = vec4(vec3(fB), fA);										\
-		vec4 vC = vec4(vec3(fC), fD);										\
-		vec4 vD = vec4(vec3(fD), fC);										\
-																			\
-		string matrixType = "matrix";										\
-		mat4x4 mA = mat4x4(vA, vB, vC, vD);									\
-		mat4x4 mB = mat4x4(vB, vC, vD, vA);									\
-		mat4x4 mC = mat4x4(vC, vD, vA, vB);									\
-		mat4x4 mD = mat4x4(vD, vA, vB, vC);									\
-																			\
-		string stringType = "string";										\
-		string sA = "test";													\
-		string sB = "anotherTest";											\
-																			\
-		string tableType = "table";											\
-		Scope childScope;													\
-
-		//Require SCOPE_TEST_DATA_DECLARATION before it
-#define POPULATE_TEST_SCOPE													\
-		Scope testScope;													\
-		Datum integer = testScope.append(intType);							\
-		integer.set(iA);													\
-		Datum floatingPoint = testScope.append(floatType);					\
-		floatingPoint.set(fA);												\
-		floatingPoint.set(fB);												\
-		Datum vector4 = testScope.append(vecType);							\
-		vector4.set(vA);													\
-		vector4.set(vB);													\
-		Datum matrix4x4 = testScope.append(matrixType);						\
-		matrix4x4.set(mA);													\
-		matrix4x4.set(mB);													\
-		Datum stringDatum = testScope.append(stringType);					\
-		stringDatum.set(sA);												\
-		stringDatum.set(sB);												\
-		Scope* childTable = &testScope.appendScope(tableType);				\
-
-
 	public:
 		//This method sets up the initial memory state to check for memory leaks.
 		TEST_METHOD_INITIALIZE(Initialize)
@@ -90,9 +40,12 @@ namespace UnitTestLibraryDesktop
 		{
 			SCOPE_TEST_DATA_DECLARATION
 
-			Scope testScope;
+				Scope testScope;
 			Datum* test = &testScope.append("test");
 			test->set(iA);
+
+			auto emptyStringException = [&testScope]{testScope.append("");};
+			Assert::ExpectException<exception>(emptyStringException);
 
 			Assert::IsTrue(testScope["test"] == *test);
 			Assert::IsTrue(testScope[0] == testScope["test"]);
@@ -105,12 +58,14 @@ namespace UnitTestLibraryDesktop
 			POPULATE_TEST_SCOPE
 
 			Scope cloneScope = testScope;
+
+			Assert::IsTrue(cloneScope == testScope);
+
 			Datum* test = &(childTable->append("test"));
 			test->set(iA);
 
-			Assert::IsTrue(cloneScope == testScope);
-			Assert::IsFalse(cloneScope != testScope);
-			Assert::IsTrue(cloneScope[tableType] == testScope[tableType]);
+			Assert::IsTrue(cloneScope != testScope);
+			Assert::IsTrue(cloneScope[intType] == testScope[intType]);
 			Assert::IsTrue(cloneScope[tableType].get<int32_t>() != testScope[tableType].get<int32_t>());
 		}
 
@@ -121,12 +76,14 @@ namespace UnitTestLibraryDesktop
 
 			Scope newScope;
 			newScope = testScope;
+
+			Assert::IsTrue(newScope == testScope);
+
 			Datum* test = &(childTable->append("test"));
 			test->set(iA);
 
-			Assert::IsTrue(newScope == testScope);
-			Assert::IsFalse(newScope != testScope);
-			Assert::IsTrue(newScope[tableType] == testScope[tableType]);
+			Assert::IsTrue(newScope != testScope);
+			Assert::IsTrue(newScope[intType] == testScope[intType]);
 			Assert::IsTrue(newScope[tableType].get<int32_t>() != testScope[tableType].get<int32_t>());
 		}
 
@@ -148,6 +105,9 @@ namespace UnitTestLibraryDesktop
 			Datum* floating = &childScope->append(floatType);
 			*floating = fA;
 
+			auto nonScopeNameException = [&childScope, &floatType] {childScope->appendScope(floatType); };
+			Assert::ExpectException<exception>(nonScopeNameException);
+
 			string grandChild = "Pota";
 
 			Scope* childOfChild = &(childScope->appendScope(grandChild));
@@ -158,15 +118,27 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(equalsOverrideTest)
 		{
-			SCOPE_TEST_DATA_DECLARATION;
-			POPULATE_TEST_SCOPE;
+			SCOPE_TEST_DATA_DECLARATION
+			POPULATE_TEST_SCOPE
 
-			Scope newScope;
-			newScope = testScope;
-			Scope* scopePointer = &testScope;
+			UNREFERENCED_PARAMETER(childTable);
 
-			Assert::IsTrue(newScope.equals(scopePointer));
-			Assert::IsFalse(newScope.equals(childTable));
+			Scope* nullScope = nullptr;
+			Scope newScope = testScope;
+			Assert::IsTrue(newScope.equals(&testScope));
+
+			Scope inequalScope;												
+			inequalScope.append(intType);													
+			inequalScope.append(floatType);									
+			inequalScope.append(vecType);									
+			inequalScope.append(matrixType);
+			inequalScope.append(stringType);										
+			inequalScope.appendScope(tableType);
+
+			Assert::IsFalse(newScope.equals(&inequalScope));
+			inequalScope.append("test");
+			Assert::IsFalse(newScope.equals(&inequalScope));
+			Assert::IsFalse(newScope.equals(nullScope));
 		}
 
 		TEST_METHOD(scopeFindTest)
@@ -178,7 +150,7 @@ namespace UnitTestLibraryDesktop
 			Datum* test = &(childTable->append("test"));
 			test->set(iA);
 
-			Assert::IsFalse(testScope.find(intType) == &integer);
+			Assert::IsTrue(testScope.find(intType) == integer);
 			Assert::IsTrue(testScope.find(intType) != nullptr);
 
 			Datum* foundDatum = testScope.find(intType);
@@ -213,8 +185,26 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(testScope.getParent() == nullptr);
 
 			string constChild = "constChild";
-			Scope* const constChildScope = &(testScope.appendScope(constChild));
+			const Scope* constChildScope = &(testScope.appendScope(constChild));
 			Assert::IsTrue(constChildScope->getParent() == &testScope);
+		}
+
+		TEST_METHOD(rttiTests)
+		{
+			Scope testScope;
+			uint64_t typeID = testScope.typeIdClass();
+
+			Assert::IsTrue(testScope.is(typeID));
+			Assert::IsTrue(testScope.is("Scope"));
+			Assert::AreEqual(testScope.typeIdClass(), testScope.typeIdInstance());
+			Assert::IsNotNull(testScope.queryInterface(typeID));
+
+			RTTI* testRTTI = dynamic_cast<RTTI*>(&testScope);
+			Assert::IsNotNull(testRTTI->queryInterface(typeID));
+			Assert::IsTrue(testRTTI->is(typeID));
+			Assert::IsTrue(testRTTI->is("Scope"));
+			Assert::AreEqual(testRTTI->toString(), string("Scope"));
+			Assert::IsTrue(testRTTI->equals(&testScope));
 		}
 
 		TEST_METHOD(scopeAdoptTest)
@@ -231,8 +221,7 @@ namespace UnitTestLibraryDesktop
 		}
 
 	private:																			
-		static _CrtMemState sStartMemState;									
-
+		static _CrtMemState sStartMemState;
 	};
 
 	_CrtMemState ScopeTest::sStartMemState;

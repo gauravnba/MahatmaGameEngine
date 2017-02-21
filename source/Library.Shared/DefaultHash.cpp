@@ -7,7 +7,7 @@ using namespace MahatmaGameEngine;
 
 std::uint32_t DefaultHash<char*>::operator()(const char* key)
 {
-	std::uint32_t length = strlen(key);
+	std::uint32_t length = static_cast<uint32_t>(strlen(key));
 
 	//prime factor to hash. Value used is based on pre-existing tests.
 	const std::uint32_t prime = 0x01000193;

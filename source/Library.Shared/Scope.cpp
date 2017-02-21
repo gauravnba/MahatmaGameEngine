@@ -45,14 +45,17 @@ Scope& Scope::operator=(const Scope& obj)
 {
 	if (this != &obj)
 	{
-		//orphan();
 		clear();
 		for (Pair* value : obj.mOrder)
 		{
 			if (value->second.type() == DatumType::TABLE)
 			{
-				Scope& temp = appendScope(value->first);
-				temp = *(value->second.get<Scope*>());
+				uint32_t size = value->second.size();
+				for (uint32_t i = 0; i < size; ++i)
+				{
+					Scope& temp = appendScope(value->first);
+					temp = *(value->second.get<Scope*>(i));
+				}
 			}
 			else
 			{
@@ -94,9 +97,9 @@ bool Scope::operator!=(const Scope& obj) const
 
 bool Scope::equals(const RTTI* obj) const
 {
-	Scope* temp = obj->as<Scope>();
-	if (temp != nullptr)
+	if (obj != nullptr)
 	{
+		Scope* temp = obj->as<Scope>();
 		return (*this == *temp);
 	}
 	return false;
@@ -149,13 +152,20 @@ Datum& Scope::append(const std::string& name)
 
 Scope& Scope::appendScope(const std::string& name)
 {
-	Scope* returnVal = new Scope;
 	Datum* scopeDatum = &append(name);
+	if (scopeDatum->type() != DatumType::TABLE)
+	{
+		if (scopeDatum->type() != DatumType::UNKNOWN)
+		{
+			throw invalid_argument("Name exists but is not of type scope.");
+		}
+	}
+
+	Scope* returnVal = new Scope;
 	returnVal->mParent = this;
 
 	//Append scope to the Datum array
 	scopeDatum->set(returnVal, scopeDatum->size());
-
 	return *returnVal;
 }
 
@@ -208,12 +218,15 @@ void Scope::adopt(Scope* child, const std::string& name)
 
 void Scope::orphan()
 {
-	for (Pair* pair : mParent->mOrder)
+	if (mParent != nullptr)
 	{
-		if (pair->second.removeTable(this))
+		for (Pair* pair : mParent->mOrder)
 		{
-			mParent = nullptr;
-			break;
+			if (pair->second.removeTable(this))
+			{
+				mParent = nullptr;
+				break;
+			}
 		}
 	}
 }

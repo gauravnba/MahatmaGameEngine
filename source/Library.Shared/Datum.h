@@ -314,7 +314,8 @@ namespace MahatmaGameEngine
 		void setStorage(glm::vec4* externalArray, uint32_t numberOfElements);
 
 		/**
-		* Sets the union to point to an external array passed as parameter. Overload for Scope pointer.
+		* Does nothing as Scope should not be assigned externally. Captures a Scope pointer and does nothing to avoid an exception.
+		* Overload for Scope pointer.
 		* @param externalArray of type Scope pointer to be assigned from.
 		* @param numberOfElements to set the size of the datum Array
 		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
