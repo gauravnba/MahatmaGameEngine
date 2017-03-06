@@ -87,6 +87,28 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(newScope[tableType].get<int32_t>() != testScope[tableType].get<int32_t>());
 		}
 
+		TEST_METHOD(moveSemanticsTest)
+		{
+			SCOPE_TEST_DATA_DECLARATION
+			POPULATE_TEST_SCOPE
+
+			Scope newScope = move(testScope);
+
+			Assert::IsTrue(newScope != testScope);
+			Assert::IsTrue(childTable->getParent() != &testScope);
+			Assert::IsTrue(childTable->getParent() == &newScope);
+
+			Datum* test = &(childTable->append("test"));
+			test->set(iA);
+
+			testScope = move(newScope);
+
+			Assert::IsTrue(newScope != testScope);
+			Assert::IsTrue(testScope[tableType] == childTable);
+			Assert::IsTrue(childTable->getParent() != &newScope);
+			Assert::IsTrue(childTable->getParent() == &testScope);
+		}
+
 		TEST_METHOD(appendScopeTest)
 		{
 			int32_t iA = 10;

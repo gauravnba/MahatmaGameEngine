@@ -47,6 +47,14 @@ namespace MahatmaGameEngine
 		Datum(const Datum& obj);
 
 		/**
+		* Move constructor for Datum.
+		* @param obj Rvalue reference to Datum to be moved from.
+		*/
+		Datum(Datum&& obj);
+
+#pragma region ASSIGNMENT_OPERATOR_DECLARATIONS
+
+		/**
 		* Assignment operator assigns the parameter datum to this.
 		* @param obj Datum to deep copy from
 		* @return Reference to Datum
@@ -108,6 +116,16 @@ namespace MahatmaGameEngine
 		* @overload Datum& operator=(const Datum& obj);
 		*/
 		Datum& operator=(RTTI* obj);
+#pragma endregion
+
+		/**
+		* Move assignment operator for Datum.
+		* @param obj RValue reference to the Datum to move from
+		* @return Datum reference to this
+		*/
+		Datum& operator=(Datum&& obj);
+
+#pragma region EQUALITY_OPERATOR_DECLARATIONS
 
 		/**
 		* Equality operator for Datum 
@@ -179,6 +197,9 @@ namespace MahatmaGameEngine
 		* @overload bool operator==(const Datum& obj) const;
 		*/
 		bool operator==(const RTTI* obj) const;
+#pragma endregion
+
+#pragma region INEQUALITY_OPERATOR_DECLARATIONS
 
 		/**
 		* Equality operator for Datum
@@ -250,44 +271,9 @@ namespace MahatmaGameEngine
 		* @overload bool operator!=(const Datum& obj) const;
 		*/
 		bool operator!=(const RTTI* obj) const;
+#pragma endregion
 
-		/**
-		* Sets the type of the Datum
-		* @param datumType is the type of the Datum
-		* @exception thrown if trying to set an already set Datum
-		*/
-		void setType(DatumType datumType);
-		
-		/**
-		* Gets the type of the Datum
-		* @return enum value of the type of the Datum
-		*/
-		DatumType type() const;
-
-		/**
-		* Sets the number of values the Datum will store
-		* @param numberOfValues is the number of values of the DatumType to be constructed
-		* @exception if Datum type is undetermined.
-		*/
-		void setSize(std::uint32_t numberOfValues);
-
-		/**
-		* Returns the number of elements in the Datum.
-		* @return Unsigned integer of the size of Datum
-		*/
-		std::uint32_t size() const;
-
-		/**
-		* Returns the number of elements the Datum can hold.
-		* @return Unsigned integer of the capacity of Datum
-		*/
-		std::uint32_t capacity() const;
-
-		/**
-		* Clears all the elements in the Datum
-		* @exception if the type of the datum is undetermined
-		*/
-		void clear();
+#pragma region SET_STORAGE_DECLARATIONS
 
 		/**
 		* Sets the union to point to an external array passed as parameter. Overload for integer.
@@ -345,6 +331,9 @@ namespace MahatmaGameEngine
 		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
 		void setStorage(RTTI** externalArray, uint32_t numberOfElements);
+#pragma endregion
+
+#pragma region SET_DECLARATIONS
 
 		/**
 		* Sets the value at the given index in the Datum
@@ -399,6 +388,9 @@ namespace MahatmaGameEngine
 		* @overload void set(const float& value, std::uint32_t index = 0);
 		*/
 		void set(RTTI* value, std::uint32_t index = 0);
+#pragma endregion
+
+#pragma region GET_DECLARATIONS
 
 		/**
 		* Templated method get returns the value at index (default = 0)
@@ -471,7 +463,9 @@ namespace MahatmaGameEngine
 		*/
 		template <>
 		RTTI*& get<RTTI*>(std::uint32_t index);
+#pragma endregion
 
+#pragma region CONST_GET_DECLARATIONS
 		/**
 		* Templated method get returns the value at index (default = 0)
 		* @param index where the element to be obtained is.
@@ -543,6 +537,45 @@ namespace MahatmaGameEngine
 		*/
 		template <>
 		RTTI* const& get<RTTI*>(std::uint32_t index) const;
+#pragma endregion
+
+		/**
+		* Sets the type of the Datum
+		* @param datumType is the type of the Datum
+		* @exception thrown if trying to set an already set Datum
+		*/
+		void setType(DatumType datumType);
+		
+		/**
+		* Gets the type of the Datum
+		* @return enum value of the type of the Datum
+		*/
+		DatumType type() const;
+
+		/**
+		* Sets the number of values the Datum will store
+		* @param numberOfValues is the number of values of the DatumType to be constructed
+		* @exception if Datum type is undetermined.
+		*/
+		void setSize(std::uint32_t numberOfValues);
+
+		/**
+		* Returns the number of elements in the Datum.
+		* @return Unsigned integer of the size of Datum
+		*/
+		std::uint32_t size() const;
+
+		/**
+		* Returns the number of elements the Datum can hold.
+		* @return Unsigned integer of the capacity of Datum
+		*/
+		std::uint32_t capacity() const;
+
+		/**
+		* Clears all the elements in the Datum
+		* @exception if the type of the datum is undetermined
+		*/
+		void clear();
 
 		/**
 		* Removes the element from the datum array.

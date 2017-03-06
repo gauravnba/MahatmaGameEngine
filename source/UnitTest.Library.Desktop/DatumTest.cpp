@@ -488,6 +488,130 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(stringDatum == stringDatum1);
 		}
 
+		TEST_METHOD(moveSemanticsTest)
+		{
+			int32_t iA = 10;
+			int32_t iB = 20;
+			float fA = 10.5f;
+			float fB = 20.5f;
+			float fC = 30.5f;
+			float fD = 40.5f;
+			vec4 vA = vec4(vec3(fA), fB);
+			vec4 vB = vec4(vec3(fB), fA);
+			vec4 vC = vec4(vec3(fC), fD);
+			vec4 vD = vec4(vec3(fD), fC);
+			mat4x4 mA = mat4x4(vA, vB, vC, vD);
+			mat4x4 mB = mat4x4(vB, vC, vD, vA);
+			mat4x4 mC = mat4x4(vC, vD, vA, vB);
+			mat4x4 mD = mat4x4(vD, vA, vB, vC);
+			string sA = "test";
+			string sB = "anotherTest";
+
+			//Integer
+			Datum intDatum;
+			intDatum = iA;
+			intDatum.set(iB, 1U);
+			Datum intDatum1 = move(intDatum);
+			Assert::AreEqual(intDatum.type(), DatumType::UNKNOWN);
+			Assert::AreEqual(intDatum.size(), 0U);
+			Assert::AreEqual(intDatum1.size(), 2U);
+			Assert::AreEqual(intDatum1.get<int32_t>(1U), iB);
+			auto datumMoveException = [&intDatum] {intDatum.get<int32_t>(); };
+			Assert::ExpectException<exception>(datumMoveException);
+
+			intDatum1.set(iA, 2U);
+			intDatum = move(intDatum1);
+			Assert::AreEqual(intDatum1.type(), DatumType::UNKNOWN);
+			Assert::AreEqual(intDatum1.size(), 0U);
+			Assert::AreEqual(intDatum.size(), 3U);
+			Assert::AreEqual(intDatum.get<int32_t>(2U), iA);
+
+			//Float
+			Datum floatDatum;
+			floatDatum = fA;
+			floatDatum.set(fB, 1U);
+			Datum floatDatum1 = move(floatDatum);
+			Assert::AreEqual(floatDatum.type(), DatumType::UNKNOWN);
+			Assert::AreEqual(floatDatum.size(), 0U);
+			Assert::AreEqual(floatDatum1.size(), 2U);
+			Assert::AreEqual(floatDatum1.get<float>(1U), fB);
+
+			floatDatum1.set(fA, 2U);
+			floatDatum = move(floatDatum1);
+			Assert::AreEqual(floatDatum1.type(), DatumType::UNKNOWN);
+			Assert::AreEqual(floatDatum1.size(), 0U);
+			Assert::AreEqual(floatDatum.size(), 3U);
+			Assert::AreEqual(floatDatum.get<float>(2U), fA);
+
+			//Vector
+			Datum vecDatum;
+			vecDatum = vA;
+			vecDatum.set(vB, 1U);
+			Datum vecDatum1 = move(vecDatum);
+			Assert::AreEqual(vecDatum.size(), 0U);
+			Assert::AreEqual(vecDatum.type(), DatumType::UNKNOWN);
+			Assert::AreEqual(vecDatum1.size(), 2U);
+			Assert::AreEqual(vecDatum1.get<vec4>(1U), vB);
+
+			vecDatum1.set(vA, 2U);
+			vecDatum = move(vecDatum1);
+			Assert::AreEqual(vecDatum1.size(), 0U);
+			Assert::AreEqual(vecDatum1.type(), DatumType::UNKNOWN);
+			Assert::AreEqual(vecDatum.size(), 3U);
+			Assert::AreEqual(vecDatum.get<vec4>(2U), vA);
+
+			//Matrix
+			Datum matDatum;
+			matDatum = mA;
+			matDatum.set(mB, 1U);
+			Datum matDatum1 = move(matDatum);
+			Assert::AreEqual(matDatum.size(), 0U);
+			Assert::AreEqual(matDatum.type(), DatumType::UNKNOWN);
+			Assert::AreEqual(matDatum1.size(), 2U);
+			Assert::AreEqual(matDatum1.get<mat4x4>(1U), mB);
+
+			matDatum1.set(mC, 2U);
+			matDatum = move(matDatum1);
+			Assert::AreEqual(matDatum1.size(), 0U);
+			Assert::AreEqual(matDatum1.type(), DatumType::UNKNOWN);
+			Assert::AreEqual(matDatum.size(), 3U);
+			Assert::AreEqual(matDatum.get<mat4x4>(2U), mC);
+
+			//Table
+			Datum tableDatum;
+			Scope scope;
+			scope.append(string("test"));
+			tableDatum = &scope;
+			Datum tableDatum1 = move(tableDatum);
+			Assert::AreEqual(tableDatum.size(), 0U);
+			Assert::AreEqual(tableDatum.type(), DatumType::UNKNOWN);
+			Assert::AreEqual(tableDatum1.size(), 1U);
+			Assert::IsTrue(tableDatum1.get<Scope*>() == &scope);
+
+			tableDatum = move(tableDatum1);
+			Assert::AreEqual(tableDatum1.size(), 0U);
+			Assert::AreEqual(tableDatum1.type(), DatumType::UNKNOWN);
+			Assert::AreEqual(tableDatum.size(), 1U);
+			Assert::IsTrue(tableDatum.get<Scope*>() == &scope);
+
+			//String
+			Datum stringDatum;
+			stringDatum = sA;
+			stringDatum.set(sB, 1U);
+			Datum stringDatum1 = move(stringDatum);
+			Assert::AreEqual(stringDatum.size(), 0U);
+			Assert::AreEqual(stringDatum.type(), DatumType::UNKNOWN);
+			Assert::AreEqual(stringDatum1.size(), 2U);
+			Assert::AreEqual(stringDatum1.get<string>(1U), sB);
+
+			stringDatum1.set(sA, 2U);
+			stringDatum = move(stringDatum1);
+			Assert::AreEqual(stringDatum1.size(), 0U);
+			Assert::AreEqual(stringDatum1.type(), DatumType::UNKNOWN);
+			Assert::AreEqual(stringDatum.size(), 3U);
+			Assert::AreEqual(stringDatum.get<string>(2U), sA);
+		}
+
 		TEST_METHOD(setStorageTest)
 		{
 			int32_t iA = 10;
@@ -514,6 +638,7 @@ namespace UnitTestLibraryDesktop
 			intArray[1] = iB;
 			Datum intDatum;
 			intDatum.setStorage(intArray, numElements);
+			Assert::AreEqual(intDatum.type(), DatumType::INTEGER);
 			auto externalIntSetRangeException = [&intDatum, &iA] {intDatum.set(iA, 4); };
 			Assert::ExpectException<out_of_range>(externalIntSetRangeException);
 			Assert::AreEqual(intDatum.get<int32_t>(), iA);
@@ -526,6 +651,7 @@ namespace UnitTestLibraryDesktop
 			floatArray[1] = fB;
 			Datum floatDatum;
 			floatDatum.setStorage(floatArray, numElements);
+			Assert::AreEqual(floatDatum.type(), DatumType::FLOAT);
 			auto externalFloatSetRangeException = [&floatDatum, &fA] {floatDatum.set(fA, 4); };
 			Assert::ExpectException<out_of_range>(externalFloatSetRangeException);
 			Assert::AreEqual(floatDatum.get<float>(), fA);
@@ -538,6 +664,7 @@ namespace UnitTestLibraryDesktop
 			vecArray[1] = vB;
 			Datum vecDatum;
 			vecDatum.setStorage(vecArray, numElements);
+			Assert::AreEqual(vecDatum.type(), DatumType::VECTOR);
 			auto externalVectorSetRangeException = [&vecDatum, &vA] {vecDatum.set(vA, 4); };
 			Assert::ExpectException<out_of_range>(externalVectorSetRangeException);
 			Assert::AreEqual(vecDatum.get<vec4>(), vA);
@@ -550,6 +677,7 @@ namespace UnitTestLibraryDesktop
 			matrixArray[1] = mB;
 			Datum matrixDatum;
 			matrixDatum.setStorage(matrixArray, numElements);
+			Assert::AreEqual(matrixDatum.type(), DatumType::MATRIX);
 			auto externalMatrixSetRangeException = [&matrixDatum, &mA] {matrixDatum.set(mA, 4); };
 			Assert::ExpectException<out_of_range>(externalMatrixSetRangeException);
 			Assert::AreEqual(matrixDatum.get<mat4x4>(), mA);
@@ -571,6 +699,7 @@ namespace UnitTestLibraryDesktop
 			new(&stringArray[1]) string(sB);
 			Datum stringDatum;
 			stringDatum.setStorage(stringArray, numElements);
+			Assert::AreEqual(stringDatum.type(), DatumType::STRING);
 			auto externalStringSetRangeException = [&stringDatum, &sA] {stringDatum.set(sA, 4); };
 			Assert::ExpectException<out_of_range>(externalStringSetRangeException);
 			Assert::AreEqual(stringDatum.get<string>(), sA);

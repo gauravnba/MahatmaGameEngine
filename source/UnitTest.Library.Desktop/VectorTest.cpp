@@ -190,6 +190,71 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(fooVec2.capacity(), fooVec1.capacity());
 		}
 
+		TEST_METHOD(moveSemanticsTest)
+		{
+			//Integer
+			int32_t a = 10;
+			int32_t b = 20;
+			int32_t c = 30;
+			int32_t d = 40;
+			int32_t e = 50;
+
+			Vector<int32_t> intVec1;
+			intVec1.pushBack(a);
+			Vector<int32_t> intVec2 = move(intVec1);
+			Assert::AreEqual(intVec1.size(), 0U);
+			Assert::AreEqual(intVec2.size(), 1U);
+			Assert::AreEqual(intVec2.front(), a);
+
+			intVec2.pushBack(b);
+			intVec2.pushBack(c);
+			intVec2.pushBack(d);
+			intVec2.pushBack(e);
+			intVec1 = move(intVec2);
+			Assert::AreEqual(intVec2.size(), 0U);
+			Assert::AreEqual(intVec1.back(), e);
+			Assert::AreEqual(intVec1.size(), 5U);
+
+			//Pointer
+			int32_t* test = new int32_t;
+
+			Vector<int32_t*> pointerVec1;
+			pointerVec1.pushBack(test);
+			Vector<int32_t*> pointerVec2 = move(pointerVec1);
+			Assert::AreEqual(pointerVec2.front(), test);
+			Assert::AreEqual(pointerVec2.size(), 1U);
+			Assert::AreEqual(pointerVec1.size(), 0U);
+
+			Assert::AreEqual(pointerVec2.front(), test);
+			pointerVec2.pushBack(test + b);
+			pointerVec2.pushBack(test + c);
+			pointerVec2.pushBack(test + d);
+			pointerVec2.pushBack(test + e);
+			pointerVec1 = move(pointerVec2);
+			Assert::AreEqual(pointerVec2.size(), 0U);
+			Assert::AreEqual(pointerVec1.back(), test + e);
+			Assert::AreEqual(pointerVec1.size(), 5U);
+			Assert::AreNotEqual(pointerVec2.capacity(), pointerVec1.capacity());
+			delete test;
+
+			//Foo
+			Vector<Foo> fooVec1;
+			fooVec1.pushBack(Foo(a));
+			Vector<Foo> fooVec2 = move(fooVec1);
+			Assert::AreEqual(fooVec1.size(), 0U);
+			Assert::AreEqual(fooVec2.size(), 1U);
+			Assert::AreEqual(fooVec2.front(), Foo(a));
+
+			fooVec2.pushBack(b);
+			fooVec2.pushBack(c);
+			fooVec2.pushBack(d);
+			fooVec2.pushBack(e);
+			fooVec1 = move(fooVec2);
+			Assert::AreEqual(fooVec1.size(), 5U);
+			Assert::AreEqual(fooVec1.back(), Foo(e));
+			Assert::AreEqual(fooVec2.size(), 0U);
+		}
+
 		TEST_METHOD(popBackTest)
 		{
 			//Integer

@@ -35,6 +35,28 @@ Scope::Scope(const Scope& obj):
 	}
 }
 
+Scope::Scope(Scope&& obj) :
+	mTable(move(obj.mTable)), mOrder(move(obj.mOrder)), mParent(obj.mParent)
+{
+	//Reparent all immediate child Scopes to this one.
+	uint32_t orderSize = mOrder.size();
+	for (uint32_t i = 0; i < orderSize; ++i)
+	{
+		if ((mOrder[i]->second).type() == DatumType::TABLE)
+		{
+			Datum* tempDatum = &mOrder[i]->second;
+			uint32_t datumSize = tempDatum->size();
+
+			for (uint32_t j = 0; j < datumSize; ++j)
+			{
+				tempDatum->get<Scope*>(j)->mParent = this;
+			}
+		}
+	}
+
+	obj.mParent = nullptr;
+}
+
 Scope::~Scope()
 {
 	clear();
@@ -62,6 +84,37 @@ Scope& Scope::operator=(const Scope& obj)
 				temp = value->second;
 			}
 		}
+	}
+	return *this;
+}
+
+Scope& Scope::operator=(Scope&& obj)
+{
+	if (this != &obj)
+	{
+		clear();
+
+		mTable = move(obj.mTable);
+		mOrder = move(obj.mOrder);
+		mParent = obj.mParent;
+
+		//Reparent the child Scopes
+		uint32_t orderSize = mOrder.size();
+		for (uint32_t i = 0; i < orderSize; ++i)
+		{
+			if ((mOrder[i]->second).type() == DatumType::TABLE)
+			{
+				Datum* tempDatum = &mOrder[i]->second;
+				uint32_t datumSize = tempDatum->size();
+
+				for (uint32_t j = 0; j < datumSize; ++j)
+				{
+					tempDatum->get<Scope*>(j)->mParent = this;
+				}
+			}
+		}
+
+		obj.mParent = nullptr;
 	}
 	return *this;
 }

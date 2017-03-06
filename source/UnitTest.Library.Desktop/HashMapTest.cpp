@@ -147,6 +147,87 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(fooMap[fooKey1], fooMap1[fooKey1]);
 		}
 
+		TEST_METHOD(moveSemanticsTest)
+		{
+			//Integer
+			int32_t intKey1 = 10;
+			int32_t intKey2 = 20;
+			int32_t intKey3 = 30;
+			HashMap<int32_t, int32_t> intMap;
+
+			intMap.insert(HashMap<int32_t, int32_t>::PairType(intKey1, 100));
+			intMap.insert(HashMap<int32_t, int32_t>::PairType(intKey2, 200));
+
+			HashMap<int32_t, int32_t> intMap1 = move(intMap);
+			Assert::AreEqual(intMap1[intKey1], 100);
+			Assert::AreEqual(intMap.size(), 0U);
+			Assert::AreEqual(intMap1.size(), 2U);
+
+			intMap1.insert(HashMap<int32_t, int32_t>::PairType(intKey3, 300));
+			intMap = move(intMap1);
+			Assert::AreEqual(intMap[intKey3], 300);
+			Assert::AreEqual(intMap.size(), 3U);
+			Assert::AreEqual(intMap1.size(), 0U);
+
+			//Char*
+			char* charKey1 = "test";
+			char* charKey2 = "test1";
+			char* charKey3 = "test2";
+			HashMap<char*, int32_t> charMap;
+
+			charMap.insert(HashMap<char*, int32_t>::PairType(charKey1, 100));
+			charMap.insert(HashMap<char*, int32_t>::PairType(charKey2, 200));
+
+			HashMap<char*, int32_t> charMap1 = move(charMap);
+			Assert::AreEqual(charMap1[charKey2], 200);
+			Assert::AreEqual(charMap.size(), 0U);
+			Assert::AreEqual(charMap1.size(), 2U);
+
+			charMap1.insert(HashMap<char*, int32_t>::PairType(charKey3, 300));
+			charMap = move(charMap1);
+			Assert::AreEqual(charMap1.size(), 0U);
+			Assert::AreEqual(charMap.size(), 3U);
+			Assert::AreEqual(charMap[charKey3], 300);
+
+			//String type
+			string stringKey1 = string("testString");
+			string stringKey2 = string("testString1");
+			string stringKey3 = string("testString2");
+			HashMap<string, int32_t> stringMap;
+
+			stringMap.insert(HashMap<string, int32_t>::PairType(stringKey1, 100));
+			stringMap.insert(HashMap<string, int32_t>::PairType(stringKey2, 200));
+			HashMap<std::string, int32_t> stringMap1 = move(stringMap);
+			Assert::AreEqual(stringMap1[stringKey1], 100);
+			Assert::AreEqual(stringMap.size(), 0U);
+			Assert::AreEqual(stringMap1.size(), 2U);
+
+			stringMap1.insert(HashMap<string, int32_t>::PairType(stringKey3, 300));
+			stringMap = move(stringMap1);
+			Assert::AreEqual(stringMap[stringKey3], 300);
+			Assert::AreEqual(stringMap.size(), 3U);
+			Assert::AreEqual(stringMap1.size(), 0U);
+
+			//Foo
+			Foo fooKey1 = Foo(10);
+			Foo fooKey2 = Foo(20);
+			Foo fooKey3 = Foo(30);
+			HashMap<Foo, int32_t> fooMap;
+
+			fooMap.insert(HashMap<Foo, int32_t>::PairType(fooKey1, 100));
+			fooMap.insert(HashMap<Foo, int32_t>::PairType(fooKey2, 200));
+			HashMap<Foo, int32_t> fooMap1 = move(fooMap);
+			Assert::AreEqual(fooMap1[fooKey1], 100);
+			Assert::AreEqual(fooMap1.size(), 2U);
+			Assert::AreEqual(fooMap.size(), 0U);
+
+			fooMap1.insert(HashMap<Foo, int32_t>::PairType(fooKey3, 300));
+			fooMap = move(fooMap1);
+			Assert::AreEqual(fooMap[fooKey3], 300);
+			Assert::AreEqual(fooMap1.size(),0U);
+			Assert::AreEqual(fooMap.size(), 3U);
+		}
+
 		TEST_METHOD(hashmapInsertTest)
 		{
 			//Integer

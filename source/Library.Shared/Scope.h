@@ -29,6 +29,12 @@ namespace MahatmaGameEngine
 		Scope(const Scope& obj);
 
 		/**
+		* Move Constructor of Scope.
+		* @param obj RValue reference to Scope to move from
+		*/
+		Scope(Scope&& obj);
+
+		/**
 		* Clears all the heap allocated Scope elements from the Table
 		*/
 		~Scope();
@@ -39,6 +45,13 @@ namespace MahatmaGameEngine
 		* @return this
 		*/
 		Scope& operator=(const Scope& obj);
+
+		/**
+		* Move Assignment operator of Scope.
+		* @param obj RValue reference to Scope to move from
+		* @return Scope reference to this
+		*/
+		Scope& operator=(Scope&& obj);
 
 		/**
 		* Returns the datum entered at the index mentioned, based on the order of append

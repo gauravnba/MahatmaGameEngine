@@ -76,6 +76,16 @@ Datum::Datum(const Datum& obj) :
 	}
 }
 
+Datum::Datum(Datum&& obj) : 
+	mIsExternal(obj.mIsExternal), mType(obj.mType), mSize(obj.mSize), mCapacity(obj.mSize), mDatumVal(obj.mDatumVal)
+{
+	obj.mIsExternal = false;
+	obj.mType = DatumType::UNKNOWN;
+	obj.mSize = 0;
+	obj.mCapacity = 0;
+	obj.mDatumVal.genericType = nullptr;
+}
+
 #pragma region ASSIGNMENT_OPERATOR
 Datum& Datum::operator=(const Datum& obj)
 {
@@ -179,6 +189,27 @@ Datum& Datum::operator=(RTTI* obj)
 	return *this;
 }
 #pragma endregion
+
+Datum& Datum::operator=(Datum&& obj)
+{
+	if (this != &obj)
+	{
+		emptyOut();
+
+		mIsExternal = obj.mIsExternal;
+		mSize		= obj.mSize;
+		mCapacity	= obj.mCapacity;
+		mType		= obj.mType;
+		mDatumVal	= obj.mDatumVal;
+
+		obj.mIsExternal = false;
+		obj.mSize = 0;
+		obj.mCapacity = 0;
+		obj.mType = DatumType::UNKNOWN;
+		obj.mDatumVal.genericType = nullptr;
+	}
+	return *this;
+}
 
 #pragma region EQUALITY_OPERATOR
 
@@ -481,6 +512,9 @@ void Datum::clear()
 {
 	switch (mType)
 	{
+	case DatumType::UNKNOWN:
+		break;
+
 	case DatumType::INTEGER:
 		removeRecursively<int32_t>(mDatumVal.integerType);
 		break;
@@ -499,6 +533,7 @@ void Datum::clear()
 
 	case DatumType::TABLE:
 		removeRecursively<Scope*>(mDatumVal.tableType);
+		break;
 
 	case DatumType::STRING:
 		removeRecursively<string>(mDatumVal.stringType);
@@ -667,6 +702,7 @@ void Datum::setStorage(int32_t* externalArray, uint32_t numberOfElements)
 {
 	emptyOut();
 	mIsExternal = true;
+	mType = DatumType::INTEGER;
 	mSize = mCapacity = numberOfElements;
 	mDatumVal.integerType = externalArray;
 }
@@ -675,6 +711,7 @@ void Datum::setStorage(float* externalArray, uint32_t numberOfElements)
 {
 	emptyOut();
 	mIsExternal = true;
+	mType = DatumType::FLOAT;
 	mSize = mCapacity = numberOfElements;
 	mDatumVal.floatingType = externalArray;
 }
@@ -683,6 +720,7 @@ void Datum::setStorage(vec4* externalArray, uint32_t numberOfElements)
 {
 	emptyOut();
 	mIsExternal = true;
+	mType = DatumType::VECTOR;
 	mSize = mCapacity = numberOfElements;
 	mDatumVal.vectorType = externalArray;
 }
@@ -691,6 +729,7 @@ void Datum::setStorage(mat4x4* externalArray, uint32_t numberOfElements)
 {
 	emptyOut();
 	mIsExternal = true;
+	mType = DatumType::MATRIX;
 	mSize = mCapacity = numberOfElements;
 	mDatumVal.matrixType = externalArray;
 }
@@ -699,12 +738,14 @@ void Datum::setStorage(Scope** externalArray, uint32_t numberOfElements)
 {
 	UNREFERENCED_PARAMETER(externalArray);
 	UNREFERENCED_PARAMETER(numberOfElements);
+
 }
 
 void Datum::setStorage(string* externalArray, uint32_t numberOfElements)
 {
 	emptyOut();
 	mIsExternal = true;
+	mType = DatumType::STRING;
 	mSize = mCapacity = numberOfElements;
 	mDatumVal.stringType = externalArray;
 }
@@ -713,6 +754,7 @@ void Datum::setStorage(RTTI** externalArray, uint32_t numberOfElements)
 {
 	emptyOut();
 	mIsExternal = true;
+	mType = DatumType::RTTI_POINTER;
 	mSize = mCapacity = numberOfElements;
 	mDatumVal.rttiType = externalArray;
 }

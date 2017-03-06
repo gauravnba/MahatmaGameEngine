@@ -136,10 +136,18 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
+	Vector<T>::Vector(Vector&& obj) : 
+		mArray(obj.mArray), mCapacity(obj.mCapacity), mSize(obj.mSize)
+	{
+		obj.mArray = nullptr;
+		obj.mCapacity = 0;
+		obj.mSize = 0;
+	}
+
+	template <typename T>
 	Vector<T>::~Vector()
 	{
 		clear();
-		free(mArray);
 	}
 
 	template <typename T>
@@ -166,6 +174,25 @@ namespace MahatmaGameEngine
 				pushBack(value);
 			}
 		}
+		return *this;
+	}
+
+	template <typename T>
+	Vector<T>& Vector<T>::operator=(Vector<T>&& obj)
+	{
+		if (this != &obj)
+		{
+			clear();
+
+			mArray = obj.mArray;
+			mCapacity = obj.mCapacity;
+			mSize = obj.mSize;
+
+			obj.mArray = nullptr;
+			obj.mCapacity = 0;
+			obj.mSize = 0;
+		}
+		
 		return *this;
 	}
 
@@ -289,8 +316,9 @@ namespace MahatmaGameEngine
 		{
 			popBack();
 		}
-		mCapacity = mIncreaseBy;
-		reserve(mCapacity);
+		free(mArray);
+		mArray = nullptr;
+		mCapacity = 0;
 	}
 
 	template <typename T>

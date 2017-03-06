@@ -17,11 +17,20 @@ namespace MahatmaGameEngine
 		mFront(nullptr), mBack(nullptr), mSize(0)
 	{
 		Node* temp = obj.mFront;
-		while ( temp != nullptr )
+		while (temp != nullptr)
 		{
 			pushBack(temp->item);
 			temp = temp->next;
 		}
+	}
+
+	template <typename T>
+	SList<T>::SList(SList<T> &&obj) :
+		mFront(obj.mFront), mBack(obj.mBack), mSize(obj.mSize)
+	{
+		obj.mFront = nullptr;
+		obj.mBack = nullptr;
+		obj.mSize = 0;
 	}
 
 	template <typename T>
@@ -43,10 +52,28 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
+	SList<T>& SList<T>::operator=(SList<T>&& obj)
+	{
+		if (this != &obj)
+		{
+			clear();
+
+			mFront = obj.mFront;
+			mBack = obj.mBack;
+			mSize = obj.mSize;
+
+			obj.mFront = nullptr;
+			obj.mBack = nullptr;
+			obj.mSize = 0;
+		}
+		return *this;
+	}
+
+	template <typename T>
 	SList<T>::~SList()
 	{
 		//Remove all nodes from front to back.
-		while(mFront != nullptr)
+		while (mFront != nullptr)
 		{
 			Node* temp = mFront;
 			mFront = temp->next;
@@ -99,9 +126,9 @@ namespace MahatmaGameEngine
 	template <typename T>
 	typename SList<T>::Iterator SList<T>::pushBack(const T& data)
 	{
-		Node* temp	= new Node;
+		Node* temp = new Node;
 
-		temp->item	= data;
+		temp->item = data;
 		if (mSize != 0)
 		{
 			mBack->next = temp;
@@ -122,7 +149,7 @@ namespace MahatmaGameEngine
 	void SList<T>::clear()
 	{
 		//Remove all nodes from front to back.
-		while(mFront != nullptr)
+		while (mFront != nullptr)
 		{
 			Node* temp = mFront;
 			mFront = temp->next;

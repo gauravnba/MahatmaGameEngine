@@ -189,6 +189,64 @@ namespace UnitTestLibraryDesktop
 				Assert::AreEqual(fooList1.front(), fooList2.front());
 		}
 
+		//Test move semantics
+		TEST_METHOD(moveSemeanticsTest)
+		{
+			//Integer
+			SList<int32_t> intList1;
+			int32_t a = 10;
+			int32_t b = 10;
+
+			intList1.pushFront(a);
+
+			SList<int32_t> intList2 = move(intList1);
+			Assert::AreEqual(intList1.size(), 0U);
+			Assert::AreEqual(intList2.front(), a);
+			Assert::AreEqual(intList2.size(), 1U);
+
+			intList2.pushFront(b);
+
+			intList1 = move(intList2);
+			Assert::AreEqual(intList2.size(), 0U);
+			Assert::AreEqual(intList1.front(), a);
+			Assert::AreEqual(intList1.size(), 2U);
+
+
+			//Pointer
+			SList<int32_t*> pointerList1;
+
+			int32_t* test = new int32_t;
+			pointerList1.pushFront(test);
+
+			SList<int32_t*> pointerList2 = move(pointerList1);
+			Assert::AreEqual(pointerList1.size(), 0U);
+			Assert::AreEqual(pointerList2.size(), 1U);
+			Assert::AreEqual(pointerList2.front(), test);
+
+			pointerList2.pushFront(test + 1);
+			pointerList1 = move(pointerList2);
+
+			Assert::AreNotEqual(pointerList1.size(), pointerList2.size());
+			Assert::AreEqual(pointerList1.front(), test + 1);
+
+			delete test;
+
+			//Class Foo
+			SList<Foo> fooList1;
+			fooList1.pushFront(Foo(a));
+
+			SList<Foo> fooList2 = move(fooList1);
+			Assert::AreEqual(fooList1.size(), 0U);
+			Assert::AreEqual(fooList2.size(), 1U);
+			Assert::AreEqual(fooList2.front(), Foo(a));
+
+			fooList2.pushFront(Foo(b));
+			fooList1 = move(fooList2);
+
+			Assert::AreNotEqual(fooList1.size(), fooList2.size());
+			Assert::AreEqual(fooList1.front(), Foo(b));
+		}
+
 		//Test the push front method in the SList class.
 		//Tests both pushFront on empty list and on a non-empty list.
 		TEST_METHOD(pushFrontTest)

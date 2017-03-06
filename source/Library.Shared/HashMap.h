@@ -14,7 +14,7 @@ namespace MahatmaGameEngine
 	* A user-defined hash function can be passed by using the third type argument of hash function.
 	*/
 	template <typename TKey, typename TData, typename HashFunction = DefaultHash<TKey>, typename ComparisonFunctor = DefaultCompare<TKey>>
-	class HashMap
+	class HashMap final
 	{
 	public:
 		//TypeDefs specific to the HashMap class
@@ -128,9 +128,15 @@ namespace MahatmaGameEngine
 		HashMap(const HashMap& obj);
 		
 		/**
+		* Move constructor moves the hashmap data from the passed parameter to this.
+		* @param obj the Rvalue reference of the Hashmap to copy from
+		*/
+		HashMap(HashMap&& obj);
+
+		/**
 		* Destructor of the HashMap
 		*/
-		virtual ~HashMap();
+		~HashMap();
 
 		/**
 		* Assignment operator for HashMap.
@@ -138,6 +144,13 @@ namespace MahatmaGameEngine
 		* @return Reference to this map.
 		*/
 		HashMap& operator=(const HashMap& obj);
+
+		/**
+		* Move operator moves the hashmap data from the passed parameter to this and returns this
+		* @param obj the Rvalue reference of the Hashmap to copy from
+		* @return Hashmap reference to this
+		*/
+		HashMap& operator=(HashMap&& obj);
 
 		/**
 		* Searches for the pair in the HashMap that contains the key provided.

@@ -109,6 +109,12 @@ namespace MahatmaGameEngine
 		Vector(const Vector& obj);
 
 		/**
+		* Move constructor moves the elements from the vector passed as argument to this one.
+		* @param obj - Rvalue reference to the vector to move.
+		*/
+		Vector(Vector&& obj);
+
+		/**
 		* Default destructor defined because 
 		*/
 		~Vector();
@@ -126,7 +132,14 @@ namespace MahatmaGameEngine
 		* @param the vector to deep copy from.
 		* @return address of the deep copied vector.
 		*/
-		Vector<T>& operator=(const Vector<T>& obj);
+		Vector& operator=(const Vector& obj);
+
+		/**
+		* Move operator moves the elements from the vector passed as argument to this.
+		* @param obj Vector Rvalue reference to move.
+		* @return reference to this Vector.
+		*/
+		Vector& operator=(Vector&& obj);
 
 		/**
 		* At([]) operator to access elements at a particular index in vector.

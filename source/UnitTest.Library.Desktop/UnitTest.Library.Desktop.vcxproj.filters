@@ -4,65 +4,64 @@
     <Filter Include="Supporting Classes">
       <UniqueIdentifier>{76b34f73-9bf5-4577-b0cf-fd19c7455f99}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Test Clases">
+    <Filter Include="Test Classes">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Supporting Headers">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SListTest.cpp">
-      <Filter>Test Clases</Filter>
+      <Filter>Test Classes</Filter>
     </ClCompile>
     <ClCompile Include="Foo.cpp">
       <Filter>Supporting Classes</Filter>
     </ClCompile>
     <ClCompile Include="SListIteratorTest.cpp">
-      <Filter>Test Clases</Filter>
+      <Filter>Test Classes</Filter>
     </ClCompile>
     <ClCompile Include="VectorTest.cpp">
-      <Filter>Test Clases</Filter>
+      <Filter>Test Classes</Filter>
     </ClCompile>
     <ClCompile Include="VectorIteratorTest.cpp">
-      <Filter>Test Clases</Filter>
+      <Filter>Test Classes</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>Test Clases</Filter>
+      <Filter>Test Classes</Filter>
     </ClCompile>
     <ClCompile Include="HashMapIteratorTest.cpp">
-      <Filter>Test Clases</Filter>
+      <Filter>Test Classes</Filter>
     </ClCompile>
     <ClCompile Include="HashMapTest.cpp">
-      <Filter>Test Clases</Filter>
+      <Filter>Test Classes</Filter>
     </ClCompile>
     <ClCompile Include="FooDefaultHash.cpp">
       <Filter>Supporting Classes</Filter>
     </ClCompile>
     <ClCompile Include="DatumTest.cpp">
-      <Filter>Test Clases</Filter>
+      <Filter>Test Classes</Filter>
     </ClCompile>
     <ClCompile Include="ScopeTest.cpp">
-      <Filter>Test Clases</Filter>
+      <Filter>Test Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">
-      <Filter>Supporting Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ToStringFunctions.h">
-      <Filter>Supporting Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Supporting Headers</Filter>
+      <Filter>Supporting Classes</Filter>
     </ClInclude>
     <ClInclude Include="FooDefaultHash.h">
-      <Filter>Supporting Headers</Filter>
+      <Filter>Supporting Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Supporting Classes</Filter>
     </ClInclude>
     <ClInclude Include="TestMacros.h">
-      <Filter>Supporting Headers</Filter>
+      <Filter>Supporting Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="ToStringFunctions.h">
+      <Filter>Supporting Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributedFoo.h">
+      <Filter>Supporting Classes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

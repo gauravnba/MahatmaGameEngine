@@ -138,6 +138,13 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename TKey, typename TData, typename HashFunction, typename ComparisonFunctor>
+	HashMap<TKey, TData, HashFunction, ComparisonFunctor>::HashMap(HashMap&& obj) :
+		mBucket(move(obj.mBucket)), mSize(obj.mSize)
+	{
+		obj.mSize = 0;
+	}
+
+	template <typename TKey, typename TData, typename HashFunction, typename ComparisonFunctor>
 	HashMap<TKey, TData, HashFunction, ComparisonFunctor>::~HashMap()
 	{
 	}
@@ -149,8 +156,23 @@ namespace MahatmaGameEngine
 		{
 			mSize = obj.mSize;
 			mBucket = obj.mBucket;
-			return *this;
 		}
+		return *this;
+	}
+
+	template <typename TKey, typename TData, typename HashFunction, typename ComparisonFunctor>
+	typename HashMap<TKey, TData, HashFunction, ComparisonFunctor>& HashMap<TKey, TData, HashFunction, ComparisonFunctor>::operator=(HashMap&& obj)
+	{
+		if (this != &obj)
+		{
+			clear();
+
+			mBucket = move(obj.mBucket);
+			mSize = obj.mSize;
+
+			obj.mSize = 0;
+		}
+		return *this;
 	}
 
 	template <typename TKey, typename TData, typename HashFunction, typename ComparisonFunctor>

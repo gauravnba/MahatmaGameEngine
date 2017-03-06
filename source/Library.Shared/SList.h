@@ -117,15 +117,28 @@ namespace MahatmaGameEngine
 
 		/**
 		* Copy constructor of the class.
-		* @param the list to be copied from
+		* @param obj the list to be copied from
 		*/
 		SList(const SList& obj);
 
 		/**
+		* Move constructor of SList. Moves the data from the passed parameter.
+		* @param obj the Rvalue of list to move from
+		*/
+		SList(SList&& obj);
+
+		/**
 		* Assignment operator method for SList
-		* @param the list to be copied from
+		* @param obj the list to be copied from
 		*/
 		SList& operator=(const SList& obj);
+
+		/**
+		* Move operator, moves the data from the passed paramter.
+		* @param obj the RValue of list to move from
+		* @return SList reference to this
+		*/
+		SList& operator=(SList&& obj);
 
 		/** 
 		* The destructor of the SList.

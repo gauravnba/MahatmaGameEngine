@@ -205,6 +205,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttributedFoo.h" />
     <ClInclude Include="Foo.h" />
     <ClInclude Include="FooDefaultHash.h" />
     <ClInclude Include="pch.h" />
