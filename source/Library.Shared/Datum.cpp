@@ -58,7 +58,7 @@ Datum::Datum(const Datum& obj) :
 	case DatumType::TABLE:
 		while (mSize < obj.mSize)
 		{
-			set(obj.mDatumVal.tableType[mSize], mSize);
+			set(*(obj.mDatumVal.tableType[mSize]), mSize);
 		}
 		break;
 	case DatumType::STRING:
@@ -117,7 +117,7 @@ Datum& Datum::operator=(const Datum& obj)
 		case DatumType::TABLE:
 			while (mSize < obj.mSize)
 			{
-				set(obj.mDatumVal.tableType[mSize], mSize);
+				set(*(obj.mDatumVal.tableType[mSize]), mSize);
 			}
 		case DatumType::MATRIX:
 			while (mSize < obj.mSize)
@@ -171,7 +171,7 @@ Datum& Datum::operator=(const mat4x4& obj)
 	return *this;
 }
 
-Datum& Datum::operator=(Scope* obj)
+Datum& Datum::operator=(Scope& obj)
 {
 	set(obj);
 	return *this;
@@ -343,9 +343,9 @@ bool Datum::operator==(const mat4x4& obj) const
 	return (mDatumVal.matrixType[0] == obj);
 }
 
-bool Datum::operator==(const Scope* obj) const
+bool Datum::operator==(const Scope& obj) const
 {
-	return (mDatumVal.tableType[0]->equals(obj));
+	return (mDatumVal.tableType[0]->equals(&obj));
 }
 
 bool Datum::operator==(const string& obj) const
@@ -387,7 +387,7 @@ bool Datum::operator!=(const mat4x4& obj) const
 	return (!(*this == obj));
 }
 
-bool Datum::operator!=(const Scope* obj) const
+bool Datum::operator!=(const Scope& obj) const
 {
 	return !(*this == obj);
 }
@@ -631,7 +631,7 @@ void Datum::set(const mat4x4& value, uint32_t index)
 	mDatumVal.matrixType[index] = value;
 }
 
-void Datum::set(Scope* value, uint32_t index)
+void Datum::set(Scope& value, uint32_t index)
 {
 	if ((mType != DatumType::UNKNOWN) && (mType != DatumType::TABLE))
 	{
@@ -649,7 +649,7 @@ void Datum::set(Scope* value, uint32_t index)
 		}
 		setSize(index + 1);
 	}
-	mDatumVal.tableType[index] = value;
+	mDatumVal.tableType[index] = &value;
 }
 
 void Datum::set(const string& value, uint32_t index)
@@ -702,7 +702,7 @@ void Datum::setStorage(int32_t* externalArray, uint32_t numberOfElements)
 {
 	emptyOut();
 	mIsExternal = true;
-	mType = DatumType::INTEGER;
+	setType(DatumType::INTEGER);
 	mSize = mCapacity = numberOfElements;
 	mDatumVal.integerType = externalArray;
 }
@@ -711,7 +711,7 @@ void Datum::setStorage(float* externalArray, uint32_t numberOfElements)
 {
 	emptyOut();
 	mIsExternal = true;
-	mType = DatumType::FLOAT;
+	setType(DatumType::FLOAT);
 	mSize = mCapacity = numberOfElements;
 	mDatumVal.floatingType = externalArray;
 }
@@ -720,7 +720,7 @@ void Datum::setStorage(vec4* externalArray, uint32_t numberOfElements)
 {
 	emptyOut();
 	mIsExternal = true;
-	mType = DatumType::VECTOR;
+	setType(DatumType::VECTOR);
 	mSize = mCapacity = numberOfElements;
 	mDatumVal.vectorType = externalArray;
 }
@@ -729,23 +729,16 @@ void Datum::setStorage(mat4x4* externalArray, uint32_t numberOfElements)
 {
 	emptyOut();
 	mIsExternal = true;
-	mType = DatumType::MATRIX;
+	setType(DatumType::MATRIX);
 	mSize = mCapacity = numberOfElements;
 	mDatumVal.matrixType = externalArray;
-}
-
-void Datum::setStorage(Scope** externalArray, uint32_t numberOfElements)
-{
-	UNREFERENCED_PARAMETER(externalArray);
-	UNREFERENCED_PARAMETER(numberOfElements);
-
 }
 
 void Datum::setStorage(string* externalArray, uint32_t numberOfElements)
 {
 	emptyOut();
 	mIsExternal = true;
-	mType = DatumType::STRING;
+	setType(DatumType::STRING);
 	mSize = mCapacity = numberOfElements;
 	mDatumVal.stringType = externalArray;
 }
@@ -754,7 +747,7 @@ void Datum::setStorage(RTTI** externalArray, uint32_t numberOfElements)
 {
 	emptyOut();
 	mIsExternal = true;
-	mType = DatumType::RTTI_POINTER;
+	setType(DatumType::RTTI_POINTER);
 	mSize = mCapacity = numberOfElements;
 	mDatumVal.rttiType = externalArray;
 }
@@ -883,8 +876,7 @@ bool Datum::removeTable(const Scope* scope)
 		{
 			if (mDatumVal.tableType[i] == scope)
 			{
-				memmove(mDatumVal.tableType[i], mDatumVal.tableType[i + 1], (mSize - 1 - i) * sizeof(Scope*));
-				--mSize;
+				memmove(mDatumVal.tableType[i], mDatumVal.tableType[i + 1], ((--mSize) - i) * sizeof(Scope*));
 				removed = true;
 				break;
 			}

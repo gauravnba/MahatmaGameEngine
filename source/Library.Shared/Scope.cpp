@@ -24,8 +24,12 @@ Scope::Scope(const Scope& obj):
 	{
 		if (value->second.type() == DatumType::TABLE)
 		{
-			Scope& temp = appendScope(value->first);
-			temp = *(value->second.get<Scope*>());
+			uint32_t size = value->second.size();
+			for (uint32_t i = 0; i < size; ++i)
+			{
+				Scope& temp = appendScope(value->first);
+				temp = *(value->second.get<Scope*>(i));
+			}
 		}
 		else
 		{
@@ -38,6 +42,24 @@ Scope::Scope(const Scope& obj):
 Scope::Scope(Scope&& obj) :
 	mTable(move(obj.mTable)), mOrder(move(obj.mOrder)), mParent(obj.mParent)
 {
+	//Parent this Scope to the (former)parent of obj.
+	if (mParent != nullptr)
+	{
+		for (Pair* pair : mParent->mOrder)
+		{
+			uint32_t size = pair->second.size();
+			for (uint32_t i = 0; i < size; ++i)
+			{
+				//Remove the table to move from the Datum and add this in its stead.
+				if(pair->second.removeTable(&obj))
+				{
+					pair->second.set(*this, i);
+					break;
+				}
+			}
+		}
+	}
+
 	//Reparent all immediate child Scopes to this one.
 	uint32_t orderSize = mOrder.size();
 	for (uint32_t i = 0; i < orderSize; ++i)
@@ -97,6 +119,24 @@ Scope& Scope::operator=(Scope&& obj)
 		mTable = move(obj.mTable);
 		mOrder = move(obj.mOrder);
 		mParent = obj.mParent;
+
+		//Parent this Scope to the (former)parent of obj.
+		if (mParent != nullptr)
+		{
+			for (Pair* pair : mParent->mOrder)
+			{
+				uint32_t size = pair->second.size();
+				for (uint32_t i = 0; i < size; ++i)
+				{
+					//Remove obj from the Datum and add this in its stead.
+					if (pair->second.removeTable(&obj))
+					{
+						pair->second.set(*this, i);
+						break;
+					}
+				}
+			}
+		}
 
 		//Reparent the child Scopes
 		uint32_t orderSize = mOrder.size();
@@ -219,7 +259,7 @@ Scope& Scope::appendScope(const std::string& name)
 	returnVal->mParent = this;
 
 	//Append scope to the Datum array
-	scopeDatum->set(returnVal, scopeDatum->size());
+	scopeDatum->set(*returnVal, scopeDatum->size());
 	return *returnVal;
 }
 
@@ -267,7 +307,7 @@ void Scope::adopt(Scope* child, const std::string& name)
 
 	//Append the child to this.
 	Datum* temp = &append(name);
-	temp->set(child);
+	temp->set(*child, temp->size());
 }
 
 void Scope::orphan()

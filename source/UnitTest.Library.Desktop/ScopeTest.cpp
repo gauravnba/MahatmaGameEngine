@@ -107,6 +107,19 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(testScope[tableType] == childTable);
 			Assert::IsTrue(childTable->getParent() != &newScope);
 			Assert::IsTrue(childTable->getParent() == &testScope);
+
+			//Test parenting of move scope.
+			Scope newChild = move(*childTable);
+
+			Assert::IsTrue(newChild != *childTable);
+			Assert::IsTrue(newChild.getParent() == &testScope);
+			Assert::IsNull(childTable->getParent());
+
+			*childTable = move(newChild);
+
+			Assert::IsTrue(newChild != *childTable);
+			Assert::IsTrue(childTable->getParent() == &testScope);
+			Assert::IsNull(newChild.getParent());
 		}
 
 		TEST_METHOD(appendScopeTest)

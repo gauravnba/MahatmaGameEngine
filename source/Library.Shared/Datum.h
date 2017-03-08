@@ -99,7 +99,7 @@ namespace MahatmaGameEngine
 		* @return Reference to this
 		* @overload Datum& operator=(const Datum& obj);
 		*/
-		Datum& operator=(Scope* obj);
+		Datum& operator=(Scope& obj);
 
 		/**
 		* Scalar assignment operator assigns the parameter to this at index 0.
@@ -178,7 +178,7 @@ namespace MahatmaGameEngine
 		* @return boolean true if equal
 		* @overload bool operator==(const Datum& obj) const;
 		*/
-		bool operator==(const Scope* obj) const;
+		bool operator==(const Scope& obj) const;
 
 		/**
 		* Overloaded equality operator for scalar values i.e. checks
@@ -252,7 +252,7 @@ namespace MahatmaGameEngine
 		* @return boolean false if equal
 		* @overload bool operator!=(const Datum& obj) const;
 		*/
-		bool operator!=(const Scope* obj) const;
+		bool operator!=(const Scope& obj) const;
 
 		/**
 		* Overloaded inequality operator for scalar values i.e. checks
@@ -298,15 +298,6 @@ namespace MahatmaGameEngine
 		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
 		void setStorage(glm::vec4* externalArray, uint32_t numberOfElements);
-
-		/**
-		* Does nothing as Scope should not be assigned externally. Captures a Scope pointer and does nothing to avoid an exception.
-		* Overload for Scope pointer.
-		* @param externalArray of type Scope pointer to be assigned from.
-		* @param numberOfElements to set the size of the datum Array
-		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
-		*/
-		void setStorage(Scope** externalArray, uint32_t numberOfElements);
 
 		/**
 		* Sets the union to point to an external array passed as parameter. Overload for matrix.
@@ -371,7 +362,7 @@ namespace MahatmaGameEngine
 		* @param index in the Datum array at which the value will be assigned. The default is 0.
 		* @overload void set(const float& value, std::uint32_t index = 0);
 		*/
-		void set(Scope* value, std::uint32_t index = 0);
+		void set(Scope& value, std::uint32_t index = 0);
 
 		/**
 		* Sets the value at the given index in the Datum

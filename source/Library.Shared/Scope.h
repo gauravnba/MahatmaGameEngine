@@ -37,7 +37,7 @@ namespace MahatmaGameEngine
 		/**
 		* Clears all the heap allocated Scope elements from the Table
 		*/
-		~Scope();
+		virtual ~Scope();
 
 		/**
 		* Assignment operator assigns the Scope on the right hand side to this.

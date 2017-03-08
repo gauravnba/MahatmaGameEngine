@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Attributed.cpp">
+      <Filter>Scripting Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Datum.cpp">
+      <Filter>Scripting Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Scope.cpp">
+      <Filter>Scripting Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DefaultHash.cpp">
+      <Filter>Containers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Attributed.h">
+      <Filter>Scripting Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Datum.h">
+      <Filter>Scripting Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RTTI.h">
+      <Filter>Scripting Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Scope.h">
+      <Filter>Scripting Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultHash.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)HashMap.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SList.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Datum.inl">
+      <Filter>Scripting Interface</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)HashMap.inl">
+      <Filter>Containers</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)DefaultHash.inl">
+      <Filter>Containers</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)SList.inl">
+      <Filter>Containers</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)SListIterator.inl">
+      <Filter>Containers</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Vector.inl">
+      <Filter>Containers</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Containers">
+      <UniqueIdentifier>{add57087-ab13-4a11-b15e-7d02e4e5e638}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting Interface">
+      <UniqueIdentifier>{85d7d56d-e0a5-491c-a2e9-e2976567d7e1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

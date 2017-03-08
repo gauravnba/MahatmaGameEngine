@@ -8,6 +8,7 @@
 #include "ToStringFunctions.h"
 #include "Foo.h"
 #include "TestMacros.h"
+#include "AttributedFoo.h"
 
 #include "DefaultHash.h"
 #include "HashMap.h"
@@ -15,3 +16,4 @@
 #include "SList.h"
 #include "Datum.h"
 #include "Scope.h"
+#include "Attributed.h"

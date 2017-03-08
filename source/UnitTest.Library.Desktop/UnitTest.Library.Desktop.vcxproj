@@ -185,6 +185,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AttributedFoo.cpp" />
+    <ClCompile Include="AttributedTests.cpp" />
     <ClCompile Include="DatumTest.cpp" />
     <ClCompile Include="Foo.cpp" />
     <ClCompile Include="FooDefaultHash.cpp" />

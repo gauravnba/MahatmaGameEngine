@@ -8,40 +8,52 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Test Classes\Container Tests">
+      <UniqueIdentifier>{c392ded7-d006-4810-ba5a-e055dcaad0e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test Classes\Data Classes Tests">
+      <UniqueIdentifier>{519e356b-a3ed-4acb-b978-6ec6e6d7bb24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SListTest.cpp">
-      <Filter>Test Classes</Filter>
-    </ClCompile>
     <ClCompile Include="Foo.cpp">
       <Filter>Supporting Classes</Filter>
     </ClCompile>
-    <ClCompile Include="SListIteratorTest.cpp">
-      <Filter>Test Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="VectorTest.cpp">
-      <Filter>Test Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="VectorIteratorTest.cpp">
-      <Filter>Test Classes</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>Test Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="HashMapIteratorTest.cpp">
-      <Filter>Test Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="HashMapTest.cpp">
       <Filter>Test Classes</Filter>
     </ClCompile>
     <ClCompile Include="FooDefaultHash.cpp">
       <Filter>Supporting Classes</Filter>
     </ClCompile>
     <ClCompile Include="DatumTest.cpp">
-      <Filter>Test Classes</Filter>
+      <Filter>Test Classes\Data Classes Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="AttributedTests.cpp">
+      <Filter>Test Classes\Data Classes Tests</Filter>
     </ClCompile>
     <ClCompile Include="ScopeTest.cpp">
-      <Filter>Test Classes</Filter>
+      <Filter>Test Classes\Data Classes Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="HashMapIteratorTest.cpp">
+      <Filter>Test Classes\Container Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="HashMapTest.cpp">
+      <Filter>Test Classes\Container Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="SListIteratorTest.cpp">
+      <Filter>Test Classes\Container Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="SListTest.cpp">
+      <Filter>Test Classes\Container Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorIteratorTest.cpp">
+      <Filter>Test Classes\Container Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorTest.cpp">
+      <Filter>Test Classes\Container Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="AttributedFoo.cpp">
+      <Filter>Supporting Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

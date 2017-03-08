@@ -4,30 +4,28 @@
 
 using namespace MahatmaGameEngine;
 using namespace std;
+using namespace glm;
 
 RTTI_DEFINITIONS(Attributed)
 
-Attributed::Attributed() :
-	mAuxiliaryBegin(0)
+HashMap<uint64_t, Vector<string>> Attributed::mPrescribedAttributes;
+
+Attributed::Attributed()
 {
-	Vector<string> temp;
-	temp.pushBack(typeName());
-	mPrescribedAttributes.insert(PrescribedAttributesPair(typeIdClass(), temp));
-	++mAuxiliaryBegin;
+	(*this)["this"] = this;
+	addToPrescribed("this");
 }
 
 Attributed::Attributed(const Attributed& obj) :
-	mAuxiliaryBegin(obj.mAuxiliaryBegin)
+	Scope(obj)
 {
-	mPrescribedAttributes = obj.mPrescribedAttributes;
+	(*this)["this"] = this;
 }
 
 Attributed::Attributed(Attributed&& obj) :
-	mAuxiliaryBegin(obj.mAuxiliaryBegin)
+	Scope(move(obj))
 {
-	mPrescribedAttributes = move(obj.mPrescribedAttributes);
-
-	obj.mAuxiliaryBegin = 0;
+	(*this)["this"] = this;
 }
 
 Attributed::~Attributed()
@@ -38,8 +36,7 @@ Attributed& Attributed::operator=(const Attributed& obj)
 {
 	if (this != &obj)
 	{
-		mPrescribedAttributes = obj.mPrescribedAttributes;
-		mAuxiliaryBegin = obj.mAuxiliaryBegin;
+		Scope::operator=(obj);
 	}
 	return *this;
 }
@@ -48,10 +45,8 @@ Attributed& Attributed::operator=(Attributed&& obj)
 {
 	if (this != &obj)
 	{
-		mPrescribedAttributes = move(obj.mPrescribedAttributes);
-		mAuxiliaryBegin = obj.mAuxiliaryBegin;
-
-		obj.mAuxiliaryBegin = 0;
+		Scope::operator=(move(obj));
+		(*this)["this"] = this;
 	}
 	return *this;
 }
@@ -69,7 +64,7 @@ bool Attributed::isAttribute(const string& name)
 bool Attributed::isPrescribedAttribute(const string& name)
 {
 	bool isPrescribed = false;
-	Vector<string> attributesList = mPrescribedAttributes[typeIdClass()];
+	Vector<string>& attributesList = mPrescribedAttributes[Attributed::typeIdClass()];
 	if (isAttribute(name) && (attributesList.find(name) != attributesList.end()))
 	{
 		isPrescribed = true;
@@ -79,7 +74,7 @@ bool Attributed::isPrescribedAttribute(const string& name)
 
 bool Attributed::isAuxiliaryAttribute(const string& name)
 {
-	return !(isPrescribedAttribute(name));
+	return (isAttribute(name) && !isPrescribedAttribute(name));
 }
 
 Datum& Attributed::appendAuxiliaryAttribute(const string& name)
@@ -94,7 +89,107 @@ Datum& Attributed::appendAuxiliaryAttribute(const string& name)
 	}
 }
 
-Datum& Attributed::appendInternalAttribute(const string& name)
+uint32_t Attributed::auxiliaryBegin()
 {
-	return append(name);
+	return mPrescribedAttributes[typeIdInstance()].size();
+}
+
+#pragma region APPEND_INTERNAL_ATTRIBUTE
+Datum& Attributed::appendInternalAttribute(const string& name, int32_t* value, uint32_t numberOfElements)
+{
+	return addInternalAttribute(name, value, numberOfElements);
+}
+
+Datum& Attributed::appendInternalAttribute(const string& name, float* value, uint32_t numberOfElements)
+{
+	return addInternalAttribute(name, value, numberOfElements);
+}
+
+Datum& Attributed::appendInternalAttribute(const string& name, vec4* value, uint32_t numberOfElements)
+{
+	return addInternalAttribute(name, value, numberOfElements);
+}
+
+Datum& Attributed::appendInternalAttribute(const string& name, mat4x4* value, uint32_t numberOfElements)
+{
+	return addInternalAttribute(name, value, numberOfElements);
+}
+
+Datum& Attributed::appendInternalAttribute(const string& name, string* value, uint32_t numberOfElements)
+{
+	return addInternalAttribute(name, value, numberOfElements);
+}
+
+Datum& Attributed::appendInternalAttribute(const string& name, Scope& scope)
+{
+	Datum& temp = append(name);
+	adopt(&scope, name);
+	return temp;
+}
+
+Datum& Attributed::appendInternalAttribute(const string& name, RTTI** value, uint32_t numberOfElements)
+{
+	return addInternalAttribute(name, value, numberOfElements);
+}
+#pragma endregion
+
+#pragma region APPEND_EXTERNAL_ATTRIBUTE
+Datum& Attributed::appendExternalAttribute(const std::string& name, int32_t* attribute, std::uint32_t numberOfElements /* = 1 */)
+{
+	return addExternalAttribute(name, attribute, numberOfElements);
+}
+
+Datum& Attributed::appendExternalAttribute(const std::string& name, float* attribute, std::uint32_t numberOfElements /* = 1 */)
+{
+	return addExternalAttribute(name, attribute, numberOfElements);
+}
+
+Datum& Attributed::appendExternalAttribute(const std::string& name, vec4* attribute, std::uint32_t numberOfElements /* = 1 */)
+{
+	return addExternalAttribute(name, attribute, numberOfElements);
+}
+
+Datum& Attributed::appendExternalAttribute(const std::string& name, mat4x4* attribute, std::uint32_t numberOfElements /* = 1 */)
+{
+	return addExternalAttribute(name, attribute, numberOfElements);
+}
+
+Datum& Attributed::appendExternalAttribute(const std::string& name, string* attribute, std::uint32_t numberOfElements /* = 1 */)
+{
+	return addExternalAttribute(name, attribute, numberOfElements);
+}
+
+Datum& Attributed::appendExternalAttribute(const std::string& name, RTTI** attribute, std::uint32_t numberOfElements /* = 1 */)
+{
+	return addExternalAttribute(name, attribute, numberOfElements);
+}
+
+#pragma endregion
+
+void Attributed::addToPrescribed(const string& name)
+{
+	Vector<string>& temp = mPrescribedAttributes[typeIdInstance()];
+	if (!temp.isEmpty())
+	{
+		temp.pushBack(name);
+	}
+}
+
+template <typename T>
+Datum& Attributed::addInternalAttribute(const std::string& name, T* value, std::uint32_t numberOfElements)
+{
+	Datum& temp = append(name);
+	for (uint32_t i = 0; i < numberOfElements; ++i)
+	{
+		temp.set(value[i], i);
+	}
+	return temp;
+}
+
+template <typename T>
+Datum& Attributed::addExternalAttribute(const std::string& name, T* attribute, std::uint32_t numberOfElements)
+{
+	Datum& temp = append(name);
+	temp.setStorage(attribute, numberOfElements);
+	return temp;
 }
