@@ -322,6 +322,10 @@ namespace MahatmaGameEngine
 	{
 		//static because only one instance on hash is required
 		static HashFunction hash;
+		if (mBucket.size() == 0)
+		{
+			throw std::runtime_error("The Hashmap was destroyed and should not be used.");
+		}
 		return (hash(key) % mBucket.size());
 	}
 

@@ -27,7 +27,7 @@ namespace MahatmaGameEngine
 		RTTI_POINTER
 	};
 	
-	class Datum
+	class Datum final
 	{
 	public:
 		/**

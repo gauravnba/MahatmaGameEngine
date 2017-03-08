@@ -2,6 +2,7 @@
 
 #include "AttributedFoo.h"
 
+using namespace UnitTestLibraryDesktop;
 using namespace MahatmaGameEngine;
 using namespace glm;
 using namespace std;
@@ -10,18 +11,22 @@ RTTI_DEFINITIONS(AttributedFoo)
 
 AttributedFoo::AttributedFoo()
 {
+	initializeSignature();
+
 	initializeMembers();
 
 	appendExternalAttribute("Integer", mIntAttribute, numElements);
 	addToPrescribed("Integer");
-	//appendExternalAttribute("FloatingPoint", mFloatAttribute, numElements);
-	//addToPrescribed("FloatingPoint");
-	//appendExternalAttribute("Vector", mVectorAttribute, numElements);
-	//addToPrescribed("Vector");
-	//appendExternalAttribute("Matrix", mMatrixAttribute, numElements);
-	//addToPrescribed("Matrix");
-	//appendExternalAttribute("String", mStringAttribute, numElements);
-	//addToPrescribed("String");
+	appendExternalAttribute("FloatingPoint", mFloatAttribute, numElements);
+	addToPrescribed("FloatingPoint");
+	appendExternalAttribute("Vector", mVectorAttribute, numElements);
+	addToPrescribed("Vector");
+	appendExternalAttribute("Matrix", mMatrixAttribute, numElements);
+	addToPrescribed("Matrix");
+	appendExternalAttribute("String", mStringAttribute, numElements);
+	addToPrescribed("String");
+	addNestedScope("Table", mScope);
+	addToPrescribed("Table");
 }
 
 AttributedFoo::AttributedFoo(const AttributedFoo& obj)
@@ -33,7 +38,6 @@ AttributedFoo::AttributedFoo(const AttributedFoo& obj)
 AttributedFoo::AttributedFoo(AttributedFoo&& obj) :
 	Attributed(move(obj))
 {
-	fixUpDatums();
 }
 
 AttributedFoo& AttributedFoo::operator=(const AttributedFoo& obj)

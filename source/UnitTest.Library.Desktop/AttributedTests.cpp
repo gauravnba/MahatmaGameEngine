@@ -50,10 +50,76 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(foo1.isAttribute("Integer"));
 			Assert::IsTrue(foo2.isAttribute("Integer"));
+			Assert::IsTrue(foo2.isPrescribedAttribute("Integer"));
 			Assert::AreEqual(foo1.auxiliaryBegin(), foo2.auxiliaryBegin());
 		}
 
 		TEST_METHOD(assignmentOperatorTest)
+		{
+			AttributedFoo foo1;
+			Assert::IsTrue(foo1.isPrescribedAttribute("this"));
+
+			AttributedFoo foo2;
+			foo2.appendAuxiliaryAttribute("Auxiliary");
+			Assert::IsTrue(foo2.isAuxiliaryAttribute("Auxiliary"));
+			foo2 = foo1;
+
+			Assert::IsTrue(foo1.isAttribute("Integer"));
+			Assert::IsTrue(foo2.isAttribute("Integer"));
+			Assert::IsTrue(foo2.isPrescribedAttribute("Integer"));
+			Assert::IsFalse(foo2.isAuxiliaryAttribute("Auxiliary"));
+			Assert::AreEqual(foo1.auxiliaryBegin(), foo2.auxiliaryBegin());
+		}
+
+		TEST_METHOD(moveConstructorTest)
+		{
+			AttributedFoo* foo1 = new AttributedFoo;
+			foo1->appendAuxiliaryAttribute("Auxiliary1");
+			Assert::IsTrue(foo1->isAuxiliaryAttribute("Auxiliary1"));
+			AttributedFoo foo2 = move(*foo1);
+			delete foo1;
+			Assert::IsTrue(foo2.isAuxiliaryAttribute("Auxiliary1"));
+			Assert::IsTrue(foo2.isPrescribedAttribute("Integer"));
+			Assert::IsTrue(foo2.isPrescribedAttribute("this"));
+		}
+
+		TEST_METHOD(moveAssignmentOperatorTest)
+		{
+
+		}
+
+		TEST_METHOD(isAttributeTest)
+		{
+
+		}
+
+		TEST_METHOD(isPrescribedAttributeTest)
+		{
+
+		}
+
+		TEST_METHOD(isAuxiliaryAttributeTest)
+		{
+
+		}
+
+		TEST_METHOD(appendAuxiliaryAttributeTest)
+		{
+			AttributedFoo foo1;
+			foo1.appendAuxiliaryAttribute("Auxiliary");
+			Assert::IsTrue(foo1.isAuxiliaryAttribute("Auxiliary"));
+			
+			auto appendAuxiliaryAsPrescribedException = [&foo1] {foo1.appendAuxiliaryAttribute("Integer"); };
+			Assert::ExpectException<exception>(appendAuxiliaryAsPrescribedException);
+		}
+
+		TEST_METHOD(auxiliaryBeginTest)
+		{
+			AttributedFoo foo;
+			Assert::AreEqual(foo.auxiliaryBegin(), 5U);
+		}
+
+		TEST_METHOD(appendInternalAttributeTest)
 		{
 
 		}

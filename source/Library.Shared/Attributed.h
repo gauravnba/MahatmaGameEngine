@@ -63,21 +63,21 @@ namespace MahatmaGameEngine
 		* @param name of Attribute to check for existence
 		* @return True if the attribute exists in this Scope
 		*/
-		bool isAttribute(const std::string& name);
+		bool isAttribute(const std::string& name) const;
 
 		/**
 		* Checks if the name passed is a prescribed attribute
 		* @param name string name of the attribute
 		* @return true if the name belongs to a prescribed attribute
 		*/
-		bool isPrescribedAttribute(const std::string& name);
+		bool isPrescribedAttribute(const std::string& name) const;
 
 		/**
 		* Checks if the name passed is an auxiliary attribute
 		* @param name string name of the attribute
 		* @return true if the name belongs to an auxiliary attribute
 		*/
-		bool isAuxiliaryAttribute(const std::string& name);
+		bool isAuxiliaryAttribute(const std::string& name) const;
 
 		/**
 		* Append an auxiliary attribute to this Scope.
@@ -87,90 +87,149 @@ namespace MahatmaGameEngine
 		*/
 		Datum& appendAuxiliaryAttribute(const std::string& name);
 
+		/**
+		* Returns the number of Prescribed attributes in the Scope.
+		* @return unsigned int32 number of prescribed attributes. Or the number after which the Auxiliary attributes are populated.
+		*/
 		std::uint32_t auxiliaryBegin();
 
 	protected:
+		/**
+		* Adds an extant nested Scope to the table.
+		* @param name string name of the scope once added.
+		* @param scope the scope to add.
+		* @return a Datum of the Scope appended.
+		*/
+		Datum& addNestedScope(const std::string& name, Scope& scope);
+
 #pragma region APPEND_INTERNAL_OVERLOADS
 		/**
-		* 
+		* Appends an internal attribute to the scope and returns the named Datum
+		* @param name string to name the Datum with
+		* @param value of the Datum to set
+		* @param numberOfElements the size of the Datum.
+		* @return Datum reference of the named Datum that was appended.
 		*/
-		Datum& appendInternalAttribute(const std::string& name, std::int32_t* value, uint32_t numberOfElements = 1);
+		Datum& appendInternalAttribute(const std::string& name, std::int32_t value, uint32_t numberOfElements = 1);
 
 		/**
-		* 
+		* Appends an internal attribute to the scope and returns the named Datum
+		* @param name string to name the Datum with
+		* @param value of the Datum to set
+		* @param numberOfElements the size of the Datum.
+		* @return Datum reference of the named Datum that was appended.
 		*/
-		Datum& appendInternalAttribute(const std::string& name, float* value, uint32_t numberOfElements = 1);
+		Datum& appendInternalAttribute(const std::string& name, float value, uint32_t numberOfElements = 1);
 
 		/**
-		* 
+		* Appends an internal attribute to the scope and returns the named Datum
+		* @param name string to name the Datum with
+		* @param value of the Datum to set
+		* @param numberOfElements the size of the Datum.
+		* @return Datum reference of the named Datum that was appended.
 		*/
-		Datum& appendInternalAttribute(const std::string& name, glm::vec4* value, uint32_t numberOfElements = 1);
+		Datum& appendInternalAttribute(const std::string& name, glm::vec4 value, uint32_t numberOfElements = 1);
 
 		/**
-		* 
+		* Appends an internal attribute to the scope and returns the named Datum
+		* @param name string to name the Datum with
+		* @param value of the Datum to set
+		* @param numberOfElements the size of the Datum.
+		* @return Datum reference of the named Datum that was appended.
 		*/
-		Datum& appendInternalAttribute(const std::string& name, glm::mat4x4* value, uint32_t numberOfElements = 1);
+		Datum& appendInternalAttribute(const std::string& name, glm::mat4x4 value, uint32_t numberOfElements = 1);
 
 		/**
-		*
+		* Appends an internal attribute to the scope and returns the named Datum
+		* @param name string to name the Datum with
+		* @param value of the Datum to set
+		* @param numberOfElements the size of the Datum.
+		* @return Datum reference of the named Datum that was appended.
 		*/
-		Datum& appendInternalAttribute(const std::string& name, Scope& value);
+		Datum& appendInternalAttribute(const std::string& name, std::string value, uint32_t numberOfElements = 1);
 
 		/**
-		*
+		* Appends an internal attribute to the scope and returns the named Datum
+		* @param name string to name the Datum with
+		* @param value of the Datum to set
+		* @param numberOfElements the size of the Datum.
+		* @return Datum reference of the named Datum that was appended.
 		*/
-		Datum& appendInternalAttribute(const std::string& name, std::string* value, uint32_t numberOfElements = 1);
-
-		/**
-		*
-		*/
-		Datum& appendInternalAttribute(const std::string& name, RTTI** value, uint32_t numberOfElements = 1);
+		Datum& appendInternalAttribute(const std::string& name, RTTI* value, uint32_t numberOfElements = 1);
 #pragma endregion
 
 #pragma region APPEND_EXTERNAL_OVERLOADS
 		/**
-		*
+		* Appends an external attribute to the scope and returns the named Datum
+		* @param name string to name the Datum with
+		* @param attribute to be set as the Datum to set
+		* @param numberOfElements the number of Elements in the attribute
+		* @return Datum reference of the named Datum that was appended.
 		*/
 		Datum& appendExternalAttribute(const std::string& name, std::int32_t* attribute, std::uint32_t numberOfElements = 1);
 
 		/**
-		*
+		* Appends an external attribute to the scope and returns the named Datum
+		* @param name string to name the Datum with
+		* @param attribute to be set as the Datum to set
+		* @param numberOfElements the number of Elements in the attribute
+		* @return Datum reference of the named Datum that was appended.
 		*/
 		Datum& appendExternalAttribute(const std::string& name, float* attribute, std::uint32_t numberOfElements = 1);
 
 		/**
-		*
+		* Appends an external attribute to the scope and returns the named Datum
+		* @param name string to name the Datum with
+		* @param attribute to be set as the Datum to set
+		* @param numberOfElements the number of Elements in the attribute
+		* @return Datum reference of the named Datum that was appended.
 		*/
 		Datum& appendExternalAttribute(const std::string& name, glm::vec4* attribute, std::uint32_t numberOfElements = 1);
 
 		/**
-		*
+		* Appends an external attribute to the scope and returns the named Datum
+		* @param name string to name the Datum with
+		* @param attribute to be set as the Datum to set
+		* @param numberOfElements the number of Elements in the attribute
+		* @return Datum reference of the named Datum that was appended.
 		*/
 		Datum& appendExternalAttribute(const std::string& name, glm::mat4x4* attribute, std::uint32_t numberOfElements = 1);
 
 		/**
-		*
-		*/
-		Datum& appendExternalAttribute(const std::string& name, Scope** attribute, std::uint32_t numberOfElements = 1);
-
-		/**
-		*
+		* Appends an external attribute to the scope and returns the named Datum
+		* @param name string to name the Datum with
+		* @param attribute to be set as the Datum to set
+		* @param numberOfElements the number of Elements in the attribute
+		* @return Datum reference of the named Datum that was appended.
 		*/
 		Datum& appendExternalAttribute(const std::string& name, std::string* attribute, std::uint32_t numberOfElements = 1);
 
 		/**
-		*
+		* Appends an external attribute to the scope and returns the named Datum
+		* @param name string to name the Datum with
+		* @param attribute to be set as the Datum to set
+		* @param numberOfElements the number of Elements in the attribute
+		* @return Datum reference of the named Datum that was appended.
 		*/
 		Datum& appendExternalAttribute(const std::string& name, RTTI** attribute, std::uint32_t numberOfElements = 1);
 #pragma endregion
 
+		/**
+		* Initializes the this signature in the Scope from derived class. Note that this method appends the this of child class in a heirarchy.
+		*/
+		void initializeSignature();
+
+		/**
+		* Adds the name of a prescribed attribute to the static hashmap of Prescribed Attributes.
+		* @param name string value name of the Datum.
+		*/
 		void addToPrescribed(const std::string& name);
 
 		static HashMap<std::uint64_t, Vector<std::string>> mPrescribedAttributes;	/**< static Hashmap of RTTI type ID and list of string names of its prescribed attributes. */
 
 	private:
 		template <typename T>
-		Datum& addInternalAttribute(const std::string& name, T* value, std::uint32_t numberOfElements);
+		Datum& addInternalAttribute(const std::string& name, T value, std::uint32_t numberOfElements);
 
 		template <typename T>
 		Datum& addExternalAttribute(const std::string& name, T* attribute, std::uint32_t numberOfElements);

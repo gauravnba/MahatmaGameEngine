@@ -4,9 +4,9 @@
 #include "glm.hpp"
 #include <cstdint>
 
-namespace MahatmaGameEngine
+namespace UnitTestLibraryDesktop
 {
-	class AttributedFoo : public Attributed
+	class AttributedFoo : public MahatmaGameEngine::Attributed
 	{
 		RTTI_DECLARATIONS(AttributedFoo, Attributed)
 	public:
@@ -27,10 +27,16 @@ namespace MahatmaGameEngine
 
 		void initializeMembers();
 
+		template <typename T>
+		void appendAnInternalAttribute(const std::string& name, const T& value, std::uint32_t numElements = 1)
+		{
+			appendInternalAttribute(name, value, numElements);
+		};
+
 		/**
 		* Destructor of this class
 		*/
-		~AttributedFoo();
+		virtual ~AttributedFoo();
 
 	private:
 		static const std::uint32_t numElements = 1;
@@ -40,5 +46,6 @@ namespace MahatmaGameEngine
 		glm::vec4 mVectorAttribute[numElements];
 		glm::mat4x4 mMatrixAttribute[numElements];
 		std::string mStringAttribute[numElements];
+		Scope mScope;
 	};
 }

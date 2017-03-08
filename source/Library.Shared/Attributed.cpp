@@ -12,8 +12,6 @@ HashMap<uint64_t, Vector<string>> Attributed::mPrescribedAttributes;
 
 Attributed::Attributed()
 {
-	(*this)["this"] = this;
-	addToPrescribed("this");
 }
 
 Attributed::Attributed(const Attributed& obj) :
@@ -51,7 +49,7 @@ Attributed& Attributed::operator=(Attributed&& obj)
 	return *this;
 }
 
-bool Attributed::isAttribute(const string& name)
+bool Attributed::isAttribute(const string& name) const
 {
 	bool found = false;
 	if (find(name) != nullptr)
@@ -61,10 +59,10 @@ bool Attributed::isAttribute(const string& name)
 	return found;
 }
 
-bool Attributed::isPrescribedAttribute(const string& name)
+bool Attributed::isPrescribedAttribute(const string& name) const
 {
 	bool isPrescribed = false;
-	Vector<string>& attributesList = mPrescribedAttributes[Attributed::typeIdClass()];
+	Vector<string>& attributesList = mPrescribedAttributes[typeIdInstance()];
 	if (isAttribute(name) && (attributesList.find(name) != attributesList.end()))
 	{
 		isPrescribed = true;
@@ -72,7 +70,7 @@ bool Attributed::isPrescribedAttribute(const string& name)
 	return isPrescribed;
 }
 
-bool Attributed::isAuxiliaryAttribute(const string& name)
+bool Attributed::isAuxiliaryAttribute(const string& name) const
 {
 	return (isAttribute(name) && !isPrescribedAttribute(name));
 }
@@ -94,40 +92,40 @@ uint32_t Attributed::auxiliaryBegin()
 	return mPrescribedAttributes[typeIdInstance()].size();
 }
 
-#pragma region APPEND_INTERNAL_ATTRIBUTE
-Datum& Attributed::appendInternalAttribute(const string& name, int32_t* value, uint32_t numberOfElements)
-{
-	return addInternalAttribute(name, value, numberOfElements);
-}
-
-Datum& Attributed::appendInternalAttribute(const string& name, float* value, uint32_t numberOfElements)
-{
-	return addInternalAttribute(name, value, numberOfElements);
-}
-
-Datum& Attributed::appendInternalAttribute(const string& name, vec4* value, uint32_t numberOfElements)
-{
-	return addInternalAttribute(name, value, numberOfElements);
-}
-
-Datum& Attributed::appendInternalAttribute(const string& name, mat4x4* value, uint32_t numberOfElements)
-{
-	return addInternalAttribute(name, value, numberOfElements);
-}
-
-Datum& Attributed::appendInternalAttribute(const string& name, string* value, uint32_t numberOfElements)
-{
-	return addInternalAttribute(name, value, numberOfElements);
-}
-
-Datum& Attributed::appendInternalAttribute(const string& name, Scope& scope)
+Datum& Attributed::addNestedScope(const string& name, Scope& scope)
 {
 	Datum& temp = append(name);
 	adopt(&scope, name);
 	return temp;
 }
 
-Datum& Attributed::appendInternalAttribute(const string& name, RTTI** value, uint32_t numberOfElements)
+#pragma region APPEND_INTERNAL_ATTRIBUTE
+Datum& Attributed::appendInternalAttribute(const string& name, int32_t value, uint32_t numberOfElements)
+{
+	return addInternalAttribute(name, value, numberOfElements);
+}
+
+Datum& Attributed::appendInternalAttribute(const string& name, float value, uint32_t numberOfElements)
+{
+	return addInternalAttribute(name, value, numberOfElements);
+}
+
+Datum& Attributed::appendInternalAttribute(const string& name, vec4 value, uint32_t numberOfElements)
+{
+	return addInternalAttribute(name, value, numberOfElements);
+}
+
+Datum& Attributed::appendInternalAttribute(const string& name, mat4x4 value, uint32_t numberOfElements)
+{
+	return addInternalAttribute(name, value, numberOfElements);
+}
+
+Datum& Attributed::appendInternalAttribute(const string& name, string value, uint32_t numberOfElements)
+{
+	return addInternalAttribute(name, value, numberOfElements);
+}
+
+Datum& Attributed::appendInternalAttribute(const string& name, RTTI* value, uint32_t numberOfElements)
 {
 	return addInternalAttribute(name, value, numberOfElements);
 }
@@ -166,22 +164,28 @@ Datum& Attributed::appendExternalAttribute(const std::string& name, RTTI** attri
 
 #pragma endregion
 
+void Attributed::initializeSignature()
+{
+	(*this)["this"] = this;
+	addToPrescribed("this");
+}
+
 void Attributed::addToPrescribed(const string& name)
 {
 	Vector<string>& temp = mPrescribedAttributes[typeIdInstance()];
-	if (!temp.isEmpty())
+	if (temp.find(name) == temp.end())
 	{
 		temp.pushBack(name);
 	}
 }
 
 template <typename T>
-Datum& Attributed::addInternalAttribute(const std::string& name, T* value, std::uint32_t numberOfElements)
+Datum& Attributed::addInternalAttribute(const std::string& name, T value, std::uint32_t numberOfElements)
 {
 	Datum& temp = append(name);
 	for (uint32_t i = 0; i < numberOfElements; ++i)
 	{
-		temp.set(value[i], i);
+		temp.set(value, i);
 	}
 	return temp;
 }
