@@ -2,6 +2,7 @@
 
 #include "Attributed.h"
 #include "AttributedFoo.h"
+#include "AttributedBar.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace MahatmaGameEngine;
@@ -17,6 +18,7 @@ namespace UnitTestLibraryDesktop
 		TEST_CLASS_INITIALIZE(AttributedTestInitialize)
 		{
 			AttributedFoo tempFoo;
+			AttributedBar tempBar;
 		}
 
 		//This method sets up the initial memory state to check for memory leaks.
@@ -142,17 +144,6 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(foo.auxiliaryBegin(), 14U);
 		}
 
-		TEST_METHOD(appendInternalAttributeTest)
-		{
-			AttributedFoo foo;
-
-			Assert::IsTrue(foo.isPrescribedAttribute("InternalInteger"));
-			Assert::IsTrue(foo.isPrescribedAttribute("InternalFloat"));
-			Assert::IsTrue(foo.isPrescribedAttribute("InternalVector"));
-			Assert::IsTrue(foo.isPrescribedAttribute("InternalMatrix"));
-			Assert::IsTrue(foo.isPrescribedAttribute("InternalString"));
-		}
-
 		TEST_METHOD(addNestedScopeTest)
 		{
 			AttributedFoo foo;
@@ -167,7 +158,72 @@ namespace UnitTestLibraryDesktop
 		/************************************************************ Derived Class Tests ******************************************************************/
 		TEST_METHOD(derivedCopyConstructorTest)
 		{
-			
+			AttributedBar bar1;
+			bar1.appendAuxiliaryAttribute("Temp");
+			Assert::IsTrue(bar1.isAuxiliaryAttribute("Temp"));
+
+			AttributedBar bar2 = bar1;
+			Assert::IsTrue(bar2.isAuxiliaryAttribute("Temp"));
+			Assert::IsTrue(bar2.isPrescribedAttribute("DerivedInteger"));
+		}
+
+		TEST_METHOD(derivedAssignmentOperatorTest)
+		{
+			AttributedBar bar1;
+			bar1.appendAuxiliaryAttribute("Temp");
+			Assert::IsTrue(bar1.isAuxiliaryAttribute("Temp"));
+
+			AttributedBar bar2;
+			bar2.appendAuxiliaryAttribute("Temp1");
+			bar2 = bar1;
+			Assert::IsFalse(bar2.isAuxiliaryAttribute("Temp1"));
+			Assert::IsTrue(bar2.isAuxiliaryAttribute("Temp"));
+			Assert::IsTrue(bar2.isPrescribedAttribute("DerivedInteger"));
+		}
+
+		TEST_METHOD(derivedMoveConstructorTest)
+		{
+			AttributedBar* bar1 = new AttributedBar;
+			bar1->appendAuxiliaryAttribute("Temp");
+			Assert::IsTrue(bar1->isAuxiliaryAttribute("Temp"));
+
+			AttributedBar bar2 = move(*bar1);
+			delete bar1;
+			Assert::IsTrue(bar2.isAuxiliaryAttribute("Temp"));
+			Assert::IsTrue(bar2.isPrescribedAttribute("DerivedInteger"));
+		}
+
+		TEST_METHOD(derivedMoveAssignmentTest)
+		{
+			AttributedBar* bar1 = new AttributedBar;
+			bar1->appendAuxiliaryAttribute("Temp");
+			Assert::IsTrue(bar1->isAuxiliaryAttribute("Temp"));
+
+			AttributedBar bar2;
+			bar2 = move(*bar1);
+			delete bar1;
+			Assert::IsTrue(bar2.isAuxiliaryAttribute("Temp"));
+			Assert::IsTrue(bar2.isPrescribedAttribute("DerivedInteger"));
+		}
+
+		TEST_METHOD(derivedAppendAuxiliaryAttributeTest)
+		{
+			AttributedBar bar;
+			Assert::IsFalse(bar.isAttribute("Temp"));
+
+			Datum& temp = bar.appendAuxiliaryAttribute("Temp");
+			temp.set(10);
+			Assert::IsTrue(bar.isAuxiliaryAttribute("Temp"));
+			Assert::IsFalse(bar.isPrescribedAttribute("Temp"));
+			Assert::IsTrue(temp == bar["Temp"]);
+		}
+
+		TEST_METHOD(derivedAuxiliaryBeginTest)
+		{
+			AttributedBar bar;
+			Assert::AreEqual(bar.auxiliaryBegin(), 6U);
+			bar.appendAuxiliaryAttribute("Temp");
+			Assert::AreEqual(bar.auxiliaryBegin(), 6U);
 		}
 
 	private:
