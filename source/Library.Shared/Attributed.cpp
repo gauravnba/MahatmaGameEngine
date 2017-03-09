@@ -165,7 +165,7 @@ Datum& Attributed::appendExternalAttribute(const std::string& name, RTTI** attri
 
 #pragma endregion
 
-void Attributed::initializeSignature()
+void Attributed::setTheThisAttribute()
 {
 	(*this)["this"] = this;
 	addToPrescribed("this");

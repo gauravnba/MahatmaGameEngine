@@ -24,21 +24,21 @@ namespace UnitTestLibraryDesktop
 
 		AttributedFoo& operator=(AttributedFoo&& obj);
 
-		void fixUpDatums();
-
-		void initializeMembers();
+		/**
+		* Destructor of this class
+		*/
+		virtual ~AttributedFoo();
 
 		/**
 		* Method created to expose Attributed::addNestedScope for testing
 		*/
 		MahatmaGameEngine::Datum& appendExistingScope(const std::string& name, MahatmaGameEngine::Scope& scope);
 
-		/**
-		* Destructor of this class
-		*/
-		virtual ~AttributedFoo();
+	private:
+		void fixUpDatums();
 
-		//Public Member Variables
+		void initializeMembers();
+
 		static const std::uint32_t numElements = 1;
 
 		std::int32_t mIntAttribute[numElements];
@@ -47,13 +47,15 @@ namespace UnitTestLibraryDesktop
 		glm::mat4x4 mMatrixAttribute[numElements];
 		std::string mStringAttribute[numElements];
 		Scope* mScope;
-		RTTI* mRTTI[numElements];
-		Foo mFoo;
+		RTTI* mRTTIAttribute[numElements];
+		Foo mFooExternal;
 
 		std::int32_t mInternalInt;
 		float mInternalFloat;
 		glm::vec4 mInternalVector;
 		glm::mat4x4 mInternalMatrix;
 		std::string mInternalString;
+		RTTI* mInternalRTTI;
+		Foo mFooInternal;
 	};
 }

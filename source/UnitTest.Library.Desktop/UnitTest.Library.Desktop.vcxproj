@@ -185,6 +185,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AttributedBar.cpp" />
     <ClCompile Include="AttributedFoo.cpp" />
     <ClCompile Include="AttributedTests.cpp" />
     <ClCompile Include="DatumTest.cpp" />
@@ -207,6 +208,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttributedBar.h" />
     <ClInclude Include="AttributedFoo.h" />
     <ClInclude Include="Foo.h" />
     <ClInclude Include="FooDefaultHash.h" />

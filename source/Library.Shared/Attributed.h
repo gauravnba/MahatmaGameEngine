@@ -217,7 +217,7 @@ namespace MahatmaGameEngine
 		/**
 		* Initializes the this signature in the Scope from derived class. Note that this method appends the this of child class in a heirarchy.
 		*/
-		void initializeSignature();
+		void setTheThisAttribute();
 
 		/**
 		* Adds the name of a prescribed attribute to the static hashmap of Prescribed Attributes.

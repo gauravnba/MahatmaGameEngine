@@ -109,18 +109,20 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(isPrescribedAttributeTest)
 		{
 			AttributedFoo foo1;
+			foo1.appendAuxiliaryAttribute("Auxiliary");
 
 			Assert::IsTrue(foo1.isPrescribedAttribute("this"));
-			Assert::IsFalse(foo1.isPrescribedAttribute("InternalInteger"));
+			Assert::IsFalse(foo1.isPrescribedAttribute("Auxiliary"));
 			Assert::IsFalse(foo1.isPrescribedAttribute("Temp"));
 		}
 
 		TEST_METHOD(isAuxiliaryAttributeTest)
 		{
 			AttributedFoo foo1;
+			foo1.appendAuxiliaryAttribute("Auxiliary");
 
 			Assert::IsFalse(foo1.isAuxiliaryAttribute("this"));
-			Assert::IsTrue(foo1.isAuxiliaryAttribute("InternalInteger"));
+			Assert::IsTrue(foo1.isAuxiliaryAttribute("Auxiliary"));
 			Assert::IsFalse(foo1.isAuxiliaryAttribute("Temp"));
 		}
 
@@ -137,23 +139,18 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(auxiliaryBeginTest)
 		{
 			AttributedFoo foo;
-			Assert::AreEqual(foo.auxiliaryBegin(), 8U);
+			Assert::AreEqual(foo.auxiliaryBegin(), 14U);
 		}
 
 		TEST_METHOD(appendInternalAttributeTest)
 		{
 			AttributedFoo foo;
 
-			Assert::IsTrue(foo.isAttribute("InternalInteger"));
-			Assert::AreEqual(foo["InternalInteger"].get<int32_t>(), foo.mInternalInt);
-			Assert::IsTrue(foo.isAttribute("InternalFloat"));
-			Assert::AreEqual(foo["InternalFloat"].get<float>(), foo.mInternalFloat);
-			Assert::IsTrue(foo.isAttribute("InternalVector"));
-			Assert::AreEqual(foo["InternalVector"].get<vec4>(), foo.mInternalVector);
-			Assert::IsTrue(foo.isAttribute("InternalMatrix"));
-			Assert::AreEqual(foo["InternalMatrix"].get<mat4x4>(), foo.mInternalMatrix);
-			Assert::IsTrue(foo.isAttribute("InternalString"));
-			Assert::AreEqual(foo["InternalString"].get<string>(), foo.mInternalString);
+			Assert::IsTrue(foo.isPrescribedAttribute("InternalInteger"));
+			Assert::IsTrue(foo.isPrescribedAttribute("InternalFloat"));
+			Assert::IsTrue(foo.isPrescribedAttribute("InternalVector"));
+			Assert::IsTrue(foo.isPrescribedAttribute("InternalMatrix"));
+			Assert::IsTrue(foo.isPrescribedAttribute("InternalString"));
 		}
 
 		TEST_METHOD(addNestedScopeTest)
@@ -165,6 +162,12 @@ namespace UnitTestLibraryDesktop
 
 			Datum& tempDatum = foo.appendExistingScope("TableTest", *scope);
 			Assert::IsTrue(*(tempDatum.get<Scope*>()) == *scope);
+		}
+
+		/************************************************************ Derived Class Tests ******************************************************************/
+		TEST_METHOD(derivedCopyConstructorTest)
+		{
+			
 		}
 
 	private:

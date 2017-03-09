@@ -55,6 +55,9 @@
     <ClCompile Include="AttributedFoo.cpp">
       <Filter>Supporting Classes</Filter>
     </ClCompile>
+    <ClCompile Include="AttributedBar.cpp">
+      <Filter>Supporting Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">
@@ -73,6 +76,9 @@
       <Filter>Supporting Classes</Filter>
     </ClInclude>
     <ClInclude Include="AttributedFoo.h">
+      <Filter>Supporting Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributedBar.h">
       <Filter>Supporting Classes</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,8 +11,10 @@ RTTI_DEFINITIONS(AttributedFoo)
 
 AttributedFoo::AttributedFoo()
 {
-	initializeSignature();
+	setTheThisAttribute();
 
+	mFooExternal = Foo(30);
+	mFooInternal = Foo(40);
 	initializeMembers();
 	mScope = new Scope;
 
@@ -28,20 +30,27 @@ AttributedFoo::AttributedFoo()
 	addToPrescribed("String");
 	addNestedScope("Table", *mScope);
 	addToPrescribed("Table");
-	appendExternalAttribute("RTTI", mRTTI, numElements);
+	appendExternalAttribute("RTTI", mRTTIAttribute, numElements);
 	addToPrescribed("RTTI");
 
 	appendInternalAttribute("InternalInteger", mInternalInt);
+	addToPrescribed("InternalInteger");
 	appendInternalAttribute("InternalFloat", mInternalFloat);
+	addToPrescribed("InternalFloat");
 	appendInternalAttribute("InternalVector", mInternalVector);
+	addToPrescribed("InternalVector");
 	appendInternalAttribute("InternalMatrix", mInternalMatrix);
+	addToPrescribed("InternalMatrix");
 	appendInternalAttribute("InternalString", mInternalString);
+	addToPrescribed("InternalString");
+	appendInternalAttribute("InternalRTTI", mInternalRTTI);
+	addToPrescribed("InternalRTTI");
 }
 
 AttributedFoo::AttributedFoo(const AttributedFoo& obj)
 	:Attributed(obj)
 {
-	mFoo = obj.mFoo;
+	mFooExternal = obj.mFooExternal;
 	fixUpDatums();
 }
 
@@ -55,7 +64,7 @@ AttributedFoo& AttributedFoo::operator=(const AttributedFoo& obj)
 	if (this != &obj)
 	{
 		Attributed::operator=(obj);
-		mFoo = obj.mFoo;
+		mFooExternal = obj.mFooExternal;
 		fixUpDatums();
 	}
 	return *this;
@@ -84,7 +93,7 @@ void AttributedFoo::fixUpDatums()
 	(*this)["Matrix"].setStorage(mMatrixAttribute, 1);
 	(*this)["String"].setStorage(mStringAttribute, 1);
 	mScope = (*this)["Table"].get<Scope*>();
-	(*this)["RTTI"].set(mRTTI[0]);
+	(*this)["RTTI"].setStorage(mRTTIAttribute, 1);
 }
 
 void AttributedFoo::initializeMembers()
@@ -109,14 +118,14 @@ void AttributedFoo::initializeMembers()
 	mVectorAttribute[0] = vA;
 	mMatrixAttribute[0] = mA;
 	mStringAttribute[0] = sA;
-	mFoo = Foo(30);
-	mRTTI[0] = &mFoo;
+	mRTTIAttribute[0] = &mFooExternal;
 
 	mInternalInt = iB;
 	mInternalFloat = fB;
 	mInternalVector = vB;
 	mInternalMatrix = mB;
 	mInternalString = sB;
+	mInternalRTTI = &mFooInternal;
 }
 
 Datum& AttributedFoo::appendExistingScope(const string& name, Scope& scope)
