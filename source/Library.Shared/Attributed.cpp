@@ -35,6 +35,7 @@ Attributed& Attributed::operator=(const Attributed& obj)
 	if (this != &obj)
 	{
 		Scope::operator=(obj);
+		(*this)["this"] = this;
 	}
 	return *this;
 }

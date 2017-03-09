@@ -2,6 +2,8 @@
 
 #include "Foo.h"
 
+RTTI_DEFINITIONS(Foo)
+
 using namespace UnitTestLibraryDesktop;
 
 Foo::Foo()

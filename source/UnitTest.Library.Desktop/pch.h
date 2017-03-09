@@ -15,5 +15,6 @@
 #include "Vector.h"
 #include "SList.h"
 #include "Datum.h"
+#include "RTTI.h"
 #include "Scope.h"
 #include "Attributed.h"

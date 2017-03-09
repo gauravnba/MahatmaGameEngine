@@ -1,11 +1,13 @@
 #pragma once
 #include <cstdint>
+#include "RTTI.h"
 #include "DefaultHash.h"
 
 namespace UnitTestLibraryDesktop
 {
-	class Foo
+	class Foo : public MahatmaGameEngine::RTTI
 	{
+		RTTI_DECLARATIONS(Foo, RTTI)
 	public:
 		Foo();
 		Foo(std::uint32_t data);

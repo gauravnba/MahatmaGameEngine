@@ -2,6 +2,7 @@
 
 #include "Attributed.h"
 #include "glm.hpp"
+#include "Foo.h"
 #include <cstdint>
 
 namespace UnitTestLibraryDesktop
@@ -27,18 +28,17 @@ namespace UnitTestLibraryDesktop
 
 		void initializeMembers();
 
-		template <typename T>
-		void appendAnInternalAttribute(const std::string& name, const T& value, std::uint32_t numElements = 1)
-		{
-			appendInternalAttribute(name, value, numElements);
-		};
+		/**
+		* Method created to expose Attributed::addNestedScope for testing
+		*/
+		MahatmaGameEngine::Datum& appendExistingScope(const std::string& name, MahatmaGameEngine::Scope& scope);
 
 		/**
 		* Destructor of this class
 		*/
 		virtual ~AttributedFoo();
 
-	private:
+		//Public Member Variables
 		static const std::uint32_t numElements = 1;
 
 		std::int32_t mIntAttribute[numElements];
@@ -46,6 +46,14 @@ namespace UnitTestLibraryDesktop
 		glm::vec4 mVectorAttribute[numElements];
 		glm::mat4x4 mMatrixAttribute[numElements];
 		std::string mStringAttribute[numElements];
-		Scope mScope;
+		Scope* mScope;
+		RTTI* mRTTI[numElements];
+		Foo mFoo;
+
+		std::int32_t mInternalInt;
+		float mInternalFloat;
+		glm::vec4 mInternalVector;
+		glm::mat4x4 mInternalMatrix;
+		std::string mInternalString;
 	};
 }

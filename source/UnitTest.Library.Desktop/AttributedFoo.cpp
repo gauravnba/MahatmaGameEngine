@@ -14,6 +14,7 @@ AttributedFoo::AttributedFoo()
 	initializeSignature();
 
 	initializeMembers();
+	mScope = new Scope;
 
 	appendExternalAttribute("Integer", mIntAttribute, numElements);
 	addToPrescribed("Integer");
@@ -25,13 +26,22 @@ AttributedFoo::AttributedFoo()
 	addToPrescribed("Matrix");
 	appendExternalAttribute("String", mStringAttribute, numElements);
 	addToPrescribed("String");
-	addNestedScope("Table", mScope);
+	addNestedScope("Table", *mScope);
 	addToPrescribed("Table");
+	appendExternalAttribute("RTTI", mRTTI, numElements);
+	addToPrescribed("RTTI");
+
+	appendInternalAttribute("InternalInteger", mInternalInt);
+	appendInternalAttribute("InternalFloat", mInternalFloat);
+	appendInternalAttribute("InternalVector", mInternalVector);
+	appendInternalAttribute("InternalMatrix", mInternalMatrix);
+	appendInternalAttribute("InternalString", mInternalString);
 }
 
 AttributedFoo::AttributedFoo(const AttributedFoo& obj)
 	:Attributed(obj)
 {
+	mFoo = obj.mFoo;
 	fixUpDatums();
 }
 
@@ -42,16 +52,22 @@ AttributedFoo::AttributedFoo(AttributedFoo&& obj) :
 
 AttributedFoo& AttributedFoo::operator=(const AttributedFoo& obj)
 {
-	AttributedFoo& temp = *(Attributed::operator=(obj)).as<AttributedFoo>();
-	fixUpDatums();
-	return temp;
+	if (this != &obj)
+	{
+		Attributed::operator=(obj);
+		mFoo = obj.mFoo;
+		fixUpDatums();
+	}
+	return *this;
 }
 
 AttributedFoo& AttributedFoo::operator=(AttributedFoo&& obj)
 {
-	AttributedFoo& temp = *(Attributed::operator=(move(obj))).as<AttributedFoo>();
-	fixUpDatums();
-	return temp;
+	if (this != &obj)
+	{
+		Attributed::operator=(move(obj));
+	}
+	return *this;
 }
 
 AttributedFoo::~AttributedFoo()
@@ -67,11 +83,14 @@ void AttributedFoo::fixUpDatums()
 	(*this)["Vector"].setStorage(mVectorAttribute, 1);
 	(*this)["Matrix"].setStorage(mMatrixAttribute, 1);
 	(*this)["String"].setStorage(mStringAttribute, 1);
+	mScope = (*this)["Table"].get<Scope*>();
+	(*this)["RTTI"].set(mRTTI[0]);
 }
 
 void AttributedFoo::initializeMembers()
 {
 	int32_t iA = 10;
+	int32_t iB = 20;
 	float fA = 10.5f;
 	float fB = 20.5f;
 	float fC = 30.5f;
@@ -81,11 +100,26 @@ void AttributedFoo::initializeMembers()
 	vec4 vC = vec4(vec3(fC), fD);
 	vec4 vD = vec4(vec3(fD), fC);
 	mat4x4 mA = mat4x4(vA, vB, vC, vD);
+	mat4x4 mB = mat4x4(vB, vC, vD, vA);
 	string sA = "test";
+	string sB = "test1";
 
 	mIntAttribute[0] = iA;
 	mFloatAttribute[0] = fA;
 	mVectorAttribute[0] = vA;
 	mMatrixAttribute[0] = mA;
 	mStringAttribute[0] = sA;
+	mFoo = Foo(30);
+	mRTTI[0] = &mFoo;
+
+	mInternalInt = iB;
+	mInternalFloat = fB;
+	mInternalVector = vB;
+	mInternalMatrix = mB;
+	mInternalString = sB;
+}
+
+Datum& AttributedFoo::appendExistingScope(const string& name, Scope& scope)
+{
+	return addNestedScope(name, scope);
 }
