@@ -91,7 +91,7 @@ namespace MahatmaGameEngine
 		* Returns the number of Prescribed attributes in the Scope.
 		* @return unsigned int32 number of prescribed attributes. Or the number after which the Auxiliary attributes are populated.
 		*/
-		std::uint32_t auxiliaryBegin();
+		std::uint32_t auxiliaryBegin() const;
 
 	protected:
 		/**

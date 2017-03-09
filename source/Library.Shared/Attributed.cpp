@@ -88,7 +88,7 @@ Datum& Attributed::appendAuxiliaryAttribute(const string& name)
 	}
 }
 
-uint32_t Attributed::auxiliaryBegin()
+uint32_t Attributed::auxiliaryBegin() const
 {
 	return mPrescribedAttributes[typeIdInstance()].size();
 }
