@@ -47,9 +47,50 @@ namespace UnitTestLibraryDesktop
 			delete sharedData;
 		}
 
-		TEST_METHOD(setSharedData)
+		TEST_METHOD(parseFromFileTest)
 		{
+			SharedDataMotorcycles* sharedData = new SharedDataMotorcycles;
+			XMLParseMaster xmlTest(sharedData);
 
+			XMLParseHelperMotorcycle* xmlHelper = new XMLParseHelperMotorcycle;
+			xmlTest.addHelper(xmlHelper);
+			
+			xmlTest.parseFromFile("..//..//..//..//..//test_files//Motorcycle.xml");
+
+			Assert::AreEqual(xmlHelper->mFoundAttributes["Name"].size(), 3U);
+			Assert::AreEqual(xmlHelper->mFoundAttributes["Brand"][0], string("Yamaha"));
+			Assert::AreEqual(xmlHelper->mFoundAttributes["Brand"][1], string("Harley Davidson"));
+			Assert::AreEqual(xmlHelper->mFoundAttributes["Brand"][2], string("BMW"));
+
+			delete sharedData;
+			delete xmlHelper;
+		}
+
+		TEST_METHOD(parseFromFileWithClone)
+		{
+			SharedDataMotorcycles* sharedData = new SharedDataMotorcycles;
+			XMLParseMaster xmlTest(sharedData);
+
+			XMLParseHelperMotorcycle* xmlHelper = new XMLParseHelperMotorcycle;
+			xmlTest.addHelper(xmlHelper);
+
+			XMLParseMaster* xmlTest1 = xmlTest.clone();
+
+			xmlTest1->parseFromFile("..//..//..//..//..//test_files//Motorcycle.xml");
+
+			delete xmlTest1;
+
+			delete sharedData;
+			delete xmlHelper;
+		}
+
+		TEST_METHOD(cloneHelperTest)
+		{
+			XMLParseHelperMotorcycle* xmlHelper = new XMLParseHelperMotorcycle;
+			XMLParseHelperMotorcycle* xmlHelper1 = xmlHelper->clone();
+
+			delete xmlHelper1;
+			delete xmlHelper;
 		}
 
 	private:

@@ -2,6 +2,7 @@
 
 #include <string>
 #include "HashMap.h"
+#include "XMLParseMaster.h"
 
 namespace MahatmaGameEngine
 {
@@ -11,6 +12,11 @@ namespace MahatmaGameEngine
 	class XMLParseHelper
 	{
 	public:
+		/**
+		* Destructor default
+		*/
+		virtual ~XMLParseHelper() = default;
+
 		/**
 		* Initializes the Helper, generally by populating the list of tags the helper can handle
 		*/
@@ -22,21 +28,21 @@ namespace MahatmaGameEngine
 		* @param attributesMap Hashmap of attribute-value pairs
 		* @return boolean true if helper is responsible for handling the element
 		*/
-		virtual bool startElementHandler(const std::string& name, HashMap<std::string, std::string>& attributesMap) = 0;
+		virtual bool startElementHandler(XMLParseMaster::SharedData* sharedData, const std::string& name, HashMap<std::string, std::string>& attributesMap) = 0;
 		
 		/**
 		* Called via the XML_EndElementHandler. Attempts to handle the element at end.
 		* @param name of the element to be handled
 		* @return boolean true if helper is responsible for handling the element
 		*/
-		virtual bool endElementHandler(const std::string& name) = 0;
+		virtual bool endElementHandler(XMLParseMaster::SharedData* sharedData, const std::string& name) = 0;
 
 		/**
 		* Called via XML_CharDataHandler. Attempts to handle the character data between the start and end tags.
 		* @param buffer character buffer passed by expat parser. This is the data between the tags
 		* @param length of the string of data passed
 		*/
-		virtual void charDataHandler(const char* buffer, std::uint32_t length) = 0;
+		virtual void charDataHandler(XMLParseMaster::SharedData* sharedData, const char* buffer, std::uint32_t length) = 0;
 
 		/**
 		* Clones the Helper and returns the address of it.

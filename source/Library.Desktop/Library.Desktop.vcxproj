@@ -105,6 +105,9 @@
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\external\Expat\lib\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Expat.lib</AdditionalDependencies>
     </Lib>
+    <PreLinkEvent>
+      <Command>xcopy "$(ProjectDir)..\..\external\Expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(OutDir)" /Y /I</Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -125,6 +128,9 @@
       <AdditionalLibraryDirectories>($ProjectDir)..\..\external\Expat\lib\$(PlatformName)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Expat.lib</AdditionalDependencies>
     </Lib>
+    <PreLinkEvent>
+      <Command>xcopy "$(ProjectDir)..\..\external\Expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(OutDir)" /Y /I</Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -148,6 +154,9 @@
       <AdditionalLibraryDirectories>($ProjectDir)..\..\external\Expat\lib\$(PlatformName)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Expat.lib</AdditionalDependencies>
     </Lib>
+    <PreLinkEvent>
+      <Command>xcopy "$(ProjectDir)..\..\external\Expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(OutDir)" /Y /I</Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -171,6 +180,9 @@
       <AdditionalLibraryDirectories>($ProjectDir)..\..\external\Expat\lib\$(PlatformName)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Expat.lib</AdditionalDependencies>
     </Lib>
+    <PreLinkEvent>
+      <Command>xcopy "$(ProjectDir)..\..\external\Expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(OutDir)" /Y /I</Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

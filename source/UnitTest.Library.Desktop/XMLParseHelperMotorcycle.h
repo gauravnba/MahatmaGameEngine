@@ -21,16 +21,17 @@ namespace UnitTestLibraryDesktop
 
 		virtual XMLParseHelperMotorcycle* clone() override;
 
-		virtual bool startElementHandler(const std::string& name, MahatmaGameEngine::HashMap<std::string, std::string>& attributesMap) override;
+		virtual bool startElementHandler(MahatmaGameEngine::XMLParseMaster::SharedData* sharedData, const std::string& name, MahatmaGameEngine::HashMap<std::string, std::string>& attributesMap) override;
 
-		virtual bool endElementHandler(const std::string& name) override;
+		virtual bool endElementHandler(MahatmaGameEngine::XMLParseMaster::SharedData* sharedData, const std::string& name) override;
 
-		virtual void charDataHandler(const char* buffer, std::uint32_t length) override;
+		virtual void charDataHandler(MahatmaGameEngine::XMLParseMaster::SharedData* sharedData, const char* buffer, std::uint32_t length) override;
 
 		void addTagToHandle(const std::string& tag);
 
+		MahatmaGameEngine::HashMap<std::string, MahatmaGameEngine::Vector<std::string>> mFoundAttributes;
+
 	private:
-		MahatmaGameEngine::HashMap<std::string, std::string> mFoundAttributes;
 		MahatmaGameEngine::Vector<std::string> mListOfTags;
 		std::string mCurrentElement;
 	};

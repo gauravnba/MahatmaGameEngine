@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "XMLParseMaster.h"
+#include "XMLParseHelper.h"
 #include <fstream>
 #include <sstream>
 
@@ -80,10 +81,16 @@ XMLParseMaster::~XMLParseMaster()
 {
 	if (mIsCloned)
 	{
-		while (!mHelpers.isEmpty())
+		std::uint32_t size = mHelpers.size();
+		for (std::uint32_t i = 0; i < size; ++i)
 		{
-			delete mHelpers.popBack();
+			XMLParseHelper* temp = mHelpers[i];
+			delete temp;
 		}
+		/*while (!mHelpers.isEmpty())
+		{
+			delete mHelpers[i];
+		}*/
 		delete mSharedData;
 	}
 
@@ -97,15 +104,17 @@ XMLParseMaster* XMLParseMaster::clone()
 	std::uint32_t size = mHelpers.size();
 	for (std::uint32_t i = 0; i < size; ++i)
 	{
-		temp->mHelpers[i] = mHelpers[i]->clone();
+		temp->mHelpers.pushBack(mHelpers[i]->clone());
 	}
+
+	temp->mIsCloned = true;
 
 	return temp;
 }
 
 void XMLParseMaster::addHelper(XMLParseHelper* parseHelper)
 {
-	if (mIsCloned)
+	if (!mIsCloned)
 	{
 		mHelpers.pushBack(parseHelper);
 	}
@@ -118,9 +127,13 @@ void XMLParseMaster::removeHelper(XMLParseHelper* parseHelper)
 
 void XMLParseMaster::parse(const char* data, uint32_t length, bool isLast)
 {
+	initialize();
+
 	if (XML_Parse(mParser, data, length, isLast) == XML_STATUS_ERROR)
 	{
-		throw runtime_error("XML Parsing failed.");
+		int code = XML_GetErrorCode(mParser);
+		const char* msg = (const char *)XML_ErrorString((XML_Error)code);
+		throw runtime_error(msg);
 	}
 }
 
@@ -133,7 +146,7 @@ void XMLParseMaster::parseFromFile(const string& fileName)
 
 	auto fileContent = static_cast<ostringstream&>(ostringstream{} << fileStream.rdbuf()).str();
 
-	parse(fileContent.c_str(), fileContent.length(), true);
+	parse(fileContent.c_str(), static_cast<uint32_t>(fileContent.length()), true);
 }
 
 string& XMLParseMaster::getFileName()
@@ -167,15 +180,13 @@ void XMLParseMaster::startElementHandler(void* userData, const char* element, co
 	uint32_t size = castedParseMaster->mHelpers.size();
 	for (uint32_t j = 0; j < size; ++j)
 	{
-		if (castedParseMaster->mHelpers[j]->startElementHandler(element, tempMap))
+		if (castedParseMaster->mHelpers[j]->startElementHandler(castedParseMaster->getSharedData(), element, tempMap))
 		{
 			castedParseMaster->mResponsibleHelperIndex = static_cast<int32_t>(j);
 			break;
 		}
 		castedParseMaster->mResponsibleHelperIndex = -1;
 	}
-
-	castedParseMaster->getSharedData()->incrementDepth();
 }
 
 void XMLParseMaster::endElementHandler(void* userData, const char* element)
@@ -185,7 +196,7 @@ void XMLParseMaster::endElementHandler(void* userData, const char* element)
 	uint32_t size = castedParseMaster->mHelpers.size();
 	for (uint32_t j = 0; j < size; ++j)
 	{
-		if (castedParseMaster->mHelpers[j]->endElementHandler(element))
+		if (castedParseMaster->mHelpers[j]->endElementHandler(castedParseMaster->getSharedData(), element))
 		{
 			break;
 		}
@@ -199,9 +210,9 @@ void XMLParseMaster::charDataHandler(void* userData, const char* value, int leng
 {
 	XMLParseMaster* castedParseMaster = static_cast<XMLParseMaster*>(userData);
 
-	if (castedParseMaster->mResponsibleHelperIndex >= 0 && length == 0)
+	if (castedParseMaster->mResponsibleHelperIndex >= 0 && length != 0)
 	{
-		castedParseMaster->mHelpers[castedParseMaster->mResponsibleHelperIndex]->charDataHandler(value, length);
+		castedParseMaster->mHelpers[castedParseMaster->mResponsibleHelperIndex]->charDataHandler(castedParseMaster->getSharedData(), value, length);
 	}
 }
 

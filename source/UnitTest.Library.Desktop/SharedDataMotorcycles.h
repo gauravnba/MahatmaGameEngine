@@ -1,6 +1,7 @@
 #pragma once
 
 #include "XMLParseMaster.h"
+#include "RTTI.h"
 
 namespace UnitTestLibraryDesktop
 {

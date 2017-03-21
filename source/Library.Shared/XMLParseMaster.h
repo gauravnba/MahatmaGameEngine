@@ -1,12 +1,13 @@
 #pragma once
 
 #include <cstdint>
-#include "XMLParseHelper.h"
+#include "RTTI.h"
 #include "Vector.h"
 #include "expat.h"
 
 namespace MahatmaGameEngine
 {
+	class XMLParseHelper;
 	/**
 	* Wrapper class for the expat library in C++
 	*/
@@ -82,7 +83,9 @@ namespace MahatmaGameEngine
 		*/
 		~XMLParseMaster();
 
-
+		/**
+		* Initialize the XMLParseMaster for a new parsing routine
+		*/
 		void initialize();
 
 		/**
