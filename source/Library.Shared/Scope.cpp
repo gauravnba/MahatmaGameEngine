@@ -1,8 +1,5 @@
 #include "pch.h"
 
-#include "HashMap.h"
-#include "Vector.h"
-#include "Datum.h"
 #include <string>
 #include <cstdint>
 #include "Scope.h"
@@ -13,7 +10,7 @@ using namespace std;
 RTTI_DEFINITIONS(Scope)
 
 Scope::Scope(uint32_t size) :
-	mParent(nullptr), mTable(size)
+	mParent(nullptr), mTable(size * 5) //the size of the table will always be a multiple of 5
 {
 }
 
@@ -217,7 +214,6 @@ void Scope::clear()
 			for (;index > 0; --index)
 			{
 				Scope* tempScope = pair->second.get<Scope*>(index - 1);
-				tempScope->orphan();
 				delete tempScope;
 			}
 		}
@@ -241,15 +237,15 @@ Datum& Scope::append(const std::string& name)
 		mOrder.pushBack(&(*tableIt));
 	}
 
-	return mTable[name];
+	return tableIt->second;
 }
 
 Scope& Scope::appendScope(const std::string& name)
 {
-	Datum* scopeDatum = &append(name);
-	if (scopeDatum->type() != DatumType::TABLE)
+	Datum& scopeDatum = append(name);
+	if (scopeDatum.type() != DatumType::TABLE)
 	{
-		if (scopeDatum->type() != DatumType::UNKNOWN)
+		if (scopeDatum.type() != DatumType::UNKNOWN)
 		{
 			throw invalid_argument("Name exists but is not of type scope.");
 		}
@@ -259,7 +255,7 @@ Scope& Scope::appendScope(const std::string& name)
 	returnVal->mParent = this;
 
 	//Append scope to the Datum array
-	scopeDatum->set(*returnVal, scopeDatum->size());
+	scopeDatum.set(*returnVal, scopeDatum.size());
 	return *returnVal;
 }
 
@@ -285,7 +281,11 @@ Datum* Scope::find(const string& name) const
 
 Datum* Scope::search(const string& name, Scope** scope)
 {
-	*scope = nullptr;
+	if (scope != nullptr)
+	{
+		*scope = nullptr;
+	}
+
 	Datum* found = find(name);
 	if (found)
 	{

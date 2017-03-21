@@ -59,7 +59,7 @@ namespace MahatmaGameEngine
 			static std::string typeName() { return std::string(#Type); }                                     \
 			static std::uint64_t typeIdClass() { return sRunTimeTypeId; }                                    \
 			virtual std::uint64_t typeIdInstance() const override { return Type::typeIdClass(); }            \
-			virtual MahatmaGameEngine::RTTI* queryInterface(const std::uint64_t id) const override                     \
+			virtual MahatmaGameEngine::RTTI* queryInterface(const std::uint64_t id) const override           \
             {                                                                                                \
                 if (id == sRunTimeTypeId)                                                                    \
 					{ return (RTTI*)this; }                                                                  \

@@ -181,7 +181,7 @@ void Attributed::addToPrescribed(const string& name)
 }
 
 template <typename T>
-Datum& Attributed::addInternalAttribute(const std::string& name, T value, std::uint32_t numberOfElements)
+Datum& Attributed::addInternalAttribute(const string& name, T value, uint32_t numberOfElements)
 {
 	Datum& temp = append(name);
 	for (uint32_t i = 0; i < numberOfElements; ++i)
@@ -192,7 +192,7 @@ Datum& Attributed::addInternalAttribute(const std::string& name, T value, std::u
 }
 
 template <typename T>
-Datum& Attributed::addExternalAttribute(const std::string& name, T* attribute, std::uint32_t numberOfElements)
+Datum& Attributed::addExternalAttribute(const string& name, T* attribute, uint32_t numberOfElements)
 {
 	Datum& temp = append(name);
 	temp.setStorage(attribute, numberOfElements);

@@ -66,7 +66,7 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(cloneScope != testScope);
 			Assert::IsTrue(cloneScope[intType] == testScope[intType]);
-			Assert::IsTrue(cloneScope[tableType].get<int32_t>() != testScope[tableType].get<int32_t>());
+			Assert::IsTrue(cloneScope[tableType].get<Scope*>() != testScope[tableType].get<Scope*>());
 		}
 
 		TEST_METHOD(assignmentOperatorTest)
@@ -84,7 +84,7 @@ namespace UnitTestLibraryDesktop
 
 			Assert::IsTrue(newScope != testScope);
 			Assert::IsTrue(newScope[intType] == testScope[intType]);
-			Assert::IsTrue(newScope[tableType].get<int32_t>() != testScope[tableType].get<int32_t>());
+			Assert::IsTrue(newScope[tableType].get<Scope*>() != testScope[tableType].get<Scope*>());
 		}
 
 		TEST_METHOD(moveSemanticsTest)

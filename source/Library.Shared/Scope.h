@@ -1,10 +1,11 @@
 #pragma once
 
+#include "HashMap.h"
+#include "Vector.h"
+#include "Datum.h"
+
 namespace MahatmaGameEngine
 {
-	/**
-
-	*/
 	class Scope : public RTTI
 	{
 		RTTI_DECLARATIONS(Scope, RTTI)
@@ -149,10 +150,13 @@ namespace MahatmaGameEngine
 		*/
 		std::string toString() const override;
 
+		/**
+		* Clear the scope of all contained data.
+		*/
+		void clear();
+
 	private:
 		void orphan();
-
-		void clear();
 
 		HashMap<std::string, Datum> mTable;				/**< Table that stores string, Datum pairs. */
 		Vector<std::pair<std::string, Datum>*> mOrder;	/**< */

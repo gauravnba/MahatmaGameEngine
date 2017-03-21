@@ -137,9 +137,6 @@ Datum& Datum::operator=(const Datum& obj)
 				set(obj.mDatumVal.rttiType[mSize], mSize);
 			}
 			break;
-		default:
-			throw runtime_error("Invalid type assignment");
-			break;
 		}
 	}
 	mIsExternal = obj.mIsExternal;
@@ -309,7 +306,7 @@ bool Datum::operator==(const Datum& obj) const
 		case DatumType::RTTI_POINTER:
 			while (i < mSize)
 			{
-				if (mDatumVal.rttiType[i]->equals(obj.mDatumVal.rttiType[i]))
+				if (!(mDatumVal.rttiType[i]->equals(obj.mDatumVal.rttiType[i])))
 				{
 					isEqual = false;
 					break;
@@ -355,7 +352,7 @@ bool Datum::operator==(const string& obj) const
 
 bool Datum::operator==(const RTTI* obj) const
 {
-	return (mDatumVal.rttiType[0]->equals(obj));
+	return ((obj != nullptr) && (mDatumVal.rttiType[0]->equals(obj)));
 }
 
 #pragma endregion
@@ -643,10 +640,6 @@ void Datum::set(Scope& value, uint32_t index)
 	}
 	if (index >= mSize)
 	{
-		if (mIsExternal)
-		{
-			throw out_of_range("Invalid index.");
-		}
 		setSize(index + 1);
 	}
 	mDatumVal.tableType[index] = &value;
@@ -833,6 +826,7 @@ string Datum::toString(uint32_t index)
 		break;
 	case DatumType::RTTI_POINTER:
 		temp = mDatumVal.rttiType[index]->toString();
+		break;
 	default:
 		throw runtime_error("Type not set");
 	}
@@ -883,4 +877,22 @@ bool Datum::removeTable(const Scope* scope)
 		}
 	}
 	return removed;
+}
+
+template <typename T>
+void Datum::instantiateSize(T* datumVal, uint32_t size)
+{
+	while (mSize < size)
+	{
+		new(&datumVal[mSize++]) T();
+	}
+}
+
+template <typename T>
+void Datum::removeRecursively(T* datumVal, uint32_t size)
+{
+	while (mSize > size)
+	{
+		datumVal[--mSize].~T();
+	}
 }

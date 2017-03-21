@@ -14,6 +14,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)DefaultHash.cpp">
       <Filter>Containers</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseMaster.cpp">
+      <Filter>XMLParser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
@@ -41,11 +44,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector.h">
       <Filter>Containers</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelper.h">
+      <Filter>XMLParser</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseMaster.h">
+      <Filter>XMLParser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)Datum.inl">
-      <Filter>Scripting Interface</Filter>
-    </None>
     <None Include="$(MSBuildThisFileDirectory)HashMap.inl">
       <Filter>Containers</Filter>
     </None>
@@ -61,6 +67,9 @@
     <None Include="$(MSBuildThisFileDirectory)Vector.inl">
       <Filter>Containers</Filter>
     </None>
+    <None Include="$(MSBuildThisFileDirectory)Datum.inl">
+      <Filter>Scripting Interface</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Containers">
@@ -68,6 +77,9 @@
     </Filter>
     <Filter Include="Scripting Interface">
       <UniqueIdentifier>{85d7d56d-e0a5-491c-a2e9-e2976567d7e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XMLParser">
+      <UniqueIdentifier>{fa55f96b-2be3-4b3a-b69d-24e91987c65a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

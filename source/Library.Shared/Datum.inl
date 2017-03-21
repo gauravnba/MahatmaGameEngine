@@ -1,37 +1,17 @@
+#pragma once
 namespace MahatmaGameEngine
 {
-	template <typename T>
-	void Datum::instantiateSize(T* datumVal, std::uint32_t size)
-	{
-		while (mSize < size)
-		{
-			new(&datumVal[mSize++]) T();
-		}
-	}
-
-	template <typename T>
-	void Datum::removeRecursively(T* datumVal, std::uint32_t size)
-	{
-		while (mSize > size)
-		{
-			datumVal[--mSize].~T();
-		}
-	}
-
 #pragma region GET_TEMPLATES
-	template <typename T>
-	T& Datum::get(std::uint32_t index)
-	{
-		UNREFERENCED_PARAMETER(index);
-		throw std::exception("Invalid type.");
-	}
-
 	template <>
 	std::int32_t& Datum::get<std::int32_t>(std::uint32_t index)
 	{
 		if (index >= mSize)
 		{
 			throw std::out_of_range("Index was out of range.");
+		}
+		if (mType != DatumType::INTEGER)
+		{
+			throw std::runtime_error("Invalid type");
 		}
 		return mDatumVal.integerType[index];
 	}
@@ -43,6 +23,10 @@ namespace MahatmaGameEngine
 		{
 			throw std::out_of_range("Index was out of range.");
 		}
+		if (mType != DatumType::FLOAT)
+		{
+			throw std::runtime_error("Invalid type");
+		}
 		return mDatumVal.floatingType[index];
 	}
 
@@ -52,6 +36,10 @@ namespace MahatmaGameEngine
 		if (index >= mSize)
 		{
 			throw std::out_of_range("Index was out of range.");
+		}
+		if (mType != DatumType::VECTOR)
+		{
+			throw std::runtime_error("Invalid type");
 		}
 		return mDatumVal.vectorType[index];
 	}
@@ -63,6 +51,10 @@ namespace MahatmaGameEngine
 		{
 			throw std::out_of_range("Index was out of range.");
 		}
+		if (mType != DatumType::MATRIX)
+		{
+			throw std::runtime_error("Invalid type");
+		}
 		return mDatumVal.matrixType[index];
 	}
 
@@ -72,6 +64,10 @@ namespace MahatmaGameEngine
 		if (index >= mSize)
 		{
 			throw std::out_of_range("Index was out of range.");
+		}
+		if (mType != DatumType::TABLE)
+		{
+			throw std::runtime_error("Invalid type");
 		}
 		return mDatumVal.tableType[index];
 	}
@@ -83,6 +79,10 @@ namespace MahatmaGameEngine
 		{
 			throw std::out_of_range("Index was out of range.");
 		}
+		if (mType != DatumType::STRING)
+		{
+			throw std::runtime_error("Invalid type");
+		}
 		return mDatumVal.stringType[index];
 	}
 
@@ -93,24 +93,25 @@ namespace MahatmaGameEngine
 		{
 			throw std::out_of_range("Index was out of range.");
 		}
+		if (mType != DatumType::RTTI_POINTER)
+		{
+			throw std::runtime_error("Invalid type");
+		}
 		return mDatumVal.rttiType[index];
 	}
 #pragma endregion
 
 #pragma region CONST_GET_TEMPLATES
-	template <typename T>
-	const T& Datum::get(std::uint32_t index) const
-	{
-		UNREFERENCED_PARAMETER(index);
-		throw std::exception("Invalid type.");
-	}
-
 	template <>
 	const std::int32_t& Datum::get<std::int32_t>(std::uint32_t index) const
 	{
 		if (index >= mSize)
 		{
 			throw std::out_of_range("Index was out of range.");
+		}
+		if (mType != DatumType::INTEGER)
+		{
+			throw std::runtime_error("Invalid type");
 		}
 		return mDatumVal.integerType[index];
 	}
@@ -122,6 +123,10 @@ namespace MahatmaGameEngine
 		{
 			throw std::out_of_range("Index was out of range.");
 		}
+		if (mType != DatumType::FLOAT)
+		{
+			throw std::runtime_error("Invalid type");
+		}
 		return mDatumVal.floatingType[index];
 	}
 
@@ -131,6 +136,10 @@ namespace MahatmaGameEngine
 		if (index >= mSize)
 		{
 			throw std::out_of_range("Index was out of range.");
+		}
+		if (mType != DatumType::VECTOR)
+		{
+			throw std::runtime_error("Invalid type");
 		}
 		return mDatumVal.vectorType[index];
 	}
@@ -142,6 +151,10 @@ namespace MahatmaGameEngine
 		{
 			throw std::out_of_range("Index was out of range.");
 		}
+		if (mType != DatumType::MATRIX)
+		{
+			throw std::runtime_error("Invalid type");
+		}
 		return mDatumVal.matrixType[index];
 	}
 
@@ -151,6 +164,10 @@ namespace MahatmaGameEngine
 		if (index >= mSize)
 		{
 			throw std::out_of_range("Index was out of range.");
+		}
+		if (mType != DatumType::TABLE)
+		{
+			throw std::runtime_error("Invalid type");
 		}
 		return mDatumVal.tableType[index];
 	}
@@ -162,6 +179,10 @@ namespace MahatmaGameEngine
 		{
 			throw std::out_of_range("Index was out of range.");
 		}
+		if (mType != DatumType::STRING)
+		{
+			throw std::runtime_error("Invalid type");
+		}
 		return mDatumVal.stringType[index];
 	}
 
@@ -171,6 +192,10 @@ namespace MahatmaGameEngine
 		if (index >= mSize)
 		{
 			throw std::out_of_range("Index was out of range.");
+		}
+		if (mType != DatumType::RTTI_POINTER)
+		{
+			throw std::runtime_error("Invalid type");
 		}
 		return mDatumVal.rttiType[index];
 	}

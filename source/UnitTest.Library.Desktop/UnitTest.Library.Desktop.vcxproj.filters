@@ -11,7 +11,10 @@
     <Filter Include="Test Classes\Container Tests">
       <UniqueIdentifier>{c392ded7-d006-4810-ba5a-e055dcaad0e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Test Classes\Data Classes Tests">
+    <Filter Include="Test Classes\XMLParser">
+      <UniqueIdentifier>{2e25142d-0e8e-469d-b3eb-67796e315f63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test Classes\Schema Tests">
       <UniqueIdentifier>{519e356b-a3ed-4acb-b978-6ec6e6d7bb24}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -26,13 +29,13 @@
       <Filter>Supporting Classes</Filter>
     </ClCompile>
     <ClCompile Include="DatumTest.cpp">
-      <Filter>Test Classes\Data Classes Tests</Filter>
+      <Filter>Test Classes\Schema Tests</Filter>
     </ClCompile>
     <ClCompile Include="AttributedTests.cpp">
-      <Filter>Test Classes\Data Classes Tests</Filter>
+      <Filter>Test Classes\Schema Tests</Filter>
     </ClCompile>
     <ClCompile Include="ScopeTest.cpp">
-      <Filter>Test Classes\Data Classes Tests</Filter>
+      <Filter>Test Classes\Schema Tests</Filter>
     </ClCompile>
     <ClCompile Include="HashMapIteratorTest.cpp">
       <Filter>Test Classes\Container Tests</Filter>
@@ -58,6 +61,15 @@
     <ClCompile Include="AttributedBar.cpp">
       <Filter>Supporting Classes</Filter>
     </ClCompile>
+    <ClCompile Include="XMLParseMasterTest.cpp">
+      <Filter>Test Classes\XMLParser</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLParseHelperMotorcycle.cpp">
+      <Filter>Supporting Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedDataMotorcycle.cpp">
+      <Filter>Test Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">
@@ -79,6 +91,12 @@
       <Filter>Supporting Classes</Filter>
     </ClInclude>
     <ClInclude Include="AttributedBar.h">
+      <Filter>Supporting Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLParseHelperMotorcycle.h">
+      <Filter>Supporting Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedDataMotorcycles.h">
       <Filter>Supporting Classes</Filter>
     </ClInclude>
   </ItemGroup>
