@@ -255,3 +255,5 @@ paket-files/
 _ReportGenerator/
 build/CoverageReports/
 build/TestResults/
+
+!/external/Expat/lib
