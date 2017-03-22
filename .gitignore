@@ -256,4 +256,6 @@ _ReportGenerator/
 build/CoverageReports/
 build/TestResults/
 
-!/external/Expat/lib
+#Add external to ignore in gitignore
+!external/*/[Dd]ebug/
+!external/*/[Rr]elease/
