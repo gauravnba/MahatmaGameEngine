@@ -11,6 +11,7 @@ RTTI_DEFINITIONS(SharedDataMotorcycles)
 void SharedDataMotorcycles::initialize()
 {
 	SharedData::initialize();
+	mFoundAttributes.clear();
 }
 
 XMLParseMaster::SharedData* SharedDataMotorcycles::clone()

@@ -6,28 +6,26 @@
 
 namespace UnitTestLibraryDesktop
 {
-	class XMLParseHelperMotorcycle : public MahatmaGameEngine::XMLParseHelper
+	class XMLParseHelperCars : public MahatmaGameEngine::XMLParseHelper
 	{
 	public:
-		XMLParseHelperMotorcycle() = default;
+		XMLParseHelperCars() = default;
 
-		XMLParseHelperMotorcycle(const XMLParseHelperMotorcycle& obj) = delete;
+		XMLParseHelperCars(const XMLParseHelperCars& obj) = delete;
 
-		XMLParseHelperMotorcycle(XMLParseHelperMotorcycle&& cars) = delete;
+		XMLParseHelperCars(XMLParseHelperCars&& cars) = delete;
 
-		virtual ~XMLParseHelperMotorcycle() = default;
+		virtual ~XMLParseHelperCars() = default;
 
 		virtual void initialize() override;
 
-		virtual XMLParseHelperMotorcycle* clone() override;
+		virtual XMLParseHelperCars* clone() override;
 
 		virtual bool startElementHandler(MahatmaGameEngine::XMLParseMaster::SharedData* sharedData, const std::string& name, MahatmaGameEngine::HashMap<std::string, std::string>& attributesMap) override;
 
 		virtual bool endElementHandler(MahatmaGameEngine::XMLParseMaster::SharedData* sharedData, const std::string& name) override;
 
 		virtual void charDataHandler(MahatmaGameEngine::XMLParseMaster::SharedData* sharedData, const char* buffer, std::uint32_t length) override;
-
-		void addTagToHandle(const std::string& tag);
 
 	private:
 		MahatmaGameEngine::Vector<std::string> mListOfTags;

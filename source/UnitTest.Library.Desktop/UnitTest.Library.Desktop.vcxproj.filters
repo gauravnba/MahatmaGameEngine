@@ -70,6 +70,12 @@
     <ClCompile Include="SharedDataMotorcycle.cpp">
       <Filter>Test Classes</Filter>
     </ClCompile>
+    <ClCompile Include="SharedDataCars.cpp">
+      <Filter>Supporting Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLParseHelperCars.cpp">
+      <Filter>Supporting Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">
@@ -97,6 +103,12 @@
       <Filter>Supporting Classes</Filter>
     </ClInclude>
     <ClInclude Include="SharedDataMotorcycles.h">
+      <Filter>Supporting Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedDataCars.h">
+      <Filter>Supporting Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLParseHelperCars.h">
       <Filter>Supporting Classes</Filter>
     </ClInclude>
   </ItemGroup>

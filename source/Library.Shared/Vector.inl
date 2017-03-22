@@ -56,11 +56,9 @@ namespace MahatmaGameEngine
 			throw std::runtime_error("Iterator is uninitialized.");
 		}
 
-		++mIndex;
-
-		if (mIndex > (mVector->mSize))
+		if (mIndex < (mVector->mSize))
 		{
-			throw std::runtime_error("Iterator went out of bounds of the vector.");
+			++mIndex;
 		}
 
 		return *this;
@@ -76,11 +74,9 @@ namespace MahatmaGameEngine
 
 		Iterator tempIt = *this;
 
-		++mIndex;
-
-		if (mIndex == (mVector->mSize))
+		if (mIndex < (mVector->mSize))
 		{
-			throw std::runtime_error("Iterator went out of bounds of the vector.");
+			++mIndex;
 		}
 		return tempIt;
 	}
@@ -342,6 +338,7 @@ namespace MahatmaGameEngine
 		if (it != end())
 		{
 			(*it).~T();
+			//if (it.)
 			Iterator source = it++;
 			memmove(&mArray[source.mIndex], &mArray[it.mIndex], (mSize - it.mIndex) * sizeof(T));
 			--mSize;

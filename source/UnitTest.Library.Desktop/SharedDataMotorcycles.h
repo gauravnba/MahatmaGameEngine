@@ -2,6 +2,7 @@
 
 #include "XMLParseMaster.h"
 #include "RTTI.h"
+#include "Hashmap.h"
 
 namespace UnitTestLibraryDesktop
 {
@@ -16,5 +17,7 @@ namespace UnitTestLibraryDesktop
 		virtual void initialize();
 
 		virtual SharedData* clone() override;
+
+		MahatmaGameEngine::HashMap<std::string, MahatmaGameEngine::Vector<std::string>> mFoundAttributes;
 	};
 }

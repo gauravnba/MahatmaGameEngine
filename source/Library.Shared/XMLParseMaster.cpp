@@ -81,16 +81,10 @@ XMLParseMaster::~XMLParseMaster()
 {
 	if (mIsCloned)
 	{
-		std::uint32_t size = mHelpers.size();
-		for (std::uint32_t i = 0; i < size; ++i)
+		while (!mHelpers.isEmpty())
 		{
-			XMLParseHelper* temp = mHelpers[i];
-			delete temp;
+			delete mHelpers.popBack();
 		}
-		/*while (!mHelpers.isEmpty())
-		{
-			delete mHelpers[i];
-		}*/
 		delete mSharedData;
 	}
 
@@ -203,7 +197,6 @@ void XMLParseMaster::endElementHandler(void* userData, const char* element)
 	}
 
 	castedParseMaster->mResponsibleHelperIndex = -1;		//Reset responsible helper that can handle CharacterData.
-	castedParseMaster->getSharedData()->decrementDepth();
 }
 
 void XMLParseMaster::charDataHandler(void* userData, const char* value, int length)

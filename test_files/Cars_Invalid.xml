@@ -1,0 +1,7 @@
+<Vehicles>
+	<Land>
+		<Car brand = "BMW" name = "330i" make = "2016"/>
+		<Car brand = "Ford" name = "GT" make = "2017"/>
+		<Car brand = "Mercedes" name = "AMG GT" make = "2015"/>
+	</Land>
+<Vehicles>

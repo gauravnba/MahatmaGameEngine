@@ -14,7 +14,6 @@ void XMLParseHelperMotorcycle::initialize()
 	mListOfTags.pushBack("Brand");
 	mListOfTags.pushBack("Name");
 	mListOfTags.pushBack("Category");
-	mFoundAttributes.clear();
 }
 
 XMLParseHelperMotorcycle* XMLParseHelperMotorcycle::clone()
@@ -32,7 +31,7 @@ bool XMLParseHelperMotorcycle::startElementHandler(XMLParseMaster::SharedData* s
 	if ((mListOfTags.find(name) != mListOfTags.end()) && sharedData->is(SharedDataMotorcycles::typeIdClass()))
 	{
 		mCurrentElement = name;
-		mFoundAttributes.insert(pair<string, Vector<string>>(name, Vector<string>()));
+		sharedData->as<SharedDataMotorcycles>()->mFoundAttributes.insert(pair<string, Vector<string>>(name, Vector<string>()));
 		tagFound = true;
 	}
 
@@ -46,17 +45,20 @@ void XMLParseHelperMotorcycle::charDataHandler(XMLParseMaster::SharedData* share
 	if (sharedData->is(SharedDataMotorcycles::typeIdClass()))
 	{
 		string temp = string(buffer).substr(0, length);
-		mFoundAttributes[mCurrentElement].pushBack(temp);
+		sharedData->as<SharedDataMotorcycles>()->mFoundAttributes[mCurrentElement].pushBack(temp);
 	}
 }
 
 bool XMLParseHelperMotorcycle::endElementHandler(XMLParseMaster::SharedData* sharedData, const string& name)
 {
+	bool handled = false;
 	if ((mListOfTags.find(name) != mListOfTags.end()) && sharedData->is(SharedDataMotorcycles::typeIdClass()))
 	{
-		return true;
+		handled = true;
 	}
-	return false;
+
+	sharedData->decrementDepth();
+	return handled;
 }
 
 void XMLParseHelperMotorcycle::addTagToHandle(const string& tag)

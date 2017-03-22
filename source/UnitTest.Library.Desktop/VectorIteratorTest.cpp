@@ -174,7 +174,6 @@ namespace UnitTestLibraryDesktop
 			++interator;
 			Assert::AreEqual(interator, ++(intVec.begin()));
 			++interator;
-			Assert::ExpectException<runtime_error>(intIncrement);
 
 			//Pointer
 			int32_t* test = new int32_t;
@@ -188,7 +187,6 @@ namespace UnitTestLibraryDesktop
 			++pointerator;
 			Assert::AreEqual(pointerator, ++(pointerVec.begin()));
 			++pointerator;
-			Assert::ExpectException<runtime_error>(pointerIncrement);
 			delete test;
 
 			//Foo
@@ -202,7 +200,6 @@ namespace UnitTestLibraryDesktop
 			++footerator;
 			Assert::AreEqual(footerator, ++fooVec.begin());
 			++footerator;
-			Assert::ExpectException<runtime_error>(fooIncrement);
 		}
 
 		TEST_METHOD(postIncrementOperatorTest)
@@ -221,7 +218,6 @@ namespace UnitTestLibraryDesktop
 			interator2 = interator1++;
 			Assert::AreEqual(interator2, intVec.begin());
 			Assert::AreEqual(interator1, ++(intVec.begin()));
-			Assert::ExpectException<runtime_error>(intIncrement);
 
 			//Pointer
 			int32_t* test = new int32_t;
@@ -236,7 +232,6 @@ namespace UnitTestLibraryDesktop
 			pointerator2 = pointerator1++;
 			Assert::AreEqual(pointerator2, pointerVec.begin());
 			Assert::AreEqual(pointerator1, ++(pointerVec.begin()));
-			Assert::ExpectException<runtime_error>(pointerIncrement);
 			delete test;
 
 			//Foo
@@ -250,7 +245,6 @@ namespace UnitTestLibraryDesktop
 			Vector<Foo>::Iterator footerator2 = footerator1++;
 			Assert::AreEqual(footerator2, fooVec.begin());
 			Assert::AreEqual(footerator1, ++(fooVec.begin()));
-			Assert::ExpectException<runtime_error>(fooIncrement);
 		}
 
 		TEST_METHOD(dereferenceOperatorTest)
