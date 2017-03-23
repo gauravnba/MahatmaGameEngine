@@ -18,3 +18,5 @@
 #include "RTTI.h"
 #include "Scope.h"
 #include "Attributed.h"
+#include "XMLParseMaster.h"
+#include "XMLParseHelper.h"

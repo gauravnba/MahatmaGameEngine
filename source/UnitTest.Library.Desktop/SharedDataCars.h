@@ -2,7 +2,7 @@
 
 #include "XMLParseMaster.h"
 #include "RTTI.h"
-#include "Hashmap.h"
+#include "Scope.h"
 
 namespace UnitTestLibraryDesktop
 {
@@ -16,7 +16,7 @@ namespace UnitTestLibraryDesktop
 
 		virtual void initialize();
 
-		virtual SharedData* clone() override;
+		virtual XMLParseMaster::SharedData* clone() override;
 
 		MahatmaGameEngine::Scope mFoundAttributes;
 	};

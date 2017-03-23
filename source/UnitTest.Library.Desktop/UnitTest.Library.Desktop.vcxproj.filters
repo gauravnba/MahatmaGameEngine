@@ -22,9 +22,6 @@
     <ClCompile Include="Foo.cpp">
       <Filter>Supporting Classes</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Test Classes</Filter>
-    </ClCompile>
     <ClCompile Include="FooDefaultHash.cpp">
       <Filter>Supporting Classes</Filter>
     </ClCompile>
@@ -67,24 +64,22 @@
     <ClCompile Include="XMLParseHelperMotorcycle.cpp">
       <Filter>Supporting Classes</Filter>
     </ClCompile>
-    <ClCompile Include="SharedDataMotorcycle.cpp">
-      <Filter>Test Classes</Filter>
-    </ClCompile>
     <ClCompile Include="SharedDataCars.cpp">
       <Filter>Supporting Classes</Filter>
     </ClCompile>
     <ClCompile Include="XMLParseHelperCars.cpp">
       <Filter>Supporting Classes</Filter>
     </ClCompile>
+    <ClCompile Include="SharedDataMotorcycle.cpp">
+      <Filter>Supporting Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">
       <Filter>Supporting Classes</Filter>
     </ClInclude>
     <ClInclude Include="FooDefaultHash.h">
-      <Filter>Supporting Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
       <Filter>Supporting Classes</Filter>
     </ClInclude>
     <ClInclude Include="TestMacros.h">
@@ -111,5 +106,6 @@
     <ClInclude Include="XMLParseHelperCars.h">
       <Filter>Supporting Classes</Filter>
     </ClInclude>
+    <ClInclude Include="pch.h" />
   </ItemGroup>
 </Project>
