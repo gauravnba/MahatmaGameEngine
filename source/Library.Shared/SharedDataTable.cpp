@@ -2,6 +2,16 @@
 
 #include "SharedDataTable.h"
 
+using namespace MahatmaGameEngine;
+
 RTTI_DEFINITIONS(SharedDataTable)
 
-using namespace MahatmaGameEngine;
+void SharedDataTable::initialize()
+{
+	mSharedTable.clear();
+}
+
+XMLParseMaster::SharedData* SharedDataTable::clone()
+{
+	return new SharedDataTable;
+}

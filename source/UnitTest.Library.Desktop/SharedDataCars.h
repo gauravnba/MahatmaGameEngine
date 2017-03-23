@@ -16,7 +16,7 @@ namespace UnitTestLibraryDesktop
 
 		virtual void initialize();
 
-		virtual XMLParseMaster::SharedData* clone() override;
+		virtual MahatmaGameEngine::XMLParseMaster::SharedData* clone() override;
 
 		MahatmaGameEngine::Scope mFoundAttributes;
 	};
