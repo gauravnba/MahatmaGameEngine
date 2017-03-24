@@ -23,6 +23,12 @@ namespace MahatmaGameEngine
 		virtual void initialize() = 0;
 
 		/**
+		* Clones the Helper and returns the address of it.
+		* @return Address of the cloned object
+		*/
+		virtual XMLParseHelper* clone() = 0;
+
+		/**
 		* Called via the XML_StartElementHandler. Attempts to handle the element at start.
 		* @param name of the element to be handled
 		* @param attributesMap Hashmap of attribute-value pairs
@@ -43,11 +49,5 @@ namespace MahatmaGameEngine
 		* @param length of the string of data passed
 		*/
 		virtual void charDataHandler(XMLParseMaster::SharedData* sharedData, const char* buffer, std::uint32_t length) = 0;
-
-		/**
-		* Clones the Helper and returns the address of it.
-		* @return Address of the cloned object
-		*/
-		virtual XMLParseHelper* clone() = 0;
 	};
 }

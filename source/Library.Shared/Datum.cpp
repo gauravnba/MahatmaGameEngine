@@ -833,6 +833,15 @@ string Datum::toString(uint32_t index)
 	return temp;
 }
 
+Scope& Datum::operator[](std::uint32_t index)
+{
+	if (mType != DatumType::TABLE)
+	{
+		throw invalid_argument("Can't use this operator on this type.");
+	}
+	return *(get<Scope*>(index));
+}
+
 void Datum::emptyOut()
 {
 	clear();

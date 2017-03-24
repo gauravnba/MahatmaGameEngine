@@ -8,6 +8,7 @@ RTTI_DEFINITIONS(SharedDataTable)
 
 void SharedDataTable::initialize()
 {
+	SharedData::initialize();
 	mSharedTable.clear();
 }
 

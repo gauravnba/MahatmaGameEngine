@@ -56,6 +56,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedDataTable.h">
       <Filter>XMLParser</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperInteger.h">
+      <Filter>XMLParser\XMLParseHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)HashMap.inl">
@@ -86,6 +89,9 @@
     </Filter>
     <Filter Include="XMLParser">
       <UniqueIdentifier>{fa55f96b-2be3-4b3a-b69d-24e91987c65a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XMLParser\XMLParseHelpers">
+      <UniqueIdentifier>{d45253cb-290d-412c-afc4-4396b79d31c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

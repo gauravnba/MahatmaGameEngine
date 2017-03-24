@@ -36,6 +36,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SList.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelper.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperInteger.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseMaster.h" />
   </ItemGroup>
   <ItemGroup>

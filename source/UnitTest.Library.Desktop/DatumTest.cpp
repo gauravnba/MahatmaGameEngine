@@ -1226,6 +1226,24 @@ namespace UnitTestLibraryDesktop
 			delete &scopeChild2;
 		}
 
+		TEST_METHOD(indexOfOperatorTest)
+		{
+			Scope tempScope;
+			Datum intValue;
+			intValue = 10;
+			tempScope["Integer"] = intValue;
+
+			Datum tempDatum;
+			tempDatum = tempScope;
+
+			Assert::IsTrue(tempDatum[0] == tempScope);
+
+			Datum tempExcDatum;
+			tempExcDatum.setType(DatumType::INTEGER);
+			auto typeCheckException = [&tempExcDatum] {tempExcDatum[0]; };
+			Assert::ExpectException<exception>(typeCheckException);
+		}
+
 	private:
 		static _CrtMemState sStartMemState;
 	};

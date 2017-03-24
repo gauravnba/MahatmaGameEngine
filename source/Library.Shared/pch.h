@@ -17,3 +17,5 @@
 #include "HashMap.h"
 #include "RTTI.h"
 #include "Datum.h"
+#include "Attributed.h"
+#include "XMLParseMaster.h"

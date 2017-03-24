@@ -591,6 +591,10 @@ namespace MahatmaGameEngine
 		*/
 		std::string toString(std::uint32_t index = 0);
 
+		/**
+		* Index of operator */
+		Scope& operator[](std::uint32_t index);
+
 	private:
 		/**
 		* Clears the Datum and frees the memory allocated to the Union.
