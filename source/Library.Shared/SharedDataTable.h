@@ -17,7 +17,7 @@ namespace MahatmaGameEngine
 		/**
 		* Default constructor for SharedData.
 		*/
-		SharedDataTable() = default;
+		SharedDataTable();
 
 		/**
 		* Default destructor for SharedData.
@@ -34,10 +34,23 @@ namespace MahatmaGameEngine
 		*/
 		SharedDataTable(SharedDataTable&& obj) = delete;
 
+		/**
+		* Initialize the SharedTable. This clears the Scope and resets the depth to zero.
+		* @override initialize in the SharedData abstract class.
+		*/
 		virtual void initialize() override;
 
+		/**
+		* Clone creates a new object in the same state as this and then returns it.
+		* @return address to the SharedData of this hierarchy.
+		* @override clone in the SharedData abstract class.
+		*/
 		virtual XMLParseMaster::SharedData* clone() override;
 
-		Scope mSharedTable;
+		/**
+		*/
+		virtual bool equals(const RTTI* rhs) const override;
+
+		Scope* mCurrentTable;			/**< Address of the Scope the SharedData is currently in. */
 	};
 }

@@ -44,7 +44,7 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(constructorTest)
 		{
 			SharedDataMotorcycles* sharedData = new SharedDataMotorcycles;
-			XMLParseMaster xmlTest(sharedData);
+			XMLParseMaster xmlTest(*sharedData);
 
 			Assert::AreEqual(reinterpret_cast<int32_t*>(xmlTest.getSharedData()), reinterpret_cast<int32_t*>(sharedData));
 			delete sharedData;
@@ -53,10 +53,10 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(parseFromFileTest)
 		{
 			SharedDataMotorcycles* sharedData = new SharedDataMotorcycles;
-			XMLParseMaster xmlTest(sharedData);
+			XMLParseMaster xmlTest(*sharedData);
 
 			XMLParseHelperMotorcycle* xmlHelper = new XMLParseHelperMotorcycle;
-			xmlTest.addHelper(xmlHelper);
+			xmlTest.addHelper(*xmlHelper);
 			
 			xmlTest.parseFromFile("..//..//..//..//..//test_files//Motorcycle.xml");
 
@@ -77,14 +77,14 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(parseFromFileWithClone)
 		{
 			SharedDataMotorcycles* sharedData = new SharedDataMotorcycles;
-			XMLParseMaster xmlTest(sharedData);
+			XMLParseMaster xmlTest(*sharedData);
 
 			XMLParseHelperMotorcycle* xmlHelper = new XMLParseHelperMotorcycle;
-			xmlTest.addHelper(xmlHelper);
+			xmlTest.addHelper(*xmlHelper);
 
 			XMLParseMaster* xmlTest1 = xmlTest.clone();
 
-			xmlTest.removeHelper(xmlHelper);
+			xmlTest.removeHelper(*xmlHelper);
 
 			xmlTest1->parseFromFile("..//..//..//..//..//test_files//Motorcycle.xml");
 
@@ -116,12 +116,12 @@ namespace UnitTestLibraryDesktop
 			SharedDataMotorcycles* sharedData = new SharedDataMotorcycles;
 			SharedDataMotorcycles* sharedData1 = new SharedDataMotorcycles;
 
-			XMLParseMaster xmlTest(sharedData);
+			XMLParseMaster xmlTest(*sharedData);
 
-			xmlTest.setSharedData(sharedData1);
+			xmlTest.setSharedData(*sharedData1);
 
 			XMLParseHelperMotorcycle* xmlHelper = new XMLParseHelperMotorcycle;
-			xmlTest.addHelper(xmlHelper);
+			xmlTest.addHelper(*xmlHelper);
 
 			xmlTest.parseFromFile("..//..//..//..//..//test_files//Motorcycle.xml");
 
@@ -144,14 +144,13 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(testAttributeXMLParsing)
 		{
 			SharedDataCars* sharedData = new SharedDataCars;
-			XMLParseMaster xmlTest(sharedData);
+			XMLParseMaster xmlTest(*sharedData);
 
 			XMLParseHelperCars* xmlHelper = new XMLParseHelperCars;
-			xmlTest.addHelper(xmlHelper);
+			xmlTest.addHelper(*xmlHelper);
 
 			xmlTest.parseFromFile("..//..//..//..//..//test_files//Cars.xml");
 
-			//Assert::AreEqual(sharedData->mFoundAttributes["name"].size(), 3U);
 			Assert::AreEqual(sharedData->mFoundAttributes["Car"].size(), 3U);
 			Assert::AreEqual(sharedData->mFoundAttributes["Car"].get<Scope*>(1)->append("brand").get<string>(0), string("Ford"));
 			Assert::AreEqual(sharedData->mFoundAttributes["Car"].get<Scope*>(2)->append("brand").get<string>(0), string("Mercedes"));

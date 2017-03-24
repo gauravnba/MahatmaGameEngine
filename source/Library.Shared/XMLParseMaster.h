@@ -37,7 +37,7 @@ namespace MahatmaGameEngine
 			* Setter for XMLParseMaster of SharedData
 			* @param xmlParseMaster the address of the XMLParseMaster to be set
 			*/
-			void setXMLParseMaster(XMLParseMaster* xmlParseMaster);
+			void setXMLParseMaster(XMLParseMaster& xmlParseMaster);
 
 			/**
 			* Getter for the associated XMLParseMaster
@@ -75,7 +75,7 @@ namespace MahatmaGameEngine
 		* Constructor using a SharedData object. This constructor sets up the association to SharedData and creates an XML_Parser.
 		* @param obj is the address of the SharedData object to associate to the XMLParseMaster
 		*/
-		XMLParseMaster(SharedData* obj);
+		XMLParseMaster(SharedData& obj);
 
 		/**
 		* Destructor destroys member variables.
@@ -99,13 +99,13 @@ namespace MahatmaGameEngine
 		* Note that you can't add new Helper objects to a cloned Master.
 		* @param parseHelper the address of Helper object to add
 		*/
-		void addHelper(XMLParseHelper* parseHelper);
+		void addHelper(XMLParseHelper& parseHelper);
 
 		/**
 		* Removes a helper from tne list of the helper methods of this master.
 		* @param parseHelper the address of the Helper object to remove.
 		*/
-		void removeHelper(XMLParseHelper* parseHelper);
+		void removeHelper(XMLParseHelper& parseHelper);
 
 		/**
 		* Parses the data passed and triggers expat callbacks.
@@ -131,7 +131,7 @@ namespace MahatmaGameEngine
 		* Associates a different SharedData object to this.
 		* @param sharedData address to the SharedData object
 		*/
-		void setSharedData(SharedData* sharedData);
+		void setSharedData(SharedData& sharedData);
 
 		/**
 		* Getter for the SharedData object associated with this.

@@ -74,6 +74,9 @@
       <Filter>Supporting Classes</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="XMLTableParserTests.cpp">
+      <Filter>Test Classes\XMLParser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">

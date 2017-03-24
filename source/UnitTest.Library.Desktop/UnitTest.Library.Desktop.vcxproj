@@ -206,6 +206,7 @@
     <ClCompile Include="XMLParseHelperCars.cpp" />
     <ClCompile Include="XMLParseHelperMotorcycle.cpp" />
     <ClCompile Include="XMLParseMasterTest.cpp" />
+    <ClCompile Include="XMLTableParserTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Library.Desktop\Library.Desktop.vcxproj">

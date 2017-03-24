@@ -22,6 +22,8 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Scope.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SharedDataTable.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperFloat.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperInteger.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseMaster.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -36,6 +38,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SList.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelper.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperFloat.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperInteger.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseMaster.h" />
   </ItemGroup>

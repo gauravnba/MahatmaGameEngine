@@ -8,21 +8,18 @@
 using namespace MahatmaGameEngine;
 using namespace std;
 
-#pragma warning (disable : 4075)
-
 #pragma region SharedData
 
 RTTI_DEFINITIONS(XMLParseMaster::SharedData)
 
 void XMLParseMaster::SharedData::initialize()
 {
-	mXMLParseMaster = nullptr;
 	mDepth = 0;
 }
 
-void XMLParseMaster::SharedData::setXMLParseMaster(XMLParseMaster* xmlParseMaster)
+void XMLParseMaster::SharedData::setXMLParseMaster(XMLParseMaster& xmlParseMaster)
 {
-	mXMLParseMaster = xmlParseMaster;
+	mXMLParseMaster = &xmlParseMaster;
 }
 
 XMLParseMaster* XMLParseMaster::SharedData::getXMLParseMaster()
@@ -54,8 +51,8 @@ std::uint32_t XMLParseMaster::SharedData::depth()
 
 #pragma region XMLParseMaster
 
-XMLParseMaster::XMLParseMaster(SharedData* obj) :
-	mIsCloned(false), mSharedData(obj), mResponsibleHelperIndex(-1)
+XMLParseMaster::XMLParseMaster(SharedData& obj) :
+	mIsCloned(false), mSharedData(&obj), mResponsibleHelperIndex(-1)
 {
 	mParser = XML_ParserCreate(NULL);
 }
@@ -93,7 +90,7 @@ XMLParseMaster::~XMLParseMaster()
 
 XMLParseMaster* XMLParseMaster::clone()
 {
-	XMLParseMaster* temp = new XMLParseMaster(mSharedData->clone());
+	XMLParseMaster* temp = new XMLParseMaster(*(mSharedData->clone()));
 
 	std::uint32_t size = mHelpers.size();
 	for (std::uint32_t i = 0; i < size; ++i)
@@ -106,17 +103,17 @@ XMLParseMaster* XMLParseMaster::clone()
 	return temp;
 }
 
-void XMLParseMaster::addHelper(XMLParseHelper* parseHelper)
+void XMLParseMaster::addHelper(XMLParseHelper& parseHelper)
 {
 	if (!mIsCloned)
 	{
-		mHelpers.pushBack(parseHelper);
+		mHelpers.pushBack(&parseHelper);
 	}
 }
 
-void XMLParseMaster::removeHelper(XMLParseHelper* parseHelper)
+void XMLParseMaster::removeHelper(XMLParseHelper& parseHelper)
 {
-	mHelpers.remove(parseHelper);
+	mHelpers.remove(&parseHelper);
 }
 
 void XMLParseMaster::parse(const char* data, uint32_t length, bool isLast)
@@ -148,10 +145,10 @@ string& XMLParseMaster::getFileName()
 	return mFileName;
 }
 
-void XMLParseMaster::setSharedData(SharedData* sharedData)
+void XMLParseMaster::setSharedData(SharedData& sharedData)
 {
-	mSharedData = sharedData;
-	mSharedData->setXMLParseMaster(this);
+	mSharedData = &sharedData;
+	mSharedData->setXMLParseMaster(*this);
 }
 
 XMLParseMaster::SharedData* XMLParseMaster::getSharedData()
@@ -181,6 +178,8 @@ void XMLParseMaster::startElementHandler(void* userData, const char* element, co
 		}
 		castedParseMaster->mResponsibleHelperIndex = -1;
 	}
+
+	castedParseMaster->getSharedData()->incrementDepth();
 }
 
 void XMLParseMaster::endElementHandler(void* userData, const char* element)
@@ -197,6 +196,7 @@ void XMLParseMaster::endElementHandler(void* userData, const char* element)
 	}
 
 	castedParseMaster->mResponsibleHelperIndex = -1;		//Reset responsible helper that can handle CharacterData.
+	castedParseMaster->getSharedData()->decrementDepth();
 }
 
 void XMLParseMaster::charDataHandler(void* userData, const char* value, int length)
