@@ -56,14 +56,14 @@ namespace UnitTestLibraryDesktop
 
 			XMLParseMaster xmlMaster(sharedData);
 			xmlMaster.addHelper(*integerHelper);
-			xmlMaster.parse(integerXML, strlen(integerXML), true);
+			xmlMaster.parse(integerXML, static_cast<uint32_t>(strlen(integerXML)), true);
 			Assert::AreEqual((*(sharedData.mCurrentTable))["first number"].get<int32_t>(), 10);
 
 			XMLParseMaster* xmlMasterClone = xmlMaster.clone();
 
 			delete sharedData.mCurrentTable;
 
-			xmlMasterClone->parse(integerXML, strlen(integerXML), true);
+			xmlMasterClone->parse(integerXML, static_cast<uint32_t>(strlen(integerXML)), true);
 			SharedDataTable& clonedSharedData = *((xmlMasterClone->getSharedData())->as<SharedDataTable>());
 			Assert::AreEqual((*(clonedSharedData.mCurrentTable))["first number"].get<int32_t>(), 10);
 
@@ -102,14 +102,14 @@ namespace UnitTestLibraryDesktop
 			XMLParseMaster xmlMaster(sharedData);
 			xmlMaster.addHelper(*floatHelper);
 			xmlMaster.addHelper(*scopeHelper);
-			xmlMaster.parse(floatXML, strlen(floatXML), true);
+			xmlMaster.parse(floatXML, static_cast<uint32_t>(strlen(floatXML)), true);
 			Assert::AreEqual((*(sharedData.mCurrentTable))["first float"].get<float>(), 10.5f);
 
 			XMLParseMaster* xmlMasterClone = xmlMaster.clone();
 
 			delete sharedData.mCurrentTable;
 
-			xmlMasterClone->parse(floatXML, strlen(floatXML), true);
+			xmlMasterClone->parse(floatXML, static_cast<uint32_t>(strlen(floatXML)), true);
 			SharedDataTable& clonedSharedData = *((xmlMasterClone->getSharedData())->as<SharedDataTable>());
 			Assert::AreEqual((*(clonedSharedData.mCurrentTable))["first float"].get<float>(), 10.5f);
 
@@ -131,13 +131,13 @@ namespace UnitTestLibraryDesktop
 			xmlParser.addHelper(scopeHelper);
 			xmlParser.addHelper(integerHelper);
 
-			xmlParser.parse(scopeXML, strlen(scopeXML), true);
+			xmlParser.parse(scopeXML, static_cast<uint32_t>(strlen(scopeXML)), true);
 
 			Assert::AreEqual((*(sharedData.mCurrentTable))["branch"][0]["interior"].get<int32_t>(), 10);
 
 			XMLParseMaster* xmlParserClone = xmlParser.clone();
 			Scope& sharedCloneTable = *(xmlParserClone->getSharedData()->as<SharedDataTable>()->mCurrentTable);
-			xmlParserClone->parse(scopeXML, strlen(scopeXML), true);
+			xmlParserClone->parse(scopeXML, static_cast<uint32_t>(strlen(scopeXML)), true);
 
 			Assert::AreEqual(sharedCloneTable["branch"][0]["interior"].get<int32_t>(), 10);
 
@@ -155,7 +155,7 @@ namespace UnitTestLibraryDesktop
 			XMLParseMaster xmlMaster(sharedData);
 
 			xmlMaster.addHelper(vectorHelper);
-			xmlMaster.parse(vectorXML, strlen(vectorXML), true);
+			xmlMaster.parse(vectorXML, static_cast<uint32_t>(strlen(vectorXML)), true);
 
 			Assert::AreEqual((*(sharedData.mCurrentTable))["veccy"].get<vec4>(), vectorVal);
 
@@ -164,7 +164,7 @@ namespace UnitTestLibraryDesktop
 			XMLParseMaster* xmlMasterClone = xmlMaster.clone();
 			Scope& clonedSharedTable = *(xmlMasterClone->getSharedData()->as<SharedDataTable>()->mCurrentTable);
 
-			xmlMasterClone->parse(vectorXML, strlen(vectorXML), true);
+			xmlMasterClone->parse(vectorXML, static_cast<uint32_t>(strlen(vectorXML)), true);
 
 			Assert::AreEqual(clonedSharedTable["veccy"].get<vec4>(), vectorVal);
 
@@ -182,7 +182,7 @@ namespace UnitTestLibraryDesktop
 			XMLParseMaster xmlMaster(sharedData);
 
 			xmlMaster.addHelper(matrixHelper);
-			xmlMaster.parse(matrixXML, strlen(matrixXML), true);
+			xmlMaster.parse(matrixXML, static_cast<uint32_t>(strlen(matrixXML)), true);
 
 			Assert::AreEqual((*(sharedData.mCurrentTable))["matty"].get<mat4x4>(), matrixVal);
 
@@ -191,7 +191,7 @@ namespace UnitTestLibraryDesktop
 			XMLParseMaster* xmlMasterClone = xmlMaster.clone();
 			Scope& cloneSharedData = *(xmlMasterClone->getSharedData()->as<SharedDataTable>()->mCurrentTable);
 
-			xmlMasterClone->parse(matrixXML, strlen(matrixXML), true);
+			xmlMasterClone->parse(matrixXML, static_cast<uint32_t>(strlen(matrixXML)), true);
 			Assert::AreEqual(cloneSharedData["matty"].get<mat4x4>(), matrixVal);
 
 			delete &cloneSharedData;
@@ -206,7 +206,7 @@ namespace UnitTestLibraryDesktop
 			XMLParseMaster xmlMaster(sharedData);
 
 			xmlMaster.addHelper(stringHelper);
-			xmlMaster.parse(stringXML, strlen(stringXML), true);
+			xmlMaster.parse(stringXML, static_cast<uint32_t>(strlen(stringXML)), true);
 
 			Assert::AreEqual((*(sharedData.mCurrentTable))["AmonAmarth"].get<string>(), string("Deceiver of Gods"));
 
@@ -215,7 +215,7 @@ namespace UnitTestLibraryDesktop
 			XMLParseMaster* xmlMasterClone = xmlMaster.clone();
 			Scope& cloneSharedData = *(xmlMasterClone->getSharedData()->as<SharedDataTable>()->mCurrentTable);
 
-			xmlMasterClone->parse(stringXML, strlen(stringXML), true);
+			xmlMasterClone->parse(stringXML, static_cast<uint32_t>(strlen(stringXML)), true);
 
 			Assert::AreEqual(cloneSharedData["AmonAmarth"].get<string>(), string("Deceiver of Gods"));
 
@@ -245,7 +245,7 @@ namespace UnitTestLibraryDesktop
 			xmlMaster.addHelper(stringHelper);
 
 			xmlMaster.parseFromFile("..//..//..//..//..//test_files//Table.xml");
-			
+
 			Assert::AreEqual((*(sharedData.mCurrentTable))["inty"].get<int32_t>(), 10);
 			Assert::AreEqual((*(sharedData.mCurrentTable))["floaty"].get<float>(), 5.0f);
 			Assert::AreEqual((*(sharedData.mCurrentTable))["veccy"].get<vec4>(), vectorVal);
