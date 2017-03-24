@@ -1,3 +1,9 @@
-<scope name = "root">
-	<integer name = "first number" value = "10"/>
-</scope>
+<Scope name = "root">
+	<Integer name = "inty" value = "10"/>
+	<Float name = "floaty" value = "5.0"/>
+	<Vector name = "veccy" value = "vec4(2.5, 4.5, 2.0, 50.68)"/>
+	<Matrix name = "matty" value = "mat4x4((1.5, 5.0, 4.5, 1.5), (5.5, 9.1, 7.1, 8), (8, 2.4, 6.5, 7.58), (8.1, 5.2, 6.9, 4.5))"/>
+	<Scope name = "first branch">
+		<String name = "Amon Amarth" value = "Deceiver of Gods"/>
+	</Scope>
+</Scope>

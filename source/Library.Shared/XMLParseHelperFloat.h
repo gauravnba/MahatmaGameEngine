@@ -6,30 +6,30 @@
 namespace MahatmaGameEngine
 {
 	/**
-	* Parsing helper class for integer type.
+	* Parsing helper class for floating point type.
 	*/
-	class XMLParseHelperInteger : public XMLParseHelper
+	class XMLParseHelperFloat : public XMLParseHelper
 	{
 	public:
 		/**
 		* Default constructor of XMLParseHelperInteger.
 		*/
-		XMLParseHelperInteger() = default;
+		XMLParseHelperFloat() = default;
 
 		/**
 		* Disallow XMLParseHelperInteger copy construction.
 		*/
-		XMLParseHelperInteger(const XMLParseHelperInteger&) = delete;
+		XMLParseHelperFloat(const XMLParseHelperFloat&) = delete;
 
 		/**
 		* Disallow XMLParseHelperInteger move semantics.
 		*/
-		XMLParseHelperInteger(XMLParseHelperInteger&&) = delete;
+		XMLParseHelperFloat(XMLParseHelperFloat&&) = delete;
 
 		/**
 		* Default destructor of XMLParseHelperInteger.
 		*/
-		virtual ~XMLParseHelperInteger() = default;
+		virtual ~XMLParseHelperFloat() = default;
 
 		/**
 		* Initializes the Helper, generally by populating the list of tags the helper can handle
@@ -64,9 +64,7 @@ namespace MahatmaGameEngine
 		*/
 		virtual void charDataHandler(XMLParseMaster::SharedData* sharedData, const char* buffer, std::uint32_t length) override;
 
-
-
 	private:
-		const std::string mHandledTag = "Integer";
+		const std::string mHandledTag = "Float";
 	};
 }

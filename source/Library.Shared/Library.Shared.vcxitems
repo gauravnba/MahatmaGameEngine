@@ -24,7 +24,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SharedDataTable.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperFloat.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperInteger.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperMatrix.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperScope.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperString.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseMaster.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperVector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Attributed.h" />
@@ -40,7 +44,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperFloat.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperInteger.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperMatrix.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperScope.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperString.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseMaster.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperVector.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Datum.inl" />

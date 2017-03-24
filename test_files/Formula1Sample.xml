@@ -1,0 +1,38 @@
+<Scope name = "Formula 1">
+	<Scope name = "Scuderia Ferrari Team">
+		<String name = "Team Principal" value = "Maurizio Arrivabene"/>
+		<Scope name = "Car">
+			<String name = "Name" value = "SF70H"/>
+			<Integer name = "Ranking" value = "3">
+			<Float name = "Power" value = "910.59">
+		</Scope>
+		<Scope name = "First Driver">
+			<String name = "Name" value = "Sebastian Vettel"/>
+			<Integer name = "Car Number" value = "5"/>
+			<Integer name = "Championships" value = "4"/>
+		</Scope>
+		<Scope name = "Second Driver">
+			<String name = "Name" value = "Kimi Raikkonen"/>
+			<Integer name = "Car Number" value = "7"/>
+			<Integer name = "Championships" value = "1"/>
+		</Scope>
+	</Scope>
+	<Scope name = "Mercedes AMG Team">
+		<String name = "Team Principal" value = "Toto Wolff"/>
+		<Scope name = "Car">
+			<String name = "Name" value = "W08"/>
+			<Integer name = "Ranking" value = "1"/>
+			<Float name = "Power" value = "960.489">
+		</Scope>
+		<Scope name = "First Driver">
+			<String name = "Name" value = "Lewis Hamilton"/>
+			<Integer name = "Car Number" value = "44"/>
+			<Integer name = "Championships" value = "3"/>
+		</Scope>
+		<Scope name = "Second Driver">
+			<String name = "Name" value = "Valtteri Bottas"/>
+			<Integer name = "Car Number" value = "77"/>
+			<Integer name = "Championships" value = "0"/>
+		</Scope>
+	</Scope>
+</Scope>

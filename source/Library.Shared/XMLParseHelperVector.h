@@ -6,30 +6,30 @@
 namespace MahatmaGameEngine
 {
 	/**
-	* Parsing helper class for integer type.
+	* Parsing helper class for Vector type.
 	*/
-	class XMLParseHelperInteger : public XMLParseHelper
+	class XMLParseHelperVector : public XMLParseHelper
 	{
 	public:
 		/**
 		* Default constructor of XMLParseHelperInteger.
 		*/
-		XMLParseHelperInteger() = default;
+		XMLParseHelperVector() = default;
 
 		/**
 		* Disallow XMLParseHelperInteger copy construction.
 		*/
-		XMLParseHelperInteger(const XMLParseHelperInteger&) = delete;
+		XMLParseHelperVector(const XMLParseHelperVector&) = delete;
 
 		/**
 		* Disallow XMLParseHelperInteger move semantics.
 		*/
-		XMLParseHelperInteger(XMLParseHelperInteger&&) = delete;
+		XMLParseHelperVector(XMLParseHelperVector&&) = delete;
 
 		/**
 		* Default destructor of XMLParseHelperInteger.
 		*/
-		virtual ~XMLParseHelperInteger() = default;
+		virtual ~XMLParseHelperVector() = default;
 
 		/**
 		* Initializes the Helper, generally by populating the list of tags the helper can handle
@@ -64,9 +64,7 @@ namespace MahatmaGameEngine
 		*/
 		virtual void charDataHandler(XMLParseMaster::SharedData* sharedData, const char* buffer, std::uint32_t length) override;
 
-
-
 	private:
-		const std::string mHandledTag = "Integer";
+		const std::string mHandledTag = "Vector";
 	};
 }

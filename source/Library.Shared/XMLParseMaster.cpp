@@ -39,7 +39,10 @@ void XMLParseMaster::SharedData::incrementDepth()
 
 void XMLParseMaster::SharedData::decrementDepth()
 {
-	--mDepth;
+	if (mDepth > 0)
+	{
+		--mDepth;
+	}
 }
 
 std::uint32_t XMLParseMaster::SharedData::depth()
@@ -185,6 +188,7 @@ void XMLParseMaster::startElementHandler(void* userData, const char* element, co
 void XMLParseMaster::endElementHandler(void* userData, const char* element)
 {
 	XMLParseMaster* castedParseMaster = static_cast<XMLParseMaster*>(userData);
+	castedParseMaster->getSharedData()->decrementDepth();
 
 	uint32_t size = castedParseMaster->mHelpers.size();
 	for (uint32_t j = 0; j < size; ++j)
@@ -196,7 +200,6 @@ void XMLParseMaster::endElementHandler(void* userData, const char* element)
 	}
 
 	castedParseMaster->mResponsibleHelperIndex = -1;		//Reset responsible helper that can handle CharacterData.
-	castedParseMaster->getSharedData()->decrementDepth();
 }
 
 void XMLParseMaster::charDataHandler(void* userData, const char* value, int length)
