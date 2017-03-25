@@ -48,6 +48,11 @@ namespace MahatmaGameEngine
 		* @param buffer character buffer passed by expat parser. This is the data between the tags
 		* @param length of the string of data passed
 		*/
-		virtual void charDataHandler(XMLParseMaster::SharedData* sharedData, const char* buffer, std::uint32_t length) = 0;
-	};
-}
+		virtual void charDataHandler(XMLParseMaster::SharedData* sharedData, const char* buffer, std::uint32_t length)
+		{
+			UNREFERENCED_PARAMETER(sharedData);
+			UNREFERENCED_PARAMETER(buffer);
+			UNREFERENCED_PARAMETER(length);
+		};
+	};	 
+}		 

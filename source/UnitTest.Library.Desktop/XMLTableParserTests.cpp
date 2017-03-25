@@ -4,12 +4,10 @@
 
 #include "XMLParseMaster.h"
 #include "SharedDataTable.h"
-#include "XMLParseHelperInteger.h"
-#include "XMLParseHelperFloat.h"
+
+#include "XMLParseHelperDatum.h"
 #include "XMLParsehelperScope.h"
-#include "XMLParseHelperVector.h"
-#include "XMLParseHelperMatrix.h"
-#include "XMLParseHelperString.h"
+
 #include <cstring>
 #include "glm.hpp"
 
@@ -52,7 +50,7 @@ namespace UnitTestLibraryDesktop
 			char* integerXML = "<Scope name = \"root\"><Integer name = \"first number\" value = \"10\"/></Scope>";
 
 			SharedDataTable sharedData;
-			XMLParseHelperInteger* integerHelper = new XMLParseHelperInteger;
+			XMLParseHelperDatum* integerHelper = new XMLParseHelperDatum;
 
 			XMLParseMaster xmlMaster(sharedData);
 			xmlMaster.addHelper(*integerHelper);
@@ -96,7 +94,7 @@ namespace UnitTestLibraryDesktop
 			char* floatXML = "<Scope name = \"root\"><Float name = \"first float\" value = \"10.5\"/></Scope>";
 
 			SharedDataTable sharedData;
-			XMLParseHelperFloat* floatHelper = new XMLParseHelperFloat;
+			XMLParseHelperDatum* floatHelper = new XMLParseHelperDatum;
 			XMLParseHelperScope* scopeHelper = new XMLParseHelperScope;
 
 			XMLParseMaster xmlMaster(sharedData);
@@ -125,7 +123,7 @@ namespace UnitTestLibraryDesktop
 			char* scopeXML = "<Scope><Scope name = \"branch\"><Integer name = \"interior\" value = \"10\"/></Scope></Scope>";
 
 			XMLParseHelperScope scopeHelper;
-			XMLParseHelperInteger integerHelper;
+			XMLParseHelperDatum integerHelper;
 			SharedDataTable sharedData;
 			XMLParseMaster xmlParser(sharedData);
 			xmlParser.addHelper(scopeHelper);
@@ -150,7 +148,7 @@ namespace UnitTestLibraryDesktop
 		{
 			glm::vec4 vectorVal(2.5f, 4.5f, 2.0f, 50.68f);
 			char* vectorXML = "<Scope><Vector name = \"veccy\" value = \"vec4(2.5, 4.5, 2.0, 50.68)\"/></Scope>";
-			XMLParseHelperVector vectorHelper;
+			XMLParseHelperDatum vectorHelper;
 			SharedDataTable sharedData;
 			XMLParseMaster xmlMaster(sharedData);
 
@@ -177,7 +175,7 @@ namespace UnitTestLibraryDesktop
 			char* matrixXML = "<Scope><Matrix name = \"matty\" value = \"mat4x4((1.5, 5.0, 4.5, 1.5), (5.5, 9.1, 7.1, 8), (8, 2.4, 6.5, 7.58), (8.1, 5.2, 6.9, 4.5))\"/></Scope>";
 			glm::mat4x4 matrixVal(glm::vec4(1.5f, 5.0f, 4.5f, 1.5f), glm::vec4(5.5f, 9.1f, 7.1f, 8.0f), glm::vec4(8.0f, 2.4f, 6.5f, 7.58f), glm::vec4(8.1f, 5.2f, 6.9f, 4.5f));
 
-			XMLParseHelperMatrix matrixHelper;
+			XMLParseHelperDatum matrixHelper;
 			SharedDataTable sharedData;
 			XMLParseMaster xmlMaster(sharedData);
 
@@ -201,7 +199,7 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(stringParserTest)
 		{
 			char* stringXML = "<Scope><String name = \"AmonAmarth\" value = \"Deceiver of Gods\"/></Scope>";
-			XMLParseHelperString stringHelper;
+			XMLParseHelperDatum stringHelper;
 			SharedDataTable sharedData;
 			XMLParseMaster xmlMaster(sharedData);
 
@@ -227,22 +225,14 @@ namespace UnitTestLibraryDesktop
 		{
 			glm::vec4 vectorVal(2.5f, 4.5f, 2.0f, 50.68f);
 			glm::mat4x4 matrixVal(glm::vec4(1.5f, 5.0f, 4.5f, 1.5f), glm::vec4(5.5f, 9.1f, 7.1f, 8.0f), glm::vec4(8.0f, 2.4f, 6.5f, 7.58f), glm::vec4(8.1f, 5.2f, 6.9f, 4.5f));
-			XMLParseHelperInteger integerHelper;
-			XMLParseHelperFloat floatHelper;
-			XMLParseHelperVector vectorHelper;
-			XMLParseHelperMatrix matrixHelper;
+			XMLParseHelperDatum datumHelper;
 			XMLParseHelperScope tableHelper;
-			XMLParseHelperString stringHelper;
 
 			SharedDataTable sharedData;
 			XMLParseMaster xmlMaster(sharedData);
 
-			xmlMaster.addHelper(integerHelper);
-			xmlMaster.addHelper(floatHelper);
-			xmlMaster.addHelper(vectorHelper);
-			xmlMaster.addHelper(matrixHelper);
+			xmlMaster.addHelper(datumHelper);
 			xmlMaster.addHelper(tableHelper);
-			xmlMaster.addHelper(stringHelper);
 
 			xmlMaster.parseFromFile("..//..//..//..//..//test_files//Table.xml");
 
@@ -266,6 +256,28 @@ namespace UnitTestLibraryDesktop
 
 			delete &cloneSharedData;
 			delete xmlMasterClone;
+		}
+
+		TEST_METHOD(Formula1XMLParseExampleTest)
+		{
+			SharedDataTable sharedData;
+			XMLParseMaster xmlMaster(sharedData);
+			XMLParseHelperDatum datumHelper;
+			XMLParseHelperScope scopeHelper;
+
+			xmlMaster.addHelper(datumHelper);
+			xmlMaster.addHelper(scopeHelper);
+
+			xmlMaster.parseFromFile("..//..//..//..//..//test_files//Formula1Sample.xml");
+
+			Assert::AreEqual((*(sharedData.mCurrentTable))["Scuderia Ferrari Team"][0]["Team Principal"].get<string>(), string("Maurizio Arrivabene"));
+			Assert::AreEqual((*(sharedData.mCurrentTable))["Scuderia Ferrari Team"][0]["Car"][0]["Power"].get<float>(), 910.59f);
+			Assert::AreEqual((*(sharedData.mCurrentTable))["Scuderia Ferrari Team"][0]["First Driver"][0]["Car Number"].get<int32_t>(), 5);
+			Assert::AreEqual((*(sharedData.mCurrentTable))["Scuderia Ferrari Team"][0]["Second Driver"][0]["Championships"].get<int32_t>(), 1);
+			Assert::AreEqual((*(sharedData.mCurrentTable))["Mercedes AMG Team"][0]["Car"][0]["Name"].get<string>(), string("W08"));
+			Assert::AreEqual((*(sharedData.mCurrentTable))["Mercedes AMG Team"][0]["Second Driver"][0]["Car Number"].get<int32_t>(), 77);
+
+			delete sharedData.mCurrentTable;
 		}
 
 	private:

@@ -48,6 +48,9 @@ namespace MahatmaGameEngine
 		virtual XMLParseMaster::SharedData* clone() override;
 
 		/**
+		* @override the equals method of the RTTI.
+		* @param rhs is the RTTI* to compare with.
+		* @return true if the RTTI belongs to this chain of inheritance
 		*/
 		virtual bool equals(const RTTI* rhs) const override;
 

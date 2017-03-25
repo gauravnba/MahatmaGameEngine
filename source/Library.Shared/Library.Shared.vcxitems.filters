@@ -20,22 +20,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SharedDataTable.cpp">
       <Filter>XMLParser</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperInteger.cpp">
-      <Filter>XMLParser\XMLParseHelpers</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperFloat.cpp">
-      <Filter>XMLParser\XMLParseHelpers</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperScope.cpp">
       <Filter>XMLParser\XMLParseHelpers</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperVector.cpp">
-      <Filter>XMLParser\XMLParseHelpers</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperMatrix.cpp">
-      <Filter>XMLParser\XMLParseHelpers</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperString.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperDatum.cpp">
       <Filter>XMLParser\XMLParseHelpers</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,22 +62,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedDataTable.h">
       <Filter>XMLParser</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperInteger.h">
-      <Filter>XMLParser\XMLParseHelpers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperFloat.h">
-      <Filter>XMLParser\XMLParseHelpers</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperScope.h">
       <Filter>XMLParser\XMLParseHelpers</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperVector.h">
-      <Filter>XMLParser\XMLParseHelpers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperMatrix.h">
-      <Filter>XMLParser\XMLParseHelpers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperString.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperDatum.h">
       <Filter>XMLParser\XMLParseHelpers</Filter>
     </ClInclude>
   </ItemGroup>

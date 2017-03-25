@@ -57,13 +57,6 @@ namespace MahatmaGameEngine
 		*/
 		virtual bool endElementHandler(XMLParseMaster::SharedData* sharedData, const std::string& name) override;
 
-		/**
-		* Called via XML_CharDataHandler. Attempts to handle the character data between the start and end tags.
-		* @param buffer character buffer passed by expat parser. This is the data between the tags
-		* @param length of the string of data passed
-		*/
-		virtual void charDataHandler(XMLParseMaster::SharedData* sharedData, const char* buffer, std::uint32_t length) override;
-
 	private:
 		const std::string mHandledTag = "Scope";
 	};

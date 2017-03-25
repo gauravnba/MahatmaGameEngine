@@ -3,8 +3,8 @@
 		<String name = "Team Principal" value = "Maurizio Arrivabene"/>
 		<Scope name = "Car">
 			<String name = "Name" value = "SF70H"/>
-			<Integer name = "Ranking" value = "3">
-			<Float name = "Power" value = "910.59">
+			<Integer name = "Ranking" value = "3"/>
+			<Float name = "Power" value = "910.59"/>
 		</Scope>
 		<Scope name = "First Driver">
 			<String name = "Name" value = "Sebastian Vettel"/>
@@ -22,7 +22,7 @@
 		<Scope name = "Car">
 			<String name = "Name" value = "W08"/>
 			<Integer name = "Ranking" value = "1"/>
-			<Float name = "Power" value = "960.489">
+			<Float name = "Power" value = "960.489"/>
 		</Scope>
 		<Scope name = "First Driver">
 			<String name = "Name" value = "Lewis Hamilton"/>

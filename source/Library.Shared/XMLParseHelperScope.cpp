@@ -35,13 +35,6 @@ bool XMLParseHelperScope::startElementHandler(XMLParseMaster::SharedData* shared
 	return tagFound;
 }
 
-void XMLParseHelperScope::charDataHandler(XMLParseMaster::SharedData* sharedData, const char* buffer, std::uint32_t length)
-{
-	UNREFERENCED_PARAMETER(sharedData);
-	UNREFERENCED_PARAMETER(buffer);
-	UNREFERENCED_PARAMETER(length);
-}
-
 bool XMLParseHelperScope::endElementHandler(XMLParseMaster::SharedData* sharedData, const string& name)
 {
 	bool handled = false;

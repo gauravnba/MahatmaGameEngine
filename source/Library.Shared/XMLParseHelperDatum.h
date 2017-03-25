@@ -1,35 +1,37 @@
 #pragma once
 
 #include "XMLParseHelper.h"
+#include "Vector.h"
+#include "Datum.h"
 #include <string>
 
 namespace MahatmaGameEngine
 {
 	/**
-	* Parsing helper class for integer type.
+	* Parsing helper class for floating point type.
 	*/
-	class XMLParseHelperInteger : public XMLParseHelper
+	class XMLParseHelperDatum : public XMLParseHelper
 	{
 	public:
 		/**
 		* Default constructor of XMLParseHelperInteger.
 		*/
-		XMLParseHelperInteger() = default;
+		XMLParseHelperDatum();
 
 		/**
 		* Disallow XMLParseHelperInteger copy construction.
 		*/
-		XMLParseHelperInteger(const XMLParseHelperInteger&) = delete;
+		XMLParseHelperDatum(const XMLParseHelperDatum&) = delete;
 
 		/**
 		* Disallow XMLParseHelperInteger move semantics.
 		*/
-		XMLParseHelperInteger(XMLParseHelperInteger&&) = delete;
+		XMLParseHelperDatum(XMLParseHelperDatum&&) = delete;
 
 		/**
 		* Default destructor of XMLParseHelperInteger.
 		*/
-		virtual ~XMLParseHelperInteger() = default;
+		virtual ~XMLParseHelperDatum() = default;
 
 		/**
 		* Initializes the Helper, generally by populating the list of tags the helper can handle
@@ -57,16 +59,14 @@ namespace MahatmaGameEngine
 		*/
 		virtual bool endElementHandler(XMLParseMaster::SharedData* sharedData, const std::string& name) override;
 
-		/**
-		* Called via XML_CharDataHandler. Attempts to handle the character data between the start and end tags.
-		* @param buffer character buffer passed by expat parser. This is the data between the tags
-		* @param length of the string of data passed
-		*/
-		virtual void charDataHandler(XMLParseMaster::SharedData* sharedData, const char* buffer, std::uint32_t length) override;
-
-
-
 	private:
-		const std::string mHandledTag = "Integer";
+		/**
+		* Private helper method that sets the type of the Datum based on what type of element was found in the XML.
+		* @param name of the element obtained from XML i.e. tag
+		* @param setTypeOf the Datum whose type needs to be set.
+		*/
+		void setDatumType(const uint32_t index, Datum& setTypeOf);
+
+		Vector<std::string> mHandledTags; /**< The list of tags that the helper can handle. */
 	};
 }
