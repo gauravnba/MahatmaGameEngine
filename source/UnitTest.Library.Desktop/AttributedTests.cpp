@@ -141,7 +141,7 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(auxiliaryBeginTest)
 		{
 			AttributedFoo foo;
-			Assert::AreEqual(foo.auxiliaryBegin(), 14U);
+			Assert::AreEqual(foo.auxiliaryBegin(), 19U);
 		}
 
 		TEST_METHOD(addNestedScopeTest)
@@ -221,9 +221,9 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(derivedAuxiliaryBeginTest)
 		{
 			AttributedBar bar;
-			Assert::AreEqual(bar.auxiliaryBegin(), 6U);
+			Assert::AreEqual(bar.auxiliaryBegin(), 19U);
 			bar.appendAuxiliaryAttribute("Temp");
-			Assert::AreEqual(bar.auxiliaryBegin(), 6U);
+			Assert::AreEqual(bar.auxiliaryBegin(), 19U);
 		}
 
 	private:

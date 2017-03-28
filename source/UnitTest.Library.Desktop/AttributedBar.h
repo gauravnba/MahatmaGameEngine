@@ -10,7 +10,7 @@ namespace UnitTestLibraryDesktop
 {
 	class AttributedBar : public AttributedFoo
 	{
-		RTTI_DECLARATIONS(Attributed, AttributedFoo)
+		RTTI_DECLARATIONS(AttributedFoo, AttributedBar)
 	public:
 		/**
 		* Adds all the member variables as prescribed attributes to its Scope.

@@ -17,6 +17,12 @@
     <Filter Include="Test Classes\Schema Tests">
       <UniqueIdentifier>{519e356b-a3ed-4acb-b978-6ec6e6d7bb24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test Classes\Factory">
+      <UniqueIdentifier>{411dd355-0d7b-42e2-b0ad-bc92702f0895}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Supporting Classes\Factory">
+      <UniqueIdentifier>{b10fa231-a2fb-4028-9b75-6de108f9b7a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Foo.cpp">
@@ -77,6 +83,15 @@
     <ClCompile Include="XMLTableParserTests.cpp">
       <Filter>Test Classes\XMLParser</Filter>
     </ClCompile>
+    <ClCompile Include="FactoryTests.cpp">
+      <Filter>Test Classes\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="FooProduct.cpp">
+      <Filter>Supporting Classes\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="BarProduct.cpp">
+      <Filter>Supporting Classes\Factory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">
@@ -110,5 +125,11 @@
       <Filter>Supporting Classes</Filter>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="FooProduct.h">
+      <Filter>Supporting Classes\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="BarProduct.h">
+      <Filter>Supporting Classes\Factory</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

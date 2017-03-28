@@ -68,6 +68,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperDatum.h">
       <Filter>XMLParser\XMLParseHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Factory.h">
+      <Filter>Factory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)HashMap.inl">
@@ -88,6 +91,9 @@
     <None Include="$(MSBuildThisFileDirectory)Datum.inl">
       <Filter>Scripting Interface</Filter>
     </None>
+    <None Include="$(MSBuildThisFileDirectory)Factory.inl">
+      <Filter>Factory</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Containers">
@@ -101,6 +107,9 @@
     </Filter>
     <Filter Include="XMLParser\XMLParseHelpers">
       <UniqueIdentifier>{d45253cb-290d-412c-afc4-4396b79d31c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Factory">
+      <UniqueIdentifier>{034a89a8-8177-4561-9a6f-4e634e93ced4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

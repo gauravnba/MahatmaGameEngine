@@ -188,9 +188,12 @@
     <ClCompile Include="AttributedBar.cpp" />
     <ClCompile Include="AttributedFoo.cpp" />
     <ClCompile Include="AttributedTests.cpp" />
+    <ClCompile Include="BarProduct.cpp" />
     <ClCompile Include="DatumTest.cpp" />
+    <ClCompile Include="FactoryTests.cpp" />
     <ClCompile Include="Foo.cpp" />
     <ClCompile Include="FooDefaultHash.cpp" />
+    <ClCompile Include="FooProduct.cpp" />
     <ClCompile Include="HashMapTest.cpp" />
     <ClCompile Include="HashMapIteratorTest.cpp" />
     <ClCompile Include="pch.cpp">
@@ -216,8 +219,10 @@
   <ItemGroup>
     <ClInclude Include="AttributedBar.h" />
     <ClInclude Include="AttributedFoo.h" />
+    <ClInclude Include="BarProduct.h" />
     <ClInclude Include="Foo.h" />
     <ClInclude Include="FooDefaultHash.h" />
+    <ClInclude Include="FooProduct.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SharedDataCars.h" />
     <ClInclude Include="SharedDataMotorcycles.h" />

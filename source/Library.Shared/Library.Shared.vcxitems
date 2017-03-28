@@ -30,6 +30,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Attributed.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Datum.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultHash.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Factory.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HashMap.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RTTI.h" />
@@ -45,6 +46,7 @@
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Datum.inl" />
     <None Include="$(MSBuildThisFileDirectory)DefaultHash.inl" />
+    <None Include="$(MSBuildThisFileDirectory)Factory.inl" />
     <None Include="$(MSBuildThisFileDirectory)HashMap.inl" />
     <None Include="$(MSBuildThisFileDirectory)SList.inl" />
     <None Include="$(MSBuildThisFileDirectory)SListIterator.inl" />
