@@ -1244,6 +1244,95 @@ namespace UnitTestLibraryDesktop
 			Assert::ExpectException<exception>(typeCheckException);
 		}
 
+		TEST_METHOD(pushBackTest)
+		{
+			int32_t iA = 10;
+			int32_t iB = 20;
+			float fA = 10.5f;
+			float fB = 20.5f;
+			float fC = 30.5f;
+			float fD = 40.5f;
+			vec4 vA = vec4(vec3(fA), fB);
+			vec4 vB = vec4(vec3(fB), fA);
+			vec4 vC = vec4(vec3(fC), fD);
+			vec4 vD = vec4(vec3(fD), fC);
+			mat4x4 mA = mat4x4(vA, vB, vC, vD);
+			mat4x4 mB = mat4x4(vB, vC, vD, vA);
+			mat4x4 mC = mat4x4(vC, vD, vA, vB);
+			mat4x4 mD = mat4x4(vD, vA, vB, vC);
+			string sA = "test";
+			string sB = "anotherTest";
+			RTTI* rtti = new Foo;
+
+			//Integer
+			Datum intDatum;
+			intDatum.pushBack(iA);
+			intDatum.pushBack(iB);
+			Assert::AreEqual(intDatum.size(), 2U);
+			Assert::AreEqual(intDatum.get<int32_t>(), iA);
+			Assert::AreEqual(intDatum.get<int32_t>(1U), iB);
+			auto floatSetException = [&intDatum, &fA] {intDatum.set(fA, 0); };
+			Assert::ExpectException<runtime_error>(floatSetException);
+
+			//Float
+			Datum floatDatum;
+			floatDatum.pushBack(fA);
+			floatDatum.pushBack(fB);
+			Assert::AreEqual(floatDatum.size(), 2U);
+			Assert::AreEqual(floatDatum.get<float>(), fA);
+			Assert::AreEqual(floatDatum.get<float>(1U), fB);
+			auto intSetException = [&floatDatum, &iA] {floatDatum.set(iA, 0); };
+			Assert::ExpectException<runtime_error>(intSetException);
+
+			//Vector
+			Datum vecDatum;
+			vecDatum.pushBack(vA);
+			vecDatum.pushBack(vB);
+			Assert::AreEqual(vecDatum.size(), 2U);
+			Assert::AreEqual(vecDatum.get<vec4>(), vA);
+			Assert::AreEqual(vecDatum.get<vec4>(1U), vB);
+			auto vecSetException = [&vecDatum, &mA] {vecDatum.set(mA, 0); };
+			Assert::ExpectException<runtime_error>(vecSetException);
+
+			//Matrix
+			Datum matDatum;
+			matDatum.pushBack(mA);
+			matDatum.pushBack(mB);
+			Assert::AreEqual(matDatum.size(), 2U);
+			Assert::AreEqual(matDatum.get<mat4x4>(), mA);
+			Assert::AreEqual(matDatum.get<mat4x4>(1), mB);
+			auto matSetException = [&matDatum, &vA] {matDatum.set(vA, 0); };
+			Assert::ExpectException<runtime_error>(matSetException);
+
+			//Table
+			Datum tableDatum;
+			Scope scope;
+			tableDatum.pushBack(scope);
+			Assert::AreEqual(tableDatum.size(), 1U);
+			Assert::IsTrue(tableDatum.get<Scope*>() == &scope);
+			auto tableSetException = [&tableDatum, &rtti] {tableDatum.set(rtti); };
+			Assert::ExpectException<runtime_error>(tableSetException);
+
+			//String
+			Datum stringDatum;
+			stringDatum.pushBack(sA);
+			stringDatum.pushBack(sB);
+			Assert::AreEqual(stringDatum.size(), 2U);
+			Assert::AreEqual(stringDatum.get<string>(), sA);
+			Assert::AreEqual(stringDatum.get<string>(1), sB);
+			auto stringSetException = [&intDatum, &sA] {intDatum.set(sA, 0); };
+			Assert::ExpectException<runtime_error>(stringSetException);
+
+			//RTTI
+			Datum rttiDatum;
+			rttiDatum.pushBack(rtti);
+			Assert::AreEqual(rttiDatum.size(), 1U);
+			Assert::IsTrue(rttiDatum.get<RTTI*>() == rtti);
+			auto rttiSetException = [&rttiDatum, &scope] {rttiDatum.set(scope); };
+			Assert::ExpectException<runtime_error>(rttiSetException);
+			delete rtti;
+		}
+
 	private:
 		static _CrtMemState sStartMemState;
 	};

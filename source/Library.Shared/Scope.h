@@ -125,6 +125,11 @@ namespace MahatmaGameEngine
 		void adopt(Scope* child, const std::string& name);
 
 		/**
+		* Orphan detaches the Scope from its parents.
+		*/
+		void orphan();
+
+		/**
 		* Returns the parent Scope of this scope.
 		* @return pointer to the parent Scope
 		*/
@@ -156,10 +161,8 @@ namespace MahatmaGameEngine
 		void clear();
 
 	private:
-		void orphan();
-
 		HashMap<std::string, Datum> mTable;				/**< Table that stores string, Datum pairs. */
-		Vector<std::pair<std::string, Datum>*> mOrder;	/**< */
-		Scope* mParent;
+		Vector<std::pair<std::string, Datum>*> mOrder;	/**< Order Vector to preserve the order of insertion of Datums. */
+		Scope* mParent;									/**< The parent Scope of this Scope. nullptr if Scope is not nested. */
 	};
 }

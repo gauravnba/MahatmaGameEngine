@@ -1,0 +1,12 @@
+<Scope name = "root">
+	<World name = "BigWorld">
+		<String name = "TestWorld" value = "ThisIsWorld"/>
+		<Sector name = "SmallSector">
+			<String name = "TestSector" value = "ThisIsSector"/>
+			<Entity class = "EntityFoo" name = "ThisEntity">
+				<Integer name = "NotRandomInteger" value = "10"/>
+				<String name = "sayNothing" value = "Nothing"/>
+			</Entity>
+		</Sector>
+	</World>
+</Scope>

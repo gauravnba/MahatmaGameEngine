@@ -114,6 +114,9 @@
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <OptimizeReferences>false</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(ProjectDir)..\..\test_files" "$(OutDir)\test_scripts" /b /v /y /i</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -190,6 +193,7 @@
     <ClCompile Include="AttributedTests.cpp" />
     <ClCompile Include="BarProduct.cpp" />
     <ClCompile Include="DatumTest.cpp" />
+    <ClCompile Include="EntityTest.cpp" />
     <ClCompile Include="FactoryTests.cpp" />
     <ClCompile Include="Foo.cpp" />
     <ClCompile Include="FooDefaultHash.cpp" />
@@ -204,6 +208,7 @@
     <ClCompile Include="SharedDataMotorcycle.cpp" />
     <ClCompile Include="SListIteratorTest.cpp" />
     <ClCompile Include="SListTest.cpp" />
+    <ClCompile Include="EntityFoo.cpp" />
     <ClCompile Include="VectorIteratorTest.cpp" />
     <ClCompile Include="VectorTest.cpp" />
     <ClCompile Include="XMLParseHelperCars.cpp" />
@@ -220,6 +225,7 @@
     <ClInclude Include="AttributedBar.h" />
     <ClInclude Include="AttributedFoo.h" />
     <ClInclude Include="BarProduct.h" />
+    <ClInclude Include="EntityFoo.h" />
     <ClInclude Include="Foo.h" />
     <ClInclude Include="FooDefaultHash.h" />
     <ClInclude Include="FooProduct.h" />

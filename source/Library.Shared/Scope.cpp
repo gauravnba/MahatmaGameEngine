@@ -306,8 +306,8 @@ void Scope::adopt(Scope* child, const std::string& name)
 	child->mParent = this;
 
 	//Append the child to this.
-	Datum* temp = &append(name);
-	temp->set(*child, temp->size());
+	Datum& temp = append(name);
+	temp.set(*child, temp.size());
 }
 
 void Scope::orphan()

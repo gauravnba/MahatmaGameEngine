@@ -108,6 +108,10 @@
     <PreLinkEvent>
       <Command>xcopy "$(ProjectDir)..\..\external\Expat\lib\$(Platform)\$(Configuration)\Expat.pdb" "$(OutDir)" /Y /I</Command>
     </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

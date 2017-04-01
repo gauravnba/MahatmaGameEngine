@@ -58,16 +58,16 @@ namespace UnitTestLibraryDesktop
 			XMLParseHelperMotorcycle* xmlHelper = new XMLParseHelperMotorcycle;
 			xmlTest.addHelper(*xmlHelper);
 			
-			xmlTest.parseFromFile("..//..//..//..//..//test_files//Motorcycle.xml");
+			xmlTest.parseFromFile("test_scripts//Motorcycle.xml");
 
 			Assert::AreEqual(sharedData->mFoundAttributes["Name"].size(), 3U);
 			Assert::AreEqual(sharedData->mFoundAttributes["Brand"][0], string("Yamaha"));
 			Assert::AreEqual(sharedData->mFoundAttributes["Brand"][1], string("Harley Davidson"));
 			Assert::AreEqual(sharedData->mFoundAttributes["Brand"][2], string("BMW"));
 
-			Assert::AreEqual(xmlTest.getFileName(), string("..//..//..//..//..//test_files//Motorcycle.xml"));
+			Assert::AreEqual(xmlTest.getFileName(), string("test_scripts//Motorcycle.xml"));
 
-			auto invalidXMLException = [&xmlTest] {xmlTest.parseFromFile("..//..//..//..//..//test_files//Motorcycle_Invalid.xml"); };
+			auto invalidXMLException = [&xmlTest] {xmlTest.parseFromFile("test_scripts//Motorcycle_Invalid.xml"); };
 			Assert::ExpectException<exception>(invalidXMLException);
 
 			delete sharedData;
@@ -86,7 +86,7 @@ namespace UnitTestLibraryDesktop
 
 			xmlTest.removeHelper(*xmlHelper);
 
-			xmlTest1->parseFromFile("..//..//..//..//..//test_files//Motorcycle.xml");
+			xmlTest1->parseFromFile("test_scripts//Motorcycle.xml");
 
 			Assert::AreEqual(xmlTest1->getSharedData()->as<SharedDataMotorcycles>()->mFoundAttributes["Name"].size(), 3U);
 			Assert::AreEqual(xmlTest1->getSharedData()->as<SharedDataMotorcycles>()->mFoundAttributes["Brand"][0], string("Yamaha"));
@@ -123,7 +123,7 @@ namespace UnitTestLibraryDesktop
 			XMLParseHelperMotorcycle* xmlHelper = new XMLParseHelperMotorcycle;
 			xmlTest.addHelper(*xmlHelper);
 
-			xmlTest.parseFromFile("..//..//..//..//..//test_files//Motorcycle.xml");
+			xmlTest.parseFromFile("test_scripts//Motorcycle.xml");
 
 			Assert::AreEqual(sharedData->mFoundAttributes["Name"].size(), 0U);
 			Assert::AreEqual(reinterpret_cast<int32_t*>(xmlTest.getSharedData()), reinterpret_cast<int32_t*>(sharedData1));
@@ -131,9 +131,9 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(sharedData1->mFoundAttributes["Brand"][1], string("Harley Davidson"));
 			Assert::AreEqual(sharedData1->mFoundAttributes["Brand"][2], string("BMW"));
 
-			Assert::AreEqual(xmlTest.getFileName(), string("..//..//..//..//..//test_files//Motorcycle.xml"));
+			Assert::AreEqual(xmlTest.getFileName(), string("test_scripts//Motorcycle.xml"));
 
-			auto invalidXMLException = [&xmlTest] {xmlTest.parseFromFile("..//..//..//..//..//test_files//Motorcycle_Invalid.xml"); };
+			auto invalidXMLException = [&xmlTest] {xmlTest.parseFromFile("test_scripts//Motorcycle_Invalid.xml"); };
 			Assert::ExpectException<exception>(invalidXMLException);
 
 			delete sharedData;
@@ -149,15 +149,15 @@ namespace UnitTestLibraryDesktop
 			XMLParseHelperCars* xmlHelper = new XMLParseHelperCars;
 			xmlTest.addHelper(*xmlHelper);
 
-			xmlTest.parseFromFile("..//..//..//..//..//test_files//Cars.xml");
+			xmlTest.parseFromFile("test_scripts//Cars.xml");
 
 			Assert::AreEqual(sharedData->mFoundAttributes["Car"].size(), 3U);
 			Assert::AreEqual(sharedData->mFoundAttributes["Car"].get<Scope*>(1)->append("brand").get<string>(0), string("Ford"));
 			Assert::AreEqual(sharedData->mFoundAttributes["Car"].get<Scope*>(2)->append("brand").get<string>(0), string("Mercedes"));
 
-			Assert::AreEqual(xmlTest.getFileName(), string("..//..//..//..//..//test_files//Cars.xml"));
+			Assert::AreEqual(xmlTest.getFileName(), string("test_scripts//Cars.xml"));
 
-			auto invalidXMLException = [&xmlTest] {xmlTest.parseFromFile("..//..//..//..//..//test_files//Cars_Invalid.xml"); };
+			auto invalidXMLException = [&xmlTest] {xmlTest.parseFromFile("test_scripts//Cars_Invalid.xml"); };
 			Assert::ExpectException<exception>(invalidXMLException);
 
 			delete sharedData;

@@ -234,7 +234,7 @@ namespace UnitTestLibraryDesktop
 			xmlMaster.addHelper(datumHelper);
 			xmlMaster.addHelper(tableHelper);
 
-			xmlMaster.parseFromFile("..//..//..//..//..//test_files//Table.xml");
+			xmlMaster.parseFromFile("test_scripts//Table.xml");
 
 			Assert::AreEqual((*(sharedData.mCurrentTable))["inty"].get<int32_t>(), 10);
 			Assert::AreEqual((*(sharedData.mCurrentTable))["floaty"].get<float>(), 5.0f);
@@ -245,7 +245,7 @@ namespace UnitTestLibraryDesktop
 			delete sharedData.mCurrentTable;
 
 			XMLParseMaster* xmlMasterClone = xmlMaster.clone();
-			xmlMasterClone->parseFromFile("..//..//..//..//..//test_files//Table.xml");
+			xmlMasterClone->parseFromFile("test_scripts//Table.xml");
 
 			Scope& cloneSharedData = *(xmlMasterClone->getSharedData()->as<SharedDataTable>()->mCurrentTable);
 			Assert::AreEqual(cloneSharedData["inty"].get<int32_t>(), 10);
@@ -268,7 +268,7 @@ namespace UnitTestLibraryDesktop
 			xmlMaster.addHelper(datumHelper);
 			xmlMaster.addHelper(scopeHelper);
 
-			xmlMaster.parseFromFile("..//..//..//..//..//test_files//Formula1Sample.xml");
+			xmlMaster.parseFromFile("test_scripts//Formula1Sample.xml");
 
 			Assert::AreEqual((*(sharedData.mCurrentTable))["Scuderia Ferrari Team"][0]["Team Principal"].get<string>(), string("Maurizio Arrivabene"));
 			Assert::AreEqual((*(sharedData.mCurrentTable))["Scuderia Ferrari Team"][0]["Car"][0]["Power"].get<float>(), 910.59f);

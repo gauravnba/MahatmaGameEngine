@@ -1,6 +1,7 @@
 #pragma once
 
 #include "XMLParseHelper.h"
+#include "SharedDataTable.h"
 #include <string>
 
 namespace MahatmaGameEngine
@@ -58,6 +59,21 @@ namespace MahatmaGameEngine
 		virtual bool endElementHandler(XMLParseMaster::SharedData* sharedData, const std::string& name) override;
 
 	private:
-		const std::string mHandledTag = "Scope";
+		/**
+		* Handles scope type tags.
+		* @param index the index type for the switch statement.
+		
+		KEY:
+		0 = Scope;
+		1 = World;
+		2 = Sector;
+		3 = Entity;
+
+		* @param sharedData the sharedDataTable value casted from the sharedData that startElementHandler received.
+		* @param attributesMap the Hashmap of attributes received by startElementHandler.
+		*/
+		void scopeStartHandler(std::uint32_t index, SharedDataTable& sharedData, HashMap<std::string, std::string>& attributesMap);
+
+		Vector<std::string> mHandledTags;					/**< The list of tags handled by this Helper.*/
 	};
 }

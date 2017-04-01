@@ -13,8 +13,6 @@ namespace MahatmaGameEngine
 	class Factory
 	{
 	public:
-		//typedef HashMap<std::string, Factory<AbstractProductT>> HashMap<std::string, Factory<AbstractProductT>>;
-
 		/**
 		* The name of the class as the Factory knows it
 		* @return string of the name of the class
@@ -30,33 +28,41 @@ namespace MahatmaGameEngine
 
 	public:
 		/**
-		* 
+		* Looks for the factory in the list of Factories, and then returns the found object.
+		* @param className string parameter with the class name to search with.
+		* @return address of the found Factory class and nullptr if not found.
 		*/
 		static Factory<AbstractProductT>* find(const std::string& className);
 
 		/**
-		* 
+		* Creates the class of type by invoking the create override of the derived factory class.
+		* @param className string parameter to create the product of type className.
+		* return address to the created product.
 		*/
 		static AbstractProductT* create(const std::string& className);
 
 		/**
-		* 
+		* Returns an iterator to the beginning of the list of Factories.
+		* @return iterator at begin of list of Factories
 		*/
 		static typename HashMap<std::string, Factory<AbstractProductT>*>::Iterator begin();
 
 		/**
-		* 
+		* Returns an iterator to the beginning of the list of Factories.
+		* @return iterator at begin of list of Factories
 		*/
 		static typename HashMap<std::string, Factory<AbstractProductT>*>::Iterator end();
 
 	protected:
 		/**
-		* 
+		* Adds a Factory to the list of factories.
+		* @param factory the Factory object to insert into HashMap.
 		*/
 		static void add(Factory<AbstractProductT>* factory);
 
 		/**
-		* 
+		* Removes a Factory from the list of factories.
+		* @param factory the Factory object to remove from HashMap.
 		*/
 		static void remove(Factory<AbstractProductT>* factory);
 

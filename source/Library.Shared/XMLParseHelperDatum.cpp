@@ -57,6 +57,7 @@ bool XMLParseHelperDatum::endElementHandler(XMLParseMaster::SharedData* sharedDa
 			if (mHandledTags[i] == name)
 			{
 				handled = true;
+				break;
 			}
 		}
 	}

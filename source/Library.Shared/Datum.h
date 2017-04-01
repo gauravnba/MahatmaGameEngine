@@ -281,7 +281,7 @@ namespace MahatmaGameEngine
 		* @param numberOfElements to set the size of the datum Array
 		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
-		void setStorage(int32_t* externalArray, uint32_t numberOfElements);
+		void setStorage(int32_t* externalArray, uint32_t numberOfElements = 1);
 
 		/**
 		* Sets the union to point to an external array passed as parameter. Overload for floating point.
@@ -289,7 +289,7 @@ namespace MahatmaGameEngine
 		* @param numberOfElements to set the size of the datum Array
 		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
-		void setStorage(float* externalArray, uint32_t numberOfElements);
+		void setStorage(float* externalArray, uint32_t numberOfElements = 1);
 
 		/**
 		* Sets the union to point to an external array passed as parameter. Overload for vector.
@@ -297,7 +297,7 @@ namespace MahatmaGameEngine
 		* @param numberOfElements to set the size of the datum Array
 		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
-		void setStorage(glm::vec4* externalArray, uint32_t numberOfElements);
+		void setStorage(glm::vec4* externalArray, uint32_t numberOfElements = 1);
 
 		/**
 		* Sets the union to point to an external array passed as parameter. Overload for matrix.
@@ -305,7 +305,7 @@ namespace MahatmaGameEngine
 		* @param numberOfElements to set the size of the datum Array
 		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
-		void setStorage(glm::mat4x4* externalArray, uint32_t numberOfElements);
+		void setStorage(glm::mat4x4* externalArray, uint32_t numberOfElements = 1);
 
 		/**
 		* Sets the union to point to an external array passed as parameter. Overload for string.
@@ -313,7 +313,7 @@ namespace MahatmaGameEngine
 		* @param numberOfElements to set the size of the datum Array
 		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
-		void setStorage(std::string* externalArray, uint32_t numberOfElements);
+		void setStorage(std::string* externalArray, uint32_t numberOfElements = 1);
 
 		/**
 		* Sets the union to point to an external array passed as parameter. Overload for RTTI pointer.
@@ -321,7 +321,59 @@ namespace MahatmaGameEngine
 		* @param numberOfElements to set the size of the datum Array
 		* @overload void setStorage(int32_t* externalArray, uint32_t numberOfElements);
 		*/
-		void setStorage(RTTI** externalArray, uint32_t numberOfElements);
+		void setStorage(RTTI** externalArray, uint32_t numberOfElements = 1);
+#pragma endregion
+
+#pragma region PUSH_BACK
+
+		/**
+		* Sets the value at the last index in the Datum
+		* @param value to be assigned.
+		* @overload void pushBack(const float& value);
+		*/
+		void pushBack(const std::int32_t value);
+
+		/**
+		* Sets the value at the last index in the Datum
+		* @param value is the const reference to the value to be assigned.
+		*/
+		void pushBack(const float& value);
+
+		/**
+		* Sets the value at the last index in the Datum
+		* @param value is the const reference to the value to be assigned.
+		* @overload void pushBack(const float& value);
+		*/
+		void pushBack(const glm::vec4& value);
+
+		/**
+		* Sets the value at the last index in the Datum
+		* @param value is the const reference to the value to be assigned.
+		* @overload void pushBack(const float& value);
+		*/
+		void pushBack(const glm::mat4x4& value);
+
+		/**
+		* Sets the value at the last index in the Datum
+		* @param value is the const reference to the value to be assigned.
+		* @overload void pushBack(const float& value);
+		*/
+		void pushBack(Scope& value);
+
+		/**
+		* Sets the value at the last index in the Datum
+		* @param value is the const reference to the value to be assigned.
+		* @overload void pushBack(const float& value);
+		*/
+		void pushBack(const std::string& value);
+
+		/**
+		* Sets the value at the last index in the Datum
+		* @param value is the const reference to the value to be assigned.
+		* @overload void pushBack(const float& value);
+		*/
+		void pushBack(RTTI* value);
+
 #pragma endregion
 
 #pragma region SET_DECLARATIONS

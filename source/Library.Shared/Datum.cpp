@@ -542,6 +542,94 @@ void Datum::clear()
 	}
 }
 
+#pragma region PUSH_BACK_OVERLOADS
+
+void Datum::pushBack(const int32_t value)
+{
+	if (mSize != 0)
+	{
+		set(value, mSize);
+	}
+	else
+	{
+		set(value);
+	}
+}
+
+void Datum::pushBack(const float& value)
+{
+	if (mSize != 0)
+	{
+		set(value, mSize);
+	}
+	else
+	{
+		set(value);
+	}
+}
+
+void Datum::pushBack(const vec4& value)
+{
+	if (mSize != 0)
+	{
+		set(value, mSize);
+	}
+	else
+	{
+		set(value);
+	}
+}
+
+void Datum::pushBack(const mat4x4& value)
+{
+	if (mSize != 0)
+	{
+		set(value, mSize);
+	}
+	else
+	{
+		set(value);
+	}
+}
+
+void Datum::pushBack(Scope& value)
+{
+	if (mSize != 0)
+	{
+		set(value, mSize);
+	}
+	else
+	{
+		set(value);
+	}
+}
+
+void Datum::pushBack(const string& value)
+{
+	if (mSize != 0)
+	{
+		set(value, mSize);
+	}
+	else
+	{
+		set(value);
+	}
+}
+
+void Datum::pushBack(RTTI* value)
+{
+	if (mSize != 0)
+	{
+		set(value, mSize);
+	}
+	else
+	{
+		set(value);
+	}
+}
+
+#pragma endregion
+
 #pragma region SET_OVERLOADS
 
 void Datum::set(int32_t value, uint32_t index)

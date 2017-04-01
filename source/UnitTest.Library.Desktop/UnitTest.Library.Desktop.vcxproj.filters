@@ -23,12 +23,24 @@
     <Filter Include="Supporting Classes\Factory">
       <UniqueIdentifier>{b10fa231-a2fb-4028-9b75-6de108f9b7a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Supporting Classes\Attributed">
+      <UniqueIdentifier>{43890c5d-d6fc-4855-a336-d1e6698fc4d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Supporting Classes\XMLParseMaster">
+      <UniqueIdentifier>{fcc568ba-5581-456e-b9c5-103a5530a512}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Supporting Classes\HashMap">
+      <UniqueIdentifier>{d3c7f839-3374-429f-bac9-acd1e934777a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test Classes\Game Objects">
+      <UniqueIdentifier>{b677f444-9ebf-471d-b96b-97d93929a2ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Supporting Classes\EntityDerived">
+      <UniqueIdentifier>{b4c0ae82-7ab5-4647-a79b-2774830feca3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Foo.cpp">
-      <Filter>Supporting Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="FooDefaultHash.cpp">
       <Filter>Supporting Classes</Filter>
     </ClCompile>
     <ClCompile Include="DatumTest.cpp">
@@ -58,26 +70,8 @@
     <ClCompile Include="VectorTest.cpp">
       <Filter>Test Classes\Container Tests</Filter>
     </ClCompile>
-    <ClCompile Include="AttributedFoo.cpp">
-      <Filter>Supporting Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="AttributedBar.cpp">
-      <Filter>Supporting Classes</Filter>
-    </ClCompile>
     <ClCompile Include="XMLParseMasterTest.cpp">
       <Filter>Test Classes\XMLParser</Filter>
-    </ClCompile>
-    <ClCompile Include="XMLParseHelperMotorcycle.cpp">
-      <Filter>Supporting Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="SharedDataCars.cpp">
-      <Filter>Supporting Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="XMLParseHelperCars.cpp">
-      <Filter>Supporting Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="SharedDataMotorcycle.cpp">
-      <Filter>Supporting Classes</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="XMLTableParserTests.cpp">
@@ -92,12 +86,36 @@
     <ClCompile Include="BarProduct.cpp">
       <Filter>Supporting Classes\Factory</Filter>
     </ClCompile>
+    <ClCompile Include="AttributedBar.cpp">
+      <Filter>Supporting Classes\Attributed</Filter>
+    </ClCompile>
+    <ClCompile Include="AttributedFoo.cpp">
+      <Filter>Supporting Classes\Attributed</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedDataCars.cpp">
+      <Filter>Supporting Classes\XMLParseMaster</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedDataMotorcycle.cpp">
+      <Filter>Supporting Classes\XMLParseMaster</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLParseHelperCars.cpp">
+      <Filter>Supporting Classes\XMLParseMaster</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLParseHelperMotorcycle.cpp">
+      <Filter>Supporting Classes\XMLParseMaster</Filter>
+    </ClCompile>
+    <ClCompile Include="FooDefaultHash.cpp">
+      <Filter>Supporting Classes\HashMap</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityTest.cpp">
+      <Filter>Test Classes\Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityFoo.cpp">
+      <Filter>Supporting Classes\EntityDerived</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">
-      <Filter>Supporting Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="FooDefaultHash.h">
       <Filter>Supporting Classes</Filter>
     </ClInclude>
     <ClInclude Include="TestMacros.h">
@@ -106,30 +124,36 @@
     <ClInclude Include="ToStringFunctions.h">
       <Filter>Supporting Classes</Filter>
     </ClInclude>
-    <ClInclude Include="AttributedFoo.h">
-      <Filter>Supporting Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="AttributedBar.h">
-      <Filter>Supporting Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="XMLParseHelperMotorcycle.h">
-      <Filter>Supporting Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="SharedDataMotorcycles.h">
-      <Filter>Supporting Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="SharedDataCars.h">
-      <Filter>Supporting Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="XMLParseHelperCars.h">
-      <Filter>Supporting Classes</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="FooProduct.h">
       <Filter>Supporting Classes\Factory</Filter>
     </ClInclude>
     <ClInclude Include="BarProduct.h">
       <Filter>Supporting Classes\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributedBar.h">
+      <Filter>Supporting Classes\Attributed</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributedFoo.h">
+      <Filter>Supporting Classes\Attributed</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedDataMotorcycles.h">
+      <Filter>Supporting Classes\XMLParseMaster</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedDataCars.h">
+      <Filter>Supporting Classes\XMLParseMaster</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLParseHelperCars.h">
+      <Filter>Supporting Classes\XMLParseMaster</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLParseHelperMotorcycle.h">
+      <Filter>Supporting Classes\XMLParseMaster</Filter>
+    </ClInclude>
+    <ClInclude Include="FooDefaultHash.h">
+      <Filter>Supporting Classes\HashMap</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityFoo.h">
+      <Filter>Supporting Classes\EntityDerived</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
