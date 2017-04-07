@@ -546,86 +546,37 @@ void Datum::clear()
 
 void Datum::pushBack(const int32_t value)
 {
-	if (mSize != 0)
-	{
-		set(value, mSize);
-	}
-	else
-	{
-		set(value);
-	}
+	set(value, mSize);
 }
 
 void Datum::pushBack(const float& value)
 {
-	if (mSize != 0)
-	{
-		set(value, mSize);
-	}
-	else
-	{
-		set(value);
-	}
+	set(value, mSize);
 }
 
 void Datum::pushBack(const vec4& value)
 {
-	if (mSize != 0)
-	{
-		set(value, mSize);
-	}
-	else
-	{
-		set(value);
-	}
+	set(value, mSize);
 }
 
 void Datum::pushBack(const mat4x4& value)
 {
-	if (mSize != 0)
-	{
-		set(value, mSize);
-	}
-	else
-	{
-		set(value);
-	}
+	set(value, mSize);
 }
 
 void Datum::pushBack(Scope& value)
 {
-	if (mSize != 0)
-	{
-		set(value, mSize);
-	}
-	else
-	{
-		set(value);
-	}
+	set(value, mSize);
 }
 
 void Datum::pushBack(const string& value)
 {
-	if (mSize != 0)
-	{
-		set(value, mSize);
-	}
-	else
-	{
-		set(value);
-	}
+	set(value, mSize);
 }
 
 void Datum::pushBack(RTTI* value)
 {
-	if (mSize != 0)
-	{
-		set(value, mSize);
-	}
-	else
-	{
-		set(value);
-	}
+	set(value, mSize);
 }
 
 #pragma endregion
@@ -967,7 +918,7 @@ bool Datum::removeTable(const Scope* scope)
 		{
 			if (mDatumVal.tableType[i] == scope)
 			{
-				memmove(mDatumVal.tableType[i], mDatumVal.tableType[i + 1], ((--mSize) - i) * sizeof(Scope*));
+				memcpy(mDatumVal.tableType + i, mDatumVal.tableType + i + 1, ((--mSize) - i) * sizeof(Scope*));
 				removed = true;
 				break;
 			}

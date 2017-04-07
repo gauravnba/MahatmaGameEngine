@@ -40,12 +40,11 @@ bool XMLParseHelperMotorcycle::startElementHandler(XMLParseMaster::SharedData* s
 	return tagFound;
 }
 
-void XMLParseHelperMotorcycle::charDataHandler(XMLParseMaster::SharedData* sharedData, const char* buffer, uint32_t length)
+void XMLParseHelperMotorcycle::charDataHandler(XMLParseMaster::SharedData* sharedData, const string& buffer)
 {
 	if (sharedData->is(SharedDataMotorcycles::typeIdClass()))
 	{
-		string temp = string(buffer).substr(0, length);
-		sharedData->as<SharedDataMotorcycles>()->mFoundAttributes[mCurrentElement].pushBack(temp);
+		sharedData->as<SharedDataMotorcycles>()->mFoundAttributes[mCurrentElement].pushBack(buffer);
 	}
 }
 

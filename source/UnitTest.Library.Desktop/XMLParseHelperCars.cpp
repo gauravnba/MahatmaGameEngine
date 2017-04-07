@@ -46,11 +46,10 @@ bool XMLParseHelperCars::startElementHandler(XMLParseMaster::SharedData* sharedD
 	return tagFound;
 }
 
-void XMLParseHelperCars::charDataHandler(XMLParseMaster::SharedData* sharedData, const char* buffer, uint32_t length)
+void XMLParseHelperCars::charDataHandler(XMLParseMaster::SharedData* sharedData, const string& buffer)
 {
 	UNREFERENCED_PARAMETER(sharedData);
 	UNREFERENCED_PARAMETER(buffer);
-	UNREFERENCED_PARAMETER(length);
 }
 
 bool XMLParseHelperCars::endElementHandler(XMLParseMaster::SharedData* sharedData, const string& name)

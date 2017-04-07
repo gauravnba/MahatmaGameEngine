@@ -14,22 +14,22 @@ namespace MahatmaGameEngine
 	{
 	public:
 		/**
-		* Default constructor of XMLParseHelperInteger.
+		* Default constructor of XMLParseHelperDatum.
 		*/
 		XMLParseHelperDatum();
 
 		/**
-		* Disallow XMLParseHelperInteger copy construction.
+		* Disallow XMLParseHelperDatum copy construction.
 		*/
 		XMLParseHelperDatum(const XMLParseHelperDatum&) = delete;
 
 		/**
-		* Disallow XMLParseHelperInteger move semantics.
+		* Disallow XMLParseHelperDatum move semantics.
 		*/
 		XMLParseHelperDatum(XMLParseHelperDatum&&) = delete;
 
 		/**
-		* Default destructor of XMLParseHelperInteger.
+		* Default destructor of XMLParseHelperDatum.
 		*/
 		virtual ~XMLParseHelperDatum() = default;
 

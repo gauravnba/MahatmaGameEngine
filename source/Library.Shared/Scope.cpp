@@ -78,6 +78,7 @@ Scope::Scope(Scope&& obj) :
 
 Scope::~Scope()
 {
+	orphan();
 	clear();
 }
 
@@ -211,7 +212,7 @@ void Scope::clear()
 		if (pair->second.type() == DatumType::TABLE)
 		{
 			uint32_t index = pair->second.size();
-			for (;index > 0; --index)
+			for (;index > 0 ; --index)
 			{
 				Scope* tempScope = pair->second.get<Scope*>(index - 1);
 				delete tempScope;
@@ -307,7 +308,7 @@ void Scope::adopt(Scope* child, const std::string& name)
 
 	//Append the child to this.
 	Datum& temp = append(name);
-	temp.set(*child, temp.size());
+	temp.pushBack(*child);
 }
 
 void Scope::orphan()
@@ -328,4 +329,9 @@ void Scope::orphan()
 string Scope::toString() const
 {
 	return "Scope";
+}
+
+uint32_t Scope::size()
+{
+	return mOrder.size();
 }

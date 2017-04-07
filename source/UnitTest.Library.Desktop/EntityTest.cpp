@@ -98,6 +98,7 @@ namespace UnitTestLibraryDesktop
 			//Test with EntityFoo
 			EntityFooFactory entityFooFactory;
 			Entity* tempEntityFoo = &(tempSector.createEntity("EntityFoo", "NotVeryCreativeName"));
+			UNREFERENCED_PARAMETER(tempEntityFoo);
 			Assert::IsTrue(tempEntityFoo->is(EntityFoo::typeName()));
 			Assert::AreEqual(tempEntityFoo->name(), static_cast<EntityFoo&>(tempSector["entities"][1]).name());
 		}
@@ -136,7 +137,7 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(tempWorld.sectors()[0].as<Sector>() == &tempSector);
 			Assert::IsTrue(tempSector.getWorld() == &tempWorld);
 
-			Sector& newSector = tempWorld.createSector("New");
+			Sector& newSector =	tempWorld.createSector("New");
 			Assert::IsTrue(newSector.name() == string("New"));
 			newSector.setName("NotNewAnymore");
 			Assert::AreEqual(newSector.name(), string("NotNewAnymore"));
@@ -153,7 +154,7 @@ namespace UnitTestLibraryDesktop
 			worldState.mGameTime = &gameTime;
 			World world("CruelWorld");
 			Sector* sector = &(world.createSector("BadSector"));
-			EntityFactory entitFactory;
+			EntityFactory entityFactory;
 			EntityFooFactory entityFooFactory;
 			Entity* entity = &(sector->createEntity("Entity", "OnlyGoodEntity"));
 			Entity* entityFoo = &(sector->createEntity("EntityFoo", "JustAnotherBadEntity"));

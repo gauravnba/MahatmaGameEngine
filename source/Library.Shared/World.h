@@ -6,6 +6,7 @@
 namespace MahatmaGameEngine
 {
 	class Sector;
+	class Action;
 	struct WorldState;
 
 	/**
@@ -76,6 +77,14 @@ namespace MahatmaGameEngine
 		* @overload createSector();
 		*/
 		Sector& createSector(const std::string& sectorName);
+
+		/**
+		* Creates an action and adopts it to the World.
+		* @param actionName name of the action class to define.
+		* @param instanceName name of the action.
+		* @return Action reference to the created Action.
+		*/
+		Action& createAction(const std::string& actionName, const std::string& instanceName);
 
 		/**
 		* Update method called by the gameloop to update the world and all its children.

@@ -72,6 +72,14 @@ namespace MahatmaGameEngine
 		Entity& createEntity(const std::string& className, const std::string& instanceName);
 
 		/**
+		* Creates an action and adopts it to the Sector.
+		* @param actionName name of the action class to define.
+		* @param instanceName name of the action.
+		* @return Action reference to the created Action.
+		*/
+		Action& createAction(const std::string& actionName, const std::string& instanceName);
+
+		/**
 		* Adopts an Entity that does not currently belong to this Sector.
 		* @param entity the Entity object to be adopted to Sector.
 		*/

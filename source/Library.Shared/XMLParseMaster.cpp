@@ -206,9 +206,11 @@ void XMLParseMaster::charDataHandler(void* userData, const char* value, int leng
 {
 	XMLParseMaster* castedParseMaster = static_cast<XMLParseMaster*>(userData);
 
+	string stringValue = string(value, length);
+
 	if (castedParseMaster->mResponsibleHelperIndex >= 0 && length != 0)
 	{
-		castedParseMaster->mHelpers[castedParseMaster->mResponsibleHelperIndex]->charDataHandler(castedParseMaster->getSharedData(), value, length);
+		castedParseMaster->mHelpers[castedParseMaster->mResponsibleHelperIndex]->charDataHandler(castedParseMaster->getSharedData(), stringValue);
 	}
 }
 

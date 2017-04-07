@@ -25,7 +25,7 @@ namespace UnitTestLibraryDesktop
 
 		virtual bool endElementHandler(MahatmaGameEngine::XMLParseMaster::SharedData* sharedData, const std::string& name) override;
 
-		virtual void charDataHandler(MahatmaGameEngine::XMLParseMaster::SharedData* sharedData, const char* buffer, std::uint32_t length) override;
+		virtual void charDataHandler(MahatmaGameEngine::XMLParseMaster::SharedData* sharedData, const std::string& value) override;
 
 	private:
 		MahatmaGameEngine::Vector<std::string> mListOfTags;

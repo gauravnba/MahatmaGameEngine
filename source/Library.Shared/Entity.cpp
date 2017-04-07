@@ -3,6 +3,7 @@
 #include "WorldState.h"
 #include "Sector.h"
 #include "Scope.h"
+#include "Action.h"
 
 using namespace MahatmaGameEngine;
 using namespace std;
@@ -14,6 +15,7 @@ Entity::Entity()
 	setTheThisAttribute();
 	appendExternalAttribute("name", &mName);
 	addToPrescribed("name");
+	addToPrescribed("actions");
 }
 
 Entity::Entity(Entity&& obj) :
@@ -48,7 +50,25 @@ Sector* Entity::getSector()
 	return static_cast<Sector*>(getParent());
 }
 
+Action& Entity::createAction(const string& className, const string& instanceName)
+{
+	Action* temp = Factory<Action>::create(className);
+	assert(temp != nullptr);
+	temp->setName(instanceName);
+
+	adopt(temp, "actions");
+
+	return *temp;
+}
+
 void Entity::update(WorldState& worldState)
 {
 	worldState.mCurrentEntity = this;
+	Datum& actions = (*this)["actions"];
+	uint32_t size = actions.size();
+	for (uint32_t i = 0; i < size; ++i)
+	{
+		assert(actions[i].is(Action::typeName()));
+		static_cast<Action&>(actions[i]).update(worldState);
+	}
 }

@@ -59,6 +59,14 @@ namespace MahatmaGameEngine
 		Sector* getSector();
 
 		/**
+		* Creates an action and adopts it into the actions Datum.
+		* @param className the name of the class that the instance will be of.
+		* @param instanceName the name attribute of the Action created.
+		* @return Action reference to the created Action.
+		*/
+		Action& createAction(const std::string& className, const std::string& instanceName);
+
+		/**
 		* Update method called every frame in the game loop. This method is invoked by the Parent Sector.
 		* The update method in the child Entities should be accessible via this method, hence it is marked virtual.
 		* @param worldState the current WorldState.

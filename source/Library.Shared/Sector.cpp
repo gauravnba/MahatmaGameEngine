@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "World.h"
 #include "Scope.h"
+#include "Action.h"
 
 using namespace MahatmaGameEngine;
 using namespace std;
@@ -47,6 +48,17 @@ Entity& Sector::createEntity(const string& className, const string& instanceName
 	return *temp;
 }
 
+Action& Sector::createAction(const std::string & actionName, const std::string & instanceName)
+{
+	Action* temp = Factory<Action>::create(actionName);
+	assert(temp != nullptr);
+	temp->setName(instanceName);
+
+	adopt(temp, "actions");
+
+	return *temp;
+}
+
 void Sector::adoptEntity(Entity& entity)
 {
 	adopt(&entity, "entities");
@@ -71,6 +83,15 @@ void Sector::update(WorldState& worldState)
 		assert(entities[i].is(Entity::typeName()));
 		static_cast<Entity&>(entities[i]).update(worldState);
 	}
+
+	Datum& actions = (*this)["actions"];
+	uint32_t actionSize = actions.size();
+
+	for (uint32_t i = 0; i < actionSize; ++i)
+	{
+		assert(actions[i].is(Action::typeName()));
+		static_cast<Action&>(actions[i]).update(worldState);
+	}
 }
 
 void Sector::populateAttributed()
@@ -78,6 +99,6 @@ void Sector::populateAttributed()
 	setTheThisAttribute();
 	appendExternalAttribute("name", &mName);
 	addToPrescribed("name");
-	(*this)["entities"].setType(DatumType::TABLE);
 	addToPrescribed("entities");
+	addToPrescribed("actions");
 }

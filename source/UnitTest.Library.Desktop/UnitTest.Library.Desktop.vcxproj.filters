@@ -23,9 +23,6 @@
     <Filter Include="Supporting Classes\Factory">
       <UniqueIdentifier>{b10fa231-a2fb-4028-9b75-6de108f9b7a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Supporting Classes\Attributed">
-      <UniqueIdentifier>{43890c5d-d6fc-4855-a336-d1e6698fc4d1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Supporting Classes\XMLParseMaster">
       <UniqueIdentifier>{fcc568ba-5581-456e-b9c5-103a5530a512}</UniqueIdentifier>
     </Filter>
@@ -37,6 +34,12 @@
     </Filter>
     <Filter Include="Supporting Classes\EntityDerived">
       <UniqueIdentifier>{b4c0ae82-7ab5-4647-a79b-2774830feca3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Supporting Classes\AttributedDerived">
+      <UniqueIdentifier>{43890c5d-d6fc-4855-a336-d1e6698fc4d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Supporting Classes\ActionDerived">
+      <UniqueIdentifier>{68aadd4f-6248-4377-9485-55a6ff0a8712}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,10 +90,10 @@
       <Filter>Supporting Classes\Factory</Filter>
     </ClCompile>
     <ClCompile Include="AttributedBar.cpp">
-      <Filter>Supporting Classes\Attributed</Filter>
+      <Filter>Supporting Classes\AttributedDerived</Filter>
     </ClCompile>
     <ClCompile Include="AttributedFoo.cpp">
-      <Filter>Supporting Classes\Attributed</Filter>
+      <Filter>Supporting Classes\AttributedDerived</Filter>
     </ClCompile>
     <ClCompile Include="SharedDataCars.cpp">
       <Filter>Supporting Classes\XMLParseMaster</Filter>
@@ -113,6 +116,15 @@
     <ClCompile Include="EntityFoo.cpp">
       <Filter>Supporting Classes\EntityDerived</Filter>
     </ClCompile>
+    <ClCompile Include="ActionFoo.cpp">
+      <Filter>Supporting Classes\ActionDerived</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionTest.cpp">
+      <Filter>Test Classes\Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionSetString.cpp">
+      <Filter>Supporting Classes\ActionDerived</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">
@@ -132,10 +144,10 @@
       <Filter>Supporting Classes\Factory</Filter>
     </ClInclude>
     <ClInclude Include="AttributedBar.h">
-      <Filter>Supporting Classes\Attributed</Filter>
+      <Filter>Supporting Classes\AttributedDerived</Filter>
     </ClInclude>
     <ClInclude Include="AttributedFoo.h">
-      <Filter>Supporting Classes\Attributed</Filter>
+      <Filter>Supporting Classes\AttributedDerived</Filter>
     </ClInclude>
     <ClInclude Include="SharedDataMotorcycles.h">
       <Filter>Supporting Classes\XMLParseMaster</Filter>
@@ -154,6 +166,12 @@
     </ClInclude>
     <ClInclude Include="EntityFoo.h">
       <Filter>Supporting Classes\EntityDerived</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionFoo.h">
+      <Filter>Supporting Classes\ActionDerived</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionSetString.h">
+      <Filter>Supporting Classes\ActionDerived</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

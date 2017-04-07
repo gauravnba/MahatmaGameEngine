@@ -1,0 +1,15 @@
+<Scope name = "root">
+	<World name = "BigWorld">
+		<String name = "StringToChange" value = "OutsideIf"/>
+		<Integer name = "Condition" value = "0">
+		<if>
+			<condition>Condition</condition>
+			<then>
+				<ActionSetString name = "ChangeString" string = "StringToChange" value = "InsideIf"/>
+			</then>
+			<else>
+				<ActionSetString name = "ChangeString" string = "StringToChange" value = "InsideElse"/>
+			</else>
+		</if>
+	</World>
+</Scope>

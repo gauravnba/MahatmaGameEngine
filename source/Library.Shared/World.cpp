@@ -2,7 +2,9 @@
 #include "World.h"
 #include "WorldState.h"
 #include "Sector.h"
+#include "Action.h"
 #include "Datum.h"
+#include "Factory.h"
 
 using namespace MahatmaGameEngine;
 using namespace std;
@@ -59,6 +61,17 @@ Sector& World::createSector(const string& sectorName)
 	return temp;
 }
 
+Action& World::createAction(const string& actionName, const string& instanceName)
+{
+	Action* temp = Factory<Action>::create(actionName);
+	assert(temp != nullptr);
+	temp->setName(instanceName);
+
+	adopt(temp, "actions");
+
+	return *temp;
+}
+
 Datum& World::sectors()
 {
 	return append("sectors");
@@ -74,8 +87,17 @@ void World::update(WorldState& worldState)
 
 	for (uint32_t i = 0; i < sectorsSize; ++i)
 	{
-		assert(sectors[0].is(Sector::typeName()));
-		static_cast<Sector&>(sectors[0]).update(worldState);
+		assert(sectors[i].is(Sector::typeName()));
+		static_cast<Sector&>(sectors[i]).update(worldState);
+	}
+
+	Datum& actions = (*this)["actions"];
+	uint32_t actionSize = actions.size();
+
+	for (uint32_t i = 0; i < actionSize; ++i)
+	{
+		assert(actions[i].is(Action::typeName()));
+		static_cast<Action&>(actions[i]).update(worldState);
 	}
 }
 

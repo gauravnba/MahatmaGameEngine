@@ -160,6 +160,12 @@ namespace MahatmaGameEngine
 		*/
 		void clear();
 
+		/**
+		* Accessor for the size of the Scope.
+		* @return unsigned integer value of the size of the Scope.
+		*/
+		std::uint32_t size();
+
 	private:
 		HashMap<std::string, Datum> mTable;				/**< Table that stores string, Datum pairs. */
 		Vector<std::pair<std::string, Datum>*> mOrder;	/**< Order Vector to preserve the order of insertion of Datums. */

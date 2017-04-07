@@ -253,6 +253,15 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(childTable->getParent() == &testScope);
 			newScope.adopt(childTable, newChildName);
 			Assert::IsTrue(childTable->getParent() == &newScope);
+
+			Scope* newChildTable = new Scope;
+			newScope.adopt(newChildTable, newChildName);
+			Scope* pointerToChildScope = &(newScope[newChildName][0]);
+			pointerToChildScope->orphan();
+			delete pointerToChildScope;
+
+			Scope* pointerOfNewChild = &(newScope[newChildName][0]);
+			Assert::IsTrue(pointerOfNewChild == newChildTable);
 		}
 
 	private:																			

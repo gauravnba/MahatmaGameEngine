@@ -13,17 +13,17 @@ namespace MahatmaGameEngine
 	{
 	public:
 		/**
-		* Default constructor of XMLParseHelperInteger.
+		* Default constructor of XMLParseHelperScope.
 		*/
 		XMLParseHelperScope() = default;
 
 		/**
-		* Disallow XMLParseHelperInteger copy construction.
+		* Disallow XMLParseHelperScope copy construction.
 		*/
 		XMLParseHelperScope(const XMLParseHelperScope&) = delete;
 
 		/**
-		* Disallow XMLParseHelperInteger move semantics.
+		* Disallow XMLParseHelperScope move semantics.
 		*/
 		XMLParseHelperScope(XMLParseHelperScope&&) = delete;
 

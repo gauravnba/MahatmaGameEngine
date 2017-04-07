@@ -188,6 +188,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionFoo.cpp" />
+    <ClCompile Include="ActionSetString.cpp" />
+    <ClCompile Include="ActionTest.cpp" />
     <ClCompile Include="AttributedBar.cpp" />
     <ClCompile Include="AttributedFoo.cpp" />
     <ClCompile Include="AttributedTests.cpp" />
@@ -222,6 +225,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionFoo.h" />
+    <ClInclude Include="ActionSetString.h" />
     <ClInclude Include="AttributedBar.h" />
     <ClInclude Include="AttributedFoo.h" />
     <ClInclude Include="BarProduct.h" />

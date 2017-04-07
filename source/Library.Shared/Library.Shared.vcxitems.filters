@@ -44,6 +44,24 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)WorldState.cpp">
       <Filter>Game Objects</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionList.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperAction.cpp">
+      <Filter>XMLParser\XMLParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionCreateAction.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionDestroyAction.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionListIf.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
@@ -107,6 +125,24 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)WorldState.h">
       <Filter>Game Objects</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Action.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionList.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionCreateAction.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionDestroyAction.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperAction.h">
+      <Filter>XMLParser\XMLParseHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionListIf.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)HashMap.inl">
@@ -152,6 +188,9 @@
     </Filter>
     <Filter Include="Game Objects">
       <UniqueIdentifier>{93fc9b29-5da4-40c7-b5b5-864c6b25927f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actions">
+      <UniqueIdentifier>{18d35e6a-3bec-4d8e-93de-a792ddd68277}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
