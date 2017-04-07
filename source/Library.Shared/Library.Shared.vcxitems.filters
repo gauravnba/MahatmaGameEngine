@@ -50,9 +50,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionList.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperAction.cpp">
-      <Filter>XMLParser\XMLParseHelpers</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionCreateAction.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
@@ -60,6 +57,12 @@
       <Filter>Actions</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionListIf.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperActionListIf.cpp">
+      <Filter>XMLParser\XMLParseHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionSetString.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
   </ItemGroup>
@@ -137,10 +140,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionDestroyAction.h">
       <Filter>Actions</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperAction.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionListIf.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperActionListIf.h">
       <Filter>XMLParser\XMLParseHelpers</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ActionListIf.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionSetString.h">
       <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>

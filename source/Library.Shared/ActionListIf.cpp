@@ -11,10 +11,10 @@ ActionListIf::ActionListIf()
 	setTheThisAttribute();
 	appendExternalAttribute("condition", &mCondition);
 	addToPrescribed("condition");
-	(*this)["actions"].pushBack(*(new Scope));
+	(*this)["actions"].pushBack(*(new ActionList));
 	(*this)["actions"][0]["then"].setType(DatumType::TABLE);
 	addToPrescribed("then");
-	(*this)["actions"].pushBack(*(new Scope));
+	(*this)["actions"].pushBack(*(new ActionList));
 	(*this)["actions"][1]["else"].setType(DatumType::TABLE);
 	addToPrescribed("else");
 }

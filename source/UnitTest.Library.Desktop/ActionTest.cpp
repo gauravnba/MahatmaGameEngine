@@ -2,11 +2,16 @@
 
 #include "CppUnitTest.h"
 
+#include "World.h"
+#include "XMLParseHelperDatum.h"
+#include "XMLParseHelperScope.h"
+#include "XMLParseHelperActionListIf.h"
 #include "ActionFoo.h"
 #include "ActionList.h"
 #include "GameTime.h"
 #include "ActionListIf.h"
 #include "GameClock.h"
+#include "ActionSetString.h"
 #include "ActionCreateAction.h"
 #include "ActionDestroyAction.h"
 
@@ -25,10 +30,11 @@ namespace UnitTestLibraryDesktop
 		{
 			Entity tempEntity;
 			//Sector tempSector;
-			//World tempWorld;
+			World tempWorld;
 			ActionFoo tempFoo;
 			ActionList tempList;
 			ActionListIf actionIf;
+			ActionSetString actionSetString;
 			ActionCreateAction tempCreateAction;
 			ActionDestroyAction tempDestroyAction;
 		}
@@ -127,6 +133,39 @@ namespace UnitTestLibraryDesktop
 			Assert::AreEqual(static_cast<ActionFoo&>(actionElse).getCounterValue(), 1U);
 		}
 
+		TEST_METHOD(actionListCreateActionTest)
+		{
+			ActionFooFactory actionFooFactory;
+			ActionList actionList;
+			WorldState worldState;
+			Action& actionFoo = actionList.createAction("ActionFoo", "Counter");
+			actionList.update(worldState);
+			Assert::AreEqual(static_cast<ActionFoo&>(actionFoo).getCounterValue(), 1U);
+		}
+
+		TEST_METHOD(XMLParseTest)
+		{
+			SharedDataTable sharedData;
+			XMLParseMaster xmlParseMaster(sharedData);
+			XMLParseHelperDatum datumHelper;
+			XMLParseHelperScope scopeHelper;
+			XMLParseHelperAction actionHelper;
+			xmlParseMaster.addHelper(datumHelper);
+			xmlParseMaster.addHelper(scopeHelper);
+			xmlParseMaster.addHelper(actionHelper);
+			ActionSetStringFactory tempSetStringFactory;
+			ActionListIfFactory tempIfFactory;
+
+			xmlParseMaster.parseFromFile("test_scripts//ActionTest.xml");
+
+			//WorldState worldState;
+			//static_cast<World&>((*sharedData.mCurrentTable)["BigWorld"][0]).update(worldState);
+
+			string stringToChange = (*sharedData.mCurrentTable)["BigWorld"][0]["StringToChange"].get<string>();
+			Assert::AreEqual(stringToChange, string("OutsideIf"));
+
+			delete sharedData.mCurrentTable;
+		}
 
 	private:
 		static _CrtMemState sStartMemState;

@@ -82,7 +82,7 @@ void World::update(WorldState& worldState)
 	worldState.mCurrentWorld = this;
 
 	Datum& sectors = (*this)["sectors"];
-	assert(sectors.type() == DatumType::TABLE);
+	//assert(sectors.type() == DatumType::TABLE);
 	uint32_t sectorsSize = sectors.size();
 
 	for (uint32_t i = 0; i < sectorsSize; ++i)

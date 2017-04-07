@@ -73,7 +73,21 @@ namespace MahatmaGameEngine
 		*/
 		void actionStartHandler(SharedDataTable& sharedData, std::uint32_t index, HashMap<std::string, std::string>& attributesMap);
 
+		/**
+		* Resolve the type of the table in sharedData currently (World, Sector, Entity or Action) and createAction for that object.
+		* @param sharedData the sharedData currently being used for the parsing.
+		*/
+		void createActionListIf(SharedDataTable& sharedData, const std::string& name);
+
+		/**
+		* Handles the mBuffer as filled by the charDataHandler. This is called from the endElementHandler.
+		* @param sharedData the sharedData currently being used for the parsing.
+		* @param index at which the tag was found.
+		*/
+		void actionEndHandler(SharedDataTable& sharedData, std::uint32_t index);
+
 		Vector<std::string> mHandledTags;	/**< The list of tags that the helper can handle. */
 		std::string mBuffer;				/**< The string buffer into which you read the character data. */
+		bool mIsThen;
 	};
 }

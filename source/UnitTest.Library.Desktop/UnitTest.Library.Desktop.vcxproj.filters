@@ -122,9 +122,6 @@
     <ClCompile Include="ActionTest.cpp">
       <Filter>Test Classes\Game Objects</Filter>
     </ClCompile>
-    <ClCompile Include="ActionSetString.cpp">
-      <Filter>Supporting Classes\ActionDerived</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">
@@ -168,9 +165,6 @@
       <Filter>Supporting Classes\EntityDerived</Filter>
     </ClInclude>
     <ClInclude Include="ActionFoo.h">
-      <Filter>Supporting Classes\ActionDerived</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionSetString.h">
       <Filter>Supporting Classes\ActionDerived</Filter>
     </ClInclude>
   </ItemGroup>
