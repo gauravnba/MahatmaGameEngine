@@ -11,11 +11,9 @@ ActionListIf::ActionListIf()
 	setTheThisAttribute();
 	appendExternalAttribute("condition", &mCondition);
 	addToPrescribed("condition");
-	(*this)["actions"].pushBack(*(new ActionList));
-	(*this)["actions"][0]["then"].setType(DatumType::TABLE);
+	adopt(new ActionList, "then");
 	addToPrescribed("then");
-	(*this)["actions"].pushBack(*(new ActionList));
-	(*this)["actions"][1]["else"].setType(DatumType::TABLE);
+	adopt(new ActionList, "else");
 	addToPrescribed("else");
 }
 
@@ -43,7 +41,7 @@ Action& ActionListIf::createAction(const string& className, const string& instan
 	assert(temp != nullptr);
 	temp->setName(instanceName);
 
-	(*this)["actions"][index].adopt(temp, actionContainer);
+	adopt(temp, actionContainer);
 
 	return *temp;
 }
@@ -58,12 +56,12 @@ void ActionListIf::update(WorldState& worldState)
 	Datum thenActions;
 	if ((condition->get<int32_t>()) > 0)
 	{
-		thenActions = (*this)["actions"][0]["then"];
+		thenActions = (*this)["then"];
 
 	}
 	else
 	{
-		thenActions = (*this)["actions"][1]["else"];
+		thenActions = (*this)["else"];
 	}
 
 	uint32_t size = thenActions.size();

@@ -102,15 +102,15 @@ void XMLParseHelperAction::actionStartHandler(SharedDataTable& sharedData, uint3
 		break;
 	case 2:
 	{
-		//assert(sharedData.mCurrentTable->is(ActionListIf::typeName()));
-		//sharedData.mCurrentTable = &((*sharedData.mCurrentTable)["actions"][0]["then"]);
+		assert(sharedData.mCurrentTable->is(ActionListIf::typeName()));
+		sharedData.mCurrentTable = &((*sharedData.mCurrentTable)["then"][0]);
 		mIsThen = true;
 		break;
 	}
 	case 3:
 	{
-		//assert(sharedData.mCurrentTable->is(ActionListIf::typeName()));
-		//sharedData.mCurrentTable = &((*sharedData.mCurrentTable)["actions"][1]["else"]);
+		assert(sharedData.mCurrentTable->is(ActionListIf::typeName()));
+		sharedData.mCurrentTable = &((*sharedData.mCurrentTable)["else"][0]);
 		mIsThen = false;
 		break;
 	}
@@ -120,9 +120,9 @@ void XMLParseHelperAction::actionStartHandler(SharedDataTable& sharedData, uint3
 			|| sharedData.mCurrentTable->is(Sector::typeName())
 			|| sharedData.mCurrentTable->is(Entity::typeName())
 			|| sharedData.mCurrentTable->is(ActionList::typeName()));
-		Action& temp = static_cast<ActionListIf*>(sharedData.mCurrentTable)->createAction("ActionSetString", attributesMap["name"], mIsThen);
+		Action& temp = static_cast<ActionList*>(sharedData.mCurrentTable)->createAction("ActionSetString", attributesMap["name"]);
 		static_cast<ActionSetString&>(temp).setStringValues(attributesMap["string"], attributesMap["value"]);
-		//sharedData.mCurrentTable = &temp;
+		sharedData.mCurrentTable = &temp;
 		break;
 	}
 	}
@@ -132,35 +132,53 @@ void MahatmaGameEngine::XMLParseHelperAction::createActionListIf(SharedDataTable
 {
 	if (sharedData.mCurrentTable->is(World::typeName()))
 	{
-		Scope& temp = static_cast<World*>(sharedData.mCurrentTable)->createAction("ActionListIf", name);
+		Action& temp = static_cast<World*>(sharedData.mCurrentTable)->createAction("ActionListIf", name);
 		sharedData.mCurrentTable = &temp;
 	}
 	else if (sharedData.mCurrentTable->is(Sector::typeName()))
 	{
-		Scope& temp = static_cast<Sector*>(sharedData.mCurrentTable)->createAction("ActionListIf", name);
+		Action& temp = static_cast<Sector*>(sharedData.mCurrentTable)->createAction("ActionListIf", name);
 		sharedData.mCurrentTable = &temp;
 	}
 	else if (sharedData.mCurrentTable->is(Entity::typeName()))
 	{
-		Scope& temp = static_cast<Entity*>(sharedData.mCurrentTable)->createAction("ActionListIf", name);
+		Action& temp = static_cast<Entity*>(sharedData.mCurrentTable)->createAction("ActionListIf", name);
 		sharedData.mCurrentTable = &temp;
 	}
 	else if (sharedData.mCurrentTable->is(ActionList::typeName()))
 	{
-		Scope& temp = static_cast<ActionList*>(sharedData.mCurrentTable)->createAction("ActionListIf", name);
+		Action& temp = static_cast<ActionList*>(sharedData.mCurrentTable)->createAction("ActionListIf", name);
 		sharedData.mCurrentTable = &temp;
 	}
 }
 
 void MahatmaGameEngine::XMLParseHelperAction::actionEndHandler(SharedDataTable& sharedData, uint32_t index)
 {
-	if (index == 1)
+	switch (index)
+	{
+	case 0:
+	{
+		sharedData.mCurrentTable = (sharedData.mCurrentTable->getParent());
+		break;
+	}
+	case 1:
 	{
 		assert(sharedData.mCurrentTable->is(ActionListIf::typeName()));
 		static_cast<ActionListIf*>(sharedData.mCurrentTable)->setCondition(mBuffer);
+		break;
 	}
-	else if (index == 0)
+	case 2:
 	{
 		sharedData.mCurrentTable = (sharedData.mCurrentTable->getParent());
+		break;
+	}
+	case 3:
+	{
+		sharedData.mCurrentTable = (sharedData.mCurrentTable->getParent());
+		break;
+	}
+	case 4:
+		sharedData.mCurrentTable = (sharedData.mCurrentTable->getParent());
+		break;
 	}
 }

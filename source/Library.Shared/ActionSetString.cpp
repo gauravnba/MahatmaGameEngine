@@ -31,8 +31,11 @@ void ActionSetString::update(WorldState& worldState)
 {
 	worldState.mCurrentAction = this;
 
-	Scope** containingScope = nullptr;
-	Datum* datumFound = search(mString, containingScope);
+	Scope* containingScope = nullptr;
+	Datum* datumFound = search(mString, &containingScope);
 
-	datumFound->set(mStringValue);
+	if (datumFound != nullptr)
+	{
+		datumFound->set(mStringValue);
+	}
 }

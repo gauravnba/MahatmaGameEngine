@@ -158,11 +158,11 @@ namespace UnitTestLibraryDesktop
 
 			xmlParseMaster.parseFromFile("test_scripts//ActionTest.xml");
 
-			//WorldState worldState;
-			//static_cast<World&>((*sharedData.mCurrentTable)["BigWorld"][0]).update(worldState);
+			WorldState worldState;
+			static_cast<World&>((*sharedData.mCurrentTable)["BigWorld"][0]).update(worldState);
 
 			string stringToChange = (*sharedData.mCurrentTable)["BigWorld"][0]["StringToChange"].get<string>();
-			Assert::AreEqual(stringToChange, string("OutsideIf"));
+			Assert::AreEqual(stringToChange, string("InsideElse"));
 
 			delete sharedData.mCurrentTable;
 		}

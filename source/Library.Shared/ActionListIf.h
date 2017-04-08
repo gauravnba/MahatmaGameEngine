@@ -8,9 +8,9 @@ namespace MahatmaGameEngine
 	/**
 	* This ActionList processes an if condition and calls the update method of any actions in it.
 	*/
-	class ActionListIf : public ActionList
+	class ActionListIf : public Action
 	{
-		RTTI_DECLARATIONS(ActionListIf, ActionList)
+		RTTI_DECLARATIONS(ActionListIf, Action)
 	public:
 		/**
 		* Default constructor of the class sets the attributes.
