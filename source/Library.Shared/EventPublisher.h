@@ -11,7 +11,7 @@ namespace MahatmaGameEngine
 	typedef std::chrono::milliseconds MilliSeconds;
 	typedef std::chrono::high_resolution_clock Clock;
 
-	class EventPublisher : public RTTI
+	class EventPublisher abstract : public RTTI
 	{
 		RTTI_DECLARATIONS(EventPublisher, RTTI)
 	public:
