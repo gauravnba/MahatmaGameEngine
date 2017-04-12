@@ -167,6 +167,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)EventQueue.h">
       <Filter>Scripting Interface\Events</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Reaction.h">
+      <Filter>Scripting Interface\Reaction</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)HashMap.inl">
@@ -221,6 +224,9 @@
     </Filter>
     <Filter Include="Scripting Interface\Events">
       <UniqueIdentifier>{35d8379d-af3d-4c58-a1cd-8e55382c94ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting Interface\Reaction">
+      <UniqueIdentifier>{f5c4dd17-3a51-4cb0-887c-f5da69843dd4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
