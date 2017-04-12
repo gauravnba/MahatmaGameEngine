@@ -43,6 +43,11 @@ bool Foo::operator!=(const Foo& obj) const
 	return !(*this == obj);
 }
 
+void Foo::setVar(std::uint32_t var)
+{
+	*mVar = var;
+}
+
 std::uint32_t Foo::getVar() const
 {
 	return *mVar;

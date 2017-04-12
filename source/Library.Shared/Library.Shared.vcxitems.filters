@@ -33,37 +33,43 @@
       <Filter>Game Time</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Sector.cpp">
-      <Filter>Game Objects</Filter>
+      <Filter>Scripting Interface\Game Objects</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)World.cpp">
-      <Filter>Game Objects</Filter>
+      <Filter>Scripting Interface\Game Objects</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Entity.cpp">
-      <Filter>Game Objects</Filter>
+      <Filter>Scripting Interface\Game Objects</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)WorldState.cpp">
-      <Filter>Game Objects</Filter>
+      <Filter>Scripting Interface\Game Objects</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Action.cpp">
-      <Filter>Actions</Filter>
+      <Filter>Scripting Interface\Actions</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionList.cpp">
-      <Filter>Actions</Filter>
+      <Filter>Scripting Interface\Actions</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionCreateAction.cpp">
-      <Filter>Actions</Filter>
+      <Filter>Scripting Interface\Actions</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionDestroyAction.cpp">
-      <Filter>Actions</Filter>
+      <Filter>Scripting Interface\Actions</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionListIf.cpp">
-      <Filter>Actions</Filter>
+      <Filter>Scripting Interface\Actions</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperActionListIf.cpp">
       <Filter>XMLParser\XMLParseHelpers</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionSetString.cpp">
-      <Filter>Actions</Filter>
+      <Filter>Scripting Interface\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)EventPublisher.cpp">
+      <Filter>Scripting Interface\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)EventQueue.cpp">
+      <Filter>Scripting Interface\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,7 +114,7 @@
       <Filter>XMLParser\XMLParseHelpers</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Factory.h">
-      <Filter>Factory</Filter>
+      <Filter>Scripting Interface\Factory</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)GameClock.h">
       <Filter>Game Time</Filter>
@@ -117,37 +123,49 @@
       <Filter>Game Time</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Entity.h">
-      <Filter>Game Objects</Filter>
+      <Filter>Scripting Interface\Game Objects</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Sector.h">
-      <Filter>Game Objects</Filter>
+      <Filter>Scripting Interface\Game Objects</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)World.h">
-      <Filter>Game Objects</Filter>
+      <Filter>Scripting Interface\Game Objects</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)WorldState.h">
-      <Filter>Game Objects</Filter>
+      <Filter>Scripting Interface\Game Objects</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Action.h">
-      <Filter>Actions</Filter>
+      <Filter>Scripting Interface\Actions</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionList.h">
-      <Filter>Actions</Filter>
+      <Filter>Scripting Interface\Actions</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionCreateAction.h">
-      <Filter>Actions</Filter>
+      <Filter>Scripting Interface\Actions</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionDestroyAction.h">
-      <Filter>Actions</Filter>
+      <Filter>Scripting Interface\Actions</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionListIf.h">
-      <Filter>Actions</Filter>
+      <Filter>Scripting Interface\Actions</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperActionListIf.h">
       <Filter>XMLParser\XMLParseHelpers</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionSetString.h">
-      <Filter>Actions</Filter>
+      <Filter>Scripting Interface\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)EventSubscriber.h">
+      <Filter>Scripting Interface\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)EventPublisher.h">
+      <Filter>Scripting Interface\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Event.h">
+      <Filter>Scripting Interface\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)EventQueue.h">
+      <Filter>Scripting Interface\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,7 +188,10 @@
       <Filter>Scripting Interface</Filter>
     </None>
     <None Include="$(MSBuildThisFileDirectory)Factory.inl">
-      <Filter>Factory</Filter>
+      <Filter>Scripting Interface\Factory</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Event.inl">
+      <Filter>Scripting Interface\Events</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -186,17 +207,20 @@
     <Filter Include="XMLParser\XMLParseHelpers">
       <UniqueIdentifier>{d45253cb-290d-412c-afc4-4396b79d31c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Factory">
-      <UniqueIdentifier>{034a89a8-8177-4561-9a6f-4e634e93ced4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game Time">
       <UniqueIdentifier>{6492c281-4a0a-4c3a-9e91-505d6cf9c78c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Objects">
+    <Filter Include="Scripting Interface\Game Objects">
       <UniqueIdentifier>{93fc9b29-5da4-40c7-b5b5-864c6b25927f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actions">
+    <Filter Include="Scripting Interface\Factory">
+      <UniqueIdentifier>{034a89a8-8177-4561-9a6f-4e634e93ced4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting Interface\Actions">
       <UniqueIdentifier>{18d35e6a-3bec-4d8e-93de-a792ddd68277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting Interface\Events">
+      <UniqueIdentifier>{35d8379d-af3d-4c58-a1cd-8e55382c94ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -199,21 +199,22 @@ namespace UnitTestLibraryDesktop
 			int32_t d = 40;
 			int32_t e = 50;
 
-			Vector<int32_t> intVec1;
-			intVec1.pushBack(a);
-			Vector<int32_t> intVec2 = move(intVec1);
-			Assert::AreEqual(intVec1.size(), 0U);
+			Vector<int32_t>* intVec1 = new Vector<int32_t>;
+			intVec1->pushBack(a);
+			Vector<int32_t> intVec2 = move(*intVec1);
+			delete intVec1;
 			Assert::AreEqual(intVec2.size(), 1U);
 			Assert::AreEqual(intVec2.front(), a);
 
-			intVec2.pushBack(b);
-			intVec2.pushBack(c);
-			intVec2.pushBack(d);
-			intVec2.pushBack(e);
-			intVec1 = move(intVec2);
-			Assert::AreEqual(intVec2.size(), 0U);
-			Assert::AreEqual(intVec1.back(), e);
-			Assert::AreEqual(intVec1.size(), 5U);
+			Vector<int32_t>* intVec3 = new Vector<int32_t>;
+			intVec3->pushBack(b);
+			intVec3->pushBack(c);
+			intVec3->pushBack(d);
+			intVec3->pushBack(e);
+			intVec2 = move(*intVec3);
+			delete intVec3;
+			Assert::AreEqual(intVec2.size(), 4U);
+			Assert::AreEqual(intVec2.back(), e);
 
 			//Pointer
 			int32_t* test = new int32_t;

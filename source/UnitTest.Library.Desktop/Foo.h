@@ -16,6 +16,7 @@ namespace UnitTestLibraryDesktop
 		Foo& operator= (const Foo& obj);
 		bool operator== (const Foo& obj) const;
 		bool operator!= (const Foo& obj) const;
+		void setVar(std::uint32_t var);
 		std::uint32_t getVar() const;
 
 	private:

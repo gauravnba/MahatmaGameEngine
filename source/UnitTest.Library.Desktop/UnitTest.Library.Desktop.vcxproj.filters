@@ -41,6 +41,12 @@
     <Filter Include="Supporting Classes\ActionDerived">
       <UniqueIdentifier>{68aadd4f-6248-4377-9485-55a6ff0a8712}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test Classes\Systems">
+      <UniqueIdentifier>{23b79df0-a6b5-4699-987f-0814eb4bf3d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Supporting Classes\EventSubscriberDerived">
+      <UniqueIdentifier>{f1d70198-6a64-4296-8138-f2bfd56b9734}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Foo.cpp">
@@ -122,6 +128,12 @@
     <ClCompile Include="ActionTest.cpp">
       <Filter>Test Classes\Game Objects</Filter>
     </ClCompile>
+    <ClCompile Include="EventTests.cpp">
+      <Filter>Test Classes\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="SubscriberFoo.cpp">
+      <Filter>Supporting Classes\EventSubscriberDerived</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">
@@ -166,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="ActionFoo.h">
       <Filter>Supporting Classes\ActionDerived</Filter>
+    </ClInclude>
+    <ClInclude Include="SubscriberFoo.h">
+      <Filter>Supporting Classes\EventSubscriberDerived</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -144,6 +144,7 @@ namespace MahatmaGameEngine
 	Vector<T>::~Vector()
 	{
 		clear();
+		free(mArray);
 	}
 
 	template <typename T>
@@ -179,6 +180,7 @@ namespace MahatmaGameEngine
 		if (this != &obj)
 		{
 			clear();
+			free(mArray);
 
 			mArray = obj.mArray;
 			mCapacity = obj.mCapacity;
@@ -312,8 +314,6 @@ namespace MahatmaGameEngine
 		{
 			popBack();
 		}
-		free(mArray);
-		mArray = nullptr;
 		mCapacity = 0;
 	}
 

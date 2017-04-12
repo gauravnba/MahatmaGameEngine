@@ -196,6 +196,7 @@
     <ClCompile Include="BarProduct.cpp" />
     <ClCompile Include="DatumTest.cpp" />
     <ClCompile Include="EntityTest.cpp" />
+    <ClCompile Include="EventTests.cpp" />
     <ClCompile Include="FactoryTests.cpp" />
     <ClCompile Include="Foo.cpp" />
     <ClCompile Include="FooDefaultHash.cpp" />
@@ -211,6 +212,7 @@
     <ClCompile Include="SListIteratorTest.cpp" />
     <ClCompile Include="SListTest.cpp" />
     <ClCompile Include="EntityFoo.cpp" />
+    <ClCompile Include="SubscriberFoo.cpp" />
     <ClCompile Include="VectorIteratorTest.cpp" />
     <ClCompile Include="VectorTest.cpp" />
     <ClCompile Include="XMLParseHelperCars.cpp" />
@@ -235,6 +237,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="SharedDataCars.h" />
     <ClInclude Include="SharedDataMotorcycles.h" />
+    <ClInclude Include="SubscriberFoo.h" />
     <ClInclude Include="TestMacros.h" />
     <ClInclude Include="ToStringFunctions.h" />
     <ClInclude Include="XMLParseHelperCars.h" />

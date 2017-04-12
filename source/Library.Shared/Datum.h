@@ -354,7 +354,9 @@ namespace MahatmaGameEngine
 		void pushBack(const glm::mat4x4& value);
 
 		/**
-		* Sets the value at the last index in the Datum
+		* Sets the value at the last index in the Datum.
+		* Please note that the pushBack for Scope should only be used to a Scope Datum with no parent.
+		For a child Scope, use Scope::adopt() instead.
 		* @param value is the const reference to the value to be assigned.
 		* @overload void pushBack(const float& value);
 		*/

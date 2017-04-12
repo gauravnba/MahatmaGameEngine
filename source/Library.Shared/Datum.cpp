@@ -918,7 +918,7 @@ bool Datum::removeTable(const Scope* scope)
 		{
 			if (mDatumVal.tableType[i] == scope)
 			{
-				memcpy(mDatumVal.tableType + i, mDatumVal.tableType + i + 1, ((--mSize) - i) * sizeof(Scope*));
+				memmove(mDatumVal.tableType + i, mDatumVal.tableType + i + 1, ((--mSize) - i) * sizeof(Scope*));
 				removed = true;
 				break;
 			}

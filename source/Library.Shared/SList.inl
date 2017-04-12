@@ -13,7 +13,7 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	SList<T>::SList(const SList<T> &obj) :
+	SList<T>::SList(const SList<T>& obj) :
 		mFront(nullptr), mBack(nullptr), mSize(0)
 	{
 		Node* temp = obj.mFront;
@@ -25,7 +25,7 @@ namespace MahatmaGameEngine
 	}
 
 	template <typename T>
-	SList<T>::SList(SList<T> &&obj) :
+	SList<T>::SList(SList<T>&& obj) :
 		mFront(obj.mFront), mBack(obj.mBack), mSize(obj.mSize)
 	{
 		obj.mFront = nullptr;
