@@ -5,7 +5,7 @@
 namespace MahatmaGameEngine
 {
 	WorldState::WorldState() :
-		mCurrentWorld(nullptr), mCurrentSector(nullptr), mCurrentEntity(nullptr), mCurrentAction(nullptr), mGameTime(nullptr)
+		mCurrentWorld(nullptr), mCurrentSector(nullptr), mCurrentEntity(nullptr), mCurrentAction(nullptr), mGameTime(nullptr), mEventQueue(nullptr)
 	{
 	}
 }

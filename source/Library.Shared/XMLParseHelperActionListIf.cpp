@@ -154,31 +154,13 @@ void MahatmaGameEngine::XMLParseHelperAction::createActionListIf(SharedDataTable
 
 void MahatmaGameEngine::XMLParseHelperAction::actionEndHandler(SharedDataTable& sharedData, uint32_t index)
 {
-	switch (index)
-	{
-	case 0:
-	{
-		sharedData.mCurrentTable = (sharedData.mCurrentTable->getParent());
-		break;
-	}
-	case 1:
+	if(index == 1)
 	{
 		assert(sharedData.mCurrentTable->is(ActionListIf::typeName()));
 		static_cast<ActionListIf*>(sharedData.mCurrentTable)->setCondition(mBuffer);
-		break;
 	}
-	case 2:
+	else if(index >= 0 || index <= 4)
 	{
 		sharedData.mCurrentTable = (sharedData.mCurrentTable->getParent());
-		break;
-	}
-	case 3:
-	{
-		sharedData.mCurrentTable = (sharedData.mCurrentTable->getParent());
-		break;
-	}
-	case 4:
-		sharedData.mCurrentTable = (sharedData.mCurrentTable->getParent());
-		break;
 	}
 }

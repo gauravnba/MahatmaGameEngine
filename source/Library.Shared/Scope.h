@@ -6,17 +6,17 @@
 
 namespace MahatmaGameEngine
 {
+	//Typedefs used by the Scope Class
+	typedef HashMap<std::string, Datum> Table;
+	typedef HashMap<std::string, Datum>::Iterator TableIterator;
+	typedef Vector<std::pair<std::string, Datum>*> Order;
+	typedef std::pair<std::string, Datum> Pair;
+
 	class Scope : public RTTI
 	{
 		RTTI_DECLARATIONS(Scope, RTTI)
 
 	public:
-		//Typedefs used by the Scope Class
-		typedef HashMap<std::string, Datum> Table;
-		typedef HashMap<std::string, Datum>::Iterator TableIterator;
-		typedef Vector<std::pair<std::string, Datum>*> Order;
-		typedef std::pair<std::string, Datum> Pair;
-
 		/**
 		* Constructor for Scope.
 		* @param size of the table if known apriori. Default is 5.
@@ -57,7 +57,7 @@ namespace MahatmaGameEngine
 		/**
 		* Returns the datum entered at the index mentioned, based on the order of append
 		* @param index coincides with the order at which the Datum was inserted.
-		* @return The found Datum
+		* @return The key Datum pair at index.
 		* @exception if out of index
 		*/
 		Datum& operator[](std::uint32_t index);
@@ -69,6 +69,13 @@ namespace MahatmaGameEngine
 		* @overload Datum& operator[](std::uint32_t index);
 		*/
 		Datum& operator[](const std::string& name);
+
+		/**
+		* Accessor to the string Datum pair at the index.
+		* @param index the index to get the pair from.
+		* @return returns std::pair(string, Datum).
+		*/
+		Pair& getPair(std::uint32_t index);
 
 		/**
 		* Equality operator for Scope. Structural equality check

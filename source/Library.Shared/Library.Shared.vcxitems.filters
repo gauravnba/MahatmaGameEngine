@@ -71,6 +71,18 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)EventQueue.cpp">
       <Filter>Scripting Interface\Events</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ReactionAttributed.cpp">
+      <Filter>Scripting Interface\Reaction</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionEvent.cpp">
+      <Filter>Scripting Interface\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Reaction.cpp">
+      <Filter>Scripting Interface\Reaction</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AttributedMessage.cpp">
+      <Filter>Scripting Interface\Reaction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
@@ -168,6 +180,15 @@
       <Filter>Scripting Interface\Events</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Reaction.h">
+      <Filter>Scripting Interface\Reaction</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ReactionAttributed.h">
+      <Filter>Scripting Interface\Reaction</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionEvent.h">
+      <Filter>Scripting Interface\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AttributedMessage.h">
       <Filter>Scripting Interface\Reaction</Filter>
     </ClInclude>
   </ItemGroup>

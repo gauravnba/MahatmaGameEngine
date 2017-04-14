@@ -134,6 +134,9 @@
     <ClCompile Include="SubscriberFoo.cpp">
       <Filter>Supporting Classes\EventSubscriberDerived</Filter>
     </ClCompile>
+    <ClCompile Include="ReactionTests.cpp">
+      <Filter>Test Classes\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">

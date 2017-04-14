@@ -200,6 +200,11 @@ Datum& Scope::operator[](const string& name)
 	return append(name);
 }
 
+Pair& MahatmaGameEngine::Scope::getPair(std::uint32_t index)
+{
+	return *mOrder[index];
+}
+
 Datum& Scope::operator[](uint32_t index)
 {
 	return mOrder[index]->second;

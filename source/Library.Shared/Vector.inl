@@ -338,7 +338,6 @@ namespace MahatmaGameEngine
 		if (it != end())
 		{
 			(*it).~T();
-			//if (it.)
 			Iterator source = it++;
 			memmove(&mArray[source.mIndex], &mArray[it.mIndex], (mSize - it.mIndex) * sizeof(T));
 			--mSize;
