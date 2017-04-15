@@ -53,17 +53,21 @@ namespace UnitTestLibraryDesktop
 #endif
 		}
 
-		TEST_METHOD(attributedEventCopyTest)
+		TEST_METHOD(attributedMessageCopyTest)
 		{
 			WorldState worldState;
-			AttributedMessage event("copyTest", worldState);
-			AttributedMessage eventCopy = event;
-			Assert::AreEqual(event.getSubType(), eventCopy.getSubType());
-			Assert::IsTrue(&event.getWorldState() == &eventCopy.getWorldState());
+			AttributedMessage message("copyTest", worldState);
+			message.appendAuxiliaryAttribute("TestAtt") = "Test";
+			AttributedMessage messageCopy = message;
+			Assert::AreEqual(messageCopy["TestAtt"].get<string>(), string("Test"));
+			Assert::AreEqual(message.getSubType(), messageCopy.getSubType());
+			Assert::IsTrue(&message.getWorldState() == &messageCopy.getWorldState());
 
-			eventCopy.setSubType("assignmentTest");
-			event = eventCopy;
-			Assert::AreEqual(event.getSubType(), string("assignmentTest"));
+			messageCopy["TestAtt"] = "Copy Test";
+			messageCopy.setSubType("assignmentTest");
+			message = messageCopy;
+			Assert::AreEqual(message.getSubType(), string("assignmentTest"));
+			Assert::AreEqual(message["TestAtt"].get<string>(), string("Copy Test"));
 		}
 
 		TEST_METHOD(setSubTypeTest)
@@ -82,18 +86,34 @@ namespace UnitTestLibraryDesktop
 			GameTime gameTime;
 			worldState.mGameTime = &gameTime;
 			AttributedMessage message("testType", worldState);
+			message.appendAuxiliaryAttribute("testString") = "Test";
+			Event<AttributedMessage> event(message);
+
+			ReactionAttributed reaction;
+			reaction.setSubType("testType");
+			//reaction["testString"] = "Test";
+			ActionSetString* action = new ActionSetString;
+			action->setStringValues("testString", "Test Passed");
+			reaction.adopt(action, "actions");
+			reaction.notify(event);
+
+			Assert::AreEqual(reaction["testString"].get<string>(), string("Test Passed"));			
+		}
+
+		TEST_METHOD(oldReactionNotifyTest)
+		{
+			WorldState worldState;
+			GameTime gameTime;
+			worldState.mGameTime = &gameTime;
+			AttributedMessage message("testType", worldState);
 			Event<AttributedMessage> event(message);
 
 			ReactionAttributed reaction;
 			reaction.setSubType("testType");
 			reaction["testString"] = "Test";
-			Assert::AreEqual(reaction["testString"].get<string>(), string("Test"));
 			ActionSetString* action = new ActionSetString;
 			action->setStringValues("testString", "Test Passed");
 			reaction.adopt(action, "actions");
-			Scope* scope = nullptr;
-			Assert::IsTrue(reaction["testString"] == *(reaction.search("testString", &scope)));
-			Assert::IsNotNull(action->search("testString", &scope));
 			reaction.notify(event);
 
 			Assert::AreEqual(reaction["testString"].get<string>(), string("Test Passed"));

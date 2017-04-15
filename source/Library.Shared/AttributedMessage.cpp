@@ -18,16 +18,20 @@ AttributedMessage::AttributedMessage(const std::string& subType, WorldState& wor
 }
 
 AttributedMessage::AttributedMessage(const AttributedMessage& obj) :
-	mSubType(obj.mSubType), mWorldState(obj.mWorldState)
+	Attributed(obj), mSubType(obj.mSubType), mWorldState(obj.mWorldState)
 {
+	(*this)["subType"].setStorage(&mSubType);
 }
 
 AttributedMessage& AttributedMessage::operator=(const AttributedMessage& obj)
 {
 	if (this != &obj)
 	{
+		Attributed::operator=(obj);
 		mSubType = obj.mSubType;
 		mWorldState = obj.mWorldState;
+
+		(*this)["subType"].setStorage(&mSubType);
 	}
 	return *this;
 }
