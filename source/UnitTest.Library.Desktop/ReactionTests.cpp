@@ -127,9 +127,9 @@ namespace UnitTestLibraryDesktop
 
 			auto action = static_cast<ActionEvent*>(Factory<Action>::create("ActionEvent"));
 			action->setAttributes("testType", 0);
+			(*action)["testString"] = "Test";
 			auto& reaction = *(static_cast<ReactionAttributed*>(Factory<Reaction>::create("ReactionAttributed")));
 			reaction.setSubType("testType");
-			reaction["testString"] = "Test";
 			auto& actionSetString = static_cast<ActionSetString&>(reaction.createAction("ActionSetString", "SetTestString"));
 			actionSetString.setStringValues("testString", "Message received");
 
@@ -149,6 +149,7 @@ namespace UnitTestLibraryDesktop
 
 		TEST_METHOD(reactionParserTest)
 		{
+			//Initialize Parser
 			SharedDataTable sharedData;
 			XMLParseMaster xmlParseMaster(sharedData);
 			XMLParseHelperDatum datumHelper;
@@ -162,19 +163,66 @@ namespace UnitTestLibraryDesktop
 			ActionEventFactory actionEventFactory;
 
 			xmlParseMaster.parseFromFile("test_scripts//ReactionTest.xml");
-
+			
+			//Initialize update
 			WorldState worldState;
 			EventQueue eventQueue;
 			GameTime gameTime;
+			GameClock gameClock;
+			gameTime.setCurrentTime(Clock::now());
 			worldState.mGameTime = &gameTime;
 			worldState.mEventQueue = &eventQueue;
-			World& world = static_cast<World&>((*(sharedData.mCurrentTable))["BigWorld"][0]);
-			world.update(worldState);
-			eventQueue.update(gameTime);
 
-			Assert::AreEqual(world["StringToChange"].get<string>(), string("Test Passed"));
+			World& world = static_cast<World&>((*(sharedData.mCurrentTable))["BigWorld"][0]);
+			Reaction& reaction = static_cast<Reaction&>(world["reactions"][0]);
+
+			//Test if Event expires before delay.
+			while (gameTime.totalGameTime() < 950ms)
+			{
+				gameClock.updateGameTime(gameTime);
+				world.update(worldState);
+				eventQueue.update(gameTime);
+			}
+			auto datumGetException = [&reaction] {reaction["StringToChange"].get<string>(); };
+			Assert::ExpectException<exception>(datumGetException);
+
+			//Test if event expires after delay.
+			while (gameTime.totalGameTime() < 1050ms)
+			{
+				gameClock.updateGameTime(gameTime);
+				world.update(worldState);
+				eventQueue.update(gameTime);
+			}
+
+			Assert::AreEqual(reaction["StringToChange"].get<string>(), string("Test Passed"));
 
 			delete sharedData.mCurrentTable;
+		}
+
+		TEST_METHOD(actionEventSetterAndGetterTest)
+		{
+			ActionEvent action;
+			action.setSubType("setTest");
+			Assert::AreEqual(action.getSubType(), string("setTest"));
+
+			action.setDelay(1000);
+			Assert::AreEqual(action.getDelay(), 1000U);
+
+			action.setAttributes("setAttributes", 10U);
+			Assert::AreNotEqual(action.getDelay(), 1000U);
+			Assert::AreEqual(action.getDelay(), 10U);
+			Assert::AreNotEqual(action.getSubType(), string("setTest"));
+			Assert::AreEqual(action.getSubType(), string("setAttributes"));
+		}
+
+		TEST_METHOD(attributedMessageSetWorldStateTest)
+		{
+			WorldState worldState;
+			AttributedMessage message;
+			message.setWorldState(worldState);
+			Assert::IsTrue(&worldState == &(message.getWorldState()));
+			message.setSubType("subType");
+			Assert::AreEqual(string("subType"), message.getSubType());
 		}
 
 	private:

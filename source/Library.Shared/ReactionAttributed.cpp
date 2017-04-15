@@ -29,11 +29,6 @@ string& ReactionAttributed::getSubType()
 	return mSubType;
 }
 
-const string& ReactionAttributed::getSubType() const
-{
-	return mSubType;
-}
-
 void ReactionAttributed::notify(const EventPublisher& subscribedTo)
 {
 	assert(subscribedTo.is(Event<AttributedMessage>::typeIdClass()));
@@ -41,18 +36,7 @@ void ReactionAttributed::notify(const EventPublisher& subscribedTo)
 
 	if (message.getSubType() == mSubType)
 	{
-		uint32_t size = message.size();
-
-		//Copy all the auxiliary attributes from message to this scope.
-		for (uint32_t i = 0; i < size; ++i)
-		{
-			auto& pair = message.getPair(i);
-			if (message.isAuxiliaryAttribute(pair.first))
-			{
-				(*this)[pair.first] = pair.second;
-			}
-		}
-
+		copyAuxiliaryAttributes(message);
 		ActionList::update(message.getWorldState());
 	}
 }

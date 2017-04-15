@@ -88,6 +88,19 @@ Datum& Attributed::appendAuxiliaryAttribute(const string& name)
 	}
 }
 
+void Attributed::copyAuxiliaryAttributes(const Attributed& obj)
+{
+	//Copy all the auxiliary attributes from message to this scope.
+	for (uint32_t i = 0; i < obj.size(); ++i)
+	{
+		auto& pair = obj.getPair(i);
+		if (obj.isAuxiliaryAttribute(pair.first))
+		{
+			(*this)[pair.first] = pair.second;
+		}
+	}
+}
+
 uint32_t Attributed::auxiliaryBegin() const
 {
 	return mPrescribedAttributes[typeIdInstance()].size();

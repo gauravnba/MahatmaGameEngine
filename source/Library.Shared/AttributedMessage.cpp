@@ -46,11 +46,6 @@ string& AttributedMessage::getSubType()
 	return mSubType;
 }
 
-const string& AttributedMessage::getSubType() const
-{
-	return mSubType;
-}
-
 void AttributedMessage::setWorldState(WorldState& worldState)
 {
 	mWorldState = &worldState;

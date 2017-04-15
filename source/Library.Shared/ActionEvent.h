@@ -39,12 +39,6 @@ namespace MahatmaGameEngine
 		void setSubType(const std::string& subType);
 
 		/**
-		* Const Accessor of the sub type of the class.
-		* @return the string value of sub type.
-		*/
-		const std::string& getSubType() const;
-
-		/**
 		* Accessor of the sub type of the class.
 		* @return the string value of sub type.
 		*/

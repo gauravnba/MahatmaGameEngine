@@ -200,7 +200,7 @@ Datum& Scope::operator[](const string& name)
 	return append(name);
 }
 
-Pair& MahatmaGameEngine::Scope::getPair(std::uint32_t index)
+Pair& MahatmaGameEngine::Scope::getPair(std::uint32_t index) const
 {
 	return *mOrder[index];
 }
@@ -336,7 +336,7 @@ string Scope::toString() const
 	return "Scope";
 }
 
-uint32_t Scope::size()
+uint32_t Scope::size() const
 {
 	return mOrder.size();
 }

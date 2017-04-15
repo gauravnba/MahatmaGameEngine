@@ -75,7 +75,7 @@ namespace MahatmaGameEngine
 		* @param index the index to get the pair from.
 		* @return returns std::pair(string, Datum).
 		*/
-		Pair& getPair(std::uint32_t index);
+		Pair& getPair(std::uint32_t index) const;
 
 		/**
 		* Equality operator for Scope. Structural equality check
@@ -171,7 +171,7 @@ namespace MahatmaGameEngine
 		* Accessor for the size of the Scope.
 		* @return unsigned integer value of the size of the Scope.
 		*/
-		std::uint32_t size();
+		std::uint32_t size() const;
 
 	private:
 		HashMap<std::string, Datum> mTable;				/**< Table that stores string, Datum pairs. */

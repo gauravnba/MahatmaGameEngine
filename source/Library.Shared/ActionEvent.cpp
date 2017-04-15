@@ -25,16 +25,8 @@ void ActionEvent::update(WorldState& worldState)
 	assert(worldState.mEventQueue != nullptr && worldState.mGameTime != nullptr);
 
 	AttributedMessage message(mSubType, worldState);
-	
-	//Copy all the auxiliary attributes from message to this scope.
-	for (uint32_t i = 0; i < size(); ++i)
-	{
-		auto& pair = getPair(i);
-		if (isAuxiliaryAttribute(pair.first))
-		{
-			message[pair.first] = pair.second;
-		}
-	}
+	message.copyAuxiliaryAttributes(*this);
+
 	shared_ptr<Event<AttributedMessage>> event = make_shared<Event<AttributedMessage>>(message);
 	worldState.mEventQueue->enqueue(event, *(worldState.mGameTime), MilliSeconds(mDelay));
 }
@@ -48,11 +40,6 @@ void ActionEvent::setAttributes(const string& subType, uint32_t delay)
 void ActionEvent::setSubType(const string& subType)
 {
 	mSubType = subType;
-}
-
-const string& ActionEvent::getSubType() const
-{
-	return mSubType;
 }
 
 string& ActionEvent::getSubType()

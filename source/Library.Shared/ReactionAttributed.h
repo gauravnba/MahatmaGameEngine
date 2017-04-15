@@ -40,12 +40,6 @@ namespace MahatmaGameEngine
 		*/
 		std::string& getSubType();
 
-		/**
-		* Const version of the subType accessor.
-		* @return const string type value of subType.
-		*/
-		const std::string& getSubType() const;
-
 	private:
 		std::string mSubType;		/**< Subtype associated to this instance.  */
 	};

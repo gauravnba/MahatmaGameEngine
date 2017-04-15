@@ -52,12 +52,6 @@ namespace MahatmaGameEngine
 		std::string& getSubType();
 
 		/**
-		* Const version of getSubType.
-		* @return string type value of subType.
-		*/
-		const std::string& getSubType() const;
-
-		/**
 		* Sets the WorldState that will be used by the class.
 		* @param worldState value of the WorldState to set to.
 		*/
