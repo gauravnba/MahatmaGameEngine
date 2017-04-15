@@ -16,6 +16,7 @@ Entity::Entity()
 	appendExternalAttribute("name", &mName);
 	addToPrescribed("name");
 	addToPrescribed("actions");
+	addToPrescribed("reactions");
 }
 
 Entity::Entity(Entity&& obj) :

@@ -80,6 +80,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperActionListIf.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperDatum.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperReaction.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperScope.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseMaster.h" />
   </ItemGroup>

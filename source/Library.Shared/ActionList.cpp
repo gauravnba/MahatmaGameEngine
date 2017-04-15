@@ -16,6 +16,7 @@ ActionList::ActionList()
 	addToPrescribed("name");
 	(*this)["actions"].setType(DatumType::TABLE);
 	addToPrescribed("actions");
+	addToPrescribed("reactions");
 }
 
 Action& ActionList::createAction(const std::string& className, const std::string& instanceName)
