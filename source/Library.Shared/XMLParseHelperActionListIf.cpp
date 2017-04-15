@@ -19,8 +19,7 @@ XMLParseHelperAction::XMLParseHelperAction() :
 	mHandledTags.pushBack("condition");
 	mHandledTags.pushBack("then");
 	mHandledTags.pushBack("else");
-	mHandledTags.pushBack("ActionSetString");
-	mHandledTags.pushBack("ActionEvent");
+	mHandledTags.pushBack("Action");
 	mHandledTags.pushBack("Reaction");
 }
 
@@ -92,9 +91,9 @@ void XMLParseHelperAction::actionStartHandler(SharedDataTable& sharedData, uint3
 	{
 	case 0:
 	{
-		assert(sharedData.mCurrentTable->is(World::typeName()) 
-			|| sharedData.mCurrentTable->is(Sector::typeName()) 
-			|| sharedData.mCurrentTable->is(Entity::typeName()) 
+		assert(sharedData.mCurrentTable->is(World::typeName())
+			|| sharedData.mCurrentTable->is(Sector::typeName())
+			|| sharedData.mCurrentTable->is(Entity::typeName())
 			|| sharedData.mCurrentTable->is(ActionList::typeName()));
 		createActionListIf(sharedData, attributesMap["name"]);
 		break;
@@ -122,9 +121,7 @@ void XMLParseHelperAction::actionStartHandler(SharedDataTable& sharedData, uint3
 			|| sharedData.mCurrentTable->is(Sector::typeName())
 			|| sharedData.mCurrentTable->is(Entity::typeName())
 			|| sharedData.mCurrentTable->is(ActionList::typeName()));
-		Action& temp = static_cast<ActionList*>(sharedData.mCurrentTable)->createAction("ActionSetString", attributesMap["name"]);
-		static_cast<ActionSetString&>(temp).setStringValues(attributesMap["string"], attributesMap["value"]);
-		sharedData.mCurrentTable = &temp;
+		createAction(sharedData, attributesMap);
 		break;
 	}
 	case 5:
@@ -133,15 +130,13 @@ void XMLParseHelperAction::actionStartHandler(SharedDataTable& sharedData, uint3
 			|| sharedData.mCurrentTable->is(Sector::typeName())
 			|| sharedData.mCurrentTable->is(Entity::typeName())
 			|| sharedData.mCurrentTable->is(ActionList::typeName()));
-		auto& temp = static_cast<World*>(sharedData.mCurrentTable)->createAction("ActionEvent", attributesMap["name"]);
-		static_cast<ActionEvent&>(temp).setAttributes(attributesMap["subType"], stoi(attributesMap["delay"]));
+		createAction(sharedData, attributesMap);
+		break;
 	}
-	case 6:
-	{}
 	}
 }
 
-void XMLParseHelperAction::createActionListIf(SharedDataTable & sharedData, const string& name)
+void XMLParseHelperAction::createActionListIf(SharedDataTable& sharedData, const string& name)
 {
 	if (sharedData.mCurrentTable->is(World::typeName()))
 	{
@@ -178,41 +173,46 @@ void XMLParseHelperAction::actionEndHandler(SharedDataTable& sharedData, uint32_
 	}
 }
 
-void XMLParseHelperAction::createActionEvent(SharedDataTable& sharedTable, const HashMap<string, string>& attributes)
+void XMLParseHelperAction::createAction(SharedDataTable& sharedTable, const HashMap<string, string>& attributes)
 {
 	Action* temp = nullptr;
 	if (sharedTable.mCurrentTable->is(World::typeName()))
 	{
-		temp = &(static_cast<World*>(sharedTable.mCurrentTable)->createAction("ActionSetString", attributes["name"]));
+		temp = &(static_cast<World*>(sharedTable.mCurrentTable)->createAction(attributes["class"], attributes["name"]));
 		sharedTable.mCurrentTable = temp;
 	}
 	else if (sharedTable.mCurrentTable->is(Sector::typeName()))
 	{
-		temp = &(static_cast<Sector*>(sharedTable.mCurrentTable)->createAction("ActionSetString", attributes["name"]));
+		temp = &(static_cast<Sector*>(sharedTable.mCurrentTable)->createAction(attributes["class"], attributes["name"]));
 		sharedTable.mCurrentTable = temp;
 	}
 	else if (sharedTable.mCurrentTable->is(Entity::typeName()))
 	{
-		temp = &(static_cast<Entity*>(sharedTable.mCurrentTable)->createAction("ActionSetString", attributes["name"]));
+		temp = &(static_cast<Entity*>(sharedTable.mCurrentTable)->createAction(attributes["class"], attributes["name"]));
 		sharedTable.mCurrentTable = temp;
 	}
-	else //if(sharedData.mCurrentTable->is(ActionList::typeName()))
+	else if(sharedTable.mCurrentTable->is(ActionList::typeName()))
 	{
-		temp = &(static_cast<ActionList*>(sharedTable.mCurrentTable)->createAction("ActionSetString", attributes["name"]));
+		temp = &(static_cast<ActionList*>(sharedTable.mCurrentTable)->createAction(attributes["class"], attributes["name"]));
 		sharedTable.mCurrentTable = temp;
 	}
 
-	(static_cast<ActionSetString*>(temp))->setStringValues(attributes["string"], attributes["value"]);
+	assert(temp != nullptr);
+	setActionAttributes(*temp, attributes);
 }
 
-void XMLParseHelperAction::createActionSetString(SharedDataTable& sharedTable, const HashMap<string, string>& attributes)
+void XMLParseHelperAction::setActionAttributes(Action& temp, const HashMap<string, string>& attributes)
 {
-	UNREFERENCED_PARAMETER(sharedTable);
-	UNREFERENCED_PARAMETER(attributes);
-}
-
-void XMLParseHelperAction::createReaction(SharedDataTable& sharedTable, const HashMap<string, string>& attributes)
-{
-	UNREFERENCED_PARAMETER(sharedTable);
-	UNREFERENCED_PARAMETER(attributes);
+	if (temp.is(ActionSetString::typeName()))
+	{
+		static_cast<ActionSetString&>(temp).setStringValues(attributes["string"], attributes["value"]);
+	}
+	else if (temp.is(ActionEvent::typeName()))
+	{
+		static_cast<ActionEvent&>(temp).setAttributes(attributes["subType"], stoi(attributes["delay"]));
+	}
+	else if (temp.is(ReactionAttributed::typeName()))
+	{
+		static_cast<ReactionAttributed&>(temp).setSubType(attributes["subType"]);
+	}
 }
