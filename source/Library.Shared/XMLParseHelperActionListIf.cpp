@@ -20,6 +20,8 @@ XMLParseHelperAction::XMLParseHelperAction() :
 	mHandledTags.pushBack("then");
 	mHandledTags.pushBack("else");
 	mHandledTags.pushBack("ActionSetString");
+	mHandledTags.pushBack("ActionEvent");
+	mHandledTags.pushBack("Reaction");
 }
 
 XMLParseHelper* XMLParseHelperAction::clone()
@@ -125,10 +127,21 @@ void XMLParseHelperAction::actionStartHandler(SharedDataTable& sharedData, uint3
 		sharedData.mCurrentTable = &temp;
 		break;
 	}
+	case 5:
+	{
+		assert(sharedData.mCurrentTable->is(World::typeName())
+			|| sharedData.mCurrentTable->is(Sector::typeName())
+			|| sharedData.mCurrentTable->is(Entity::typeName())
+			|| sharedData.mCurrentTable->is(ActionList::typeName()));
+		auto& temp = static_cast<World*>(sharedData.mCurrentTable)->createAction("ActionEvent", attributesMap["name"]);
+		static_cast<ActionEvent&>(temp).setAttributes(attributesMap["subType"], stoi(attributesMap["delay"]));
+	}
+	case 6:
+	{}
 	}
 }
 
-void MahatmaGameEngine::XMLParseHelperAction::createActionListIf(SharedDataTable & sharedData, const string& name)
+void XMLParseHelperAction::createActionListIf(SharedDataTable & sharedData, const string& name)
 {
 	if (sharedData.mCurrentTable->is(World::typeName()))
 	{
@@ -152,15 +165,54 @@ void MahatmaGameEngine::XMLParseHelperAction::createActionListIf(SharedDataTable
 	}
 }
 
-void MahatmaGameEngine::XMLParseHelperAction::actionEndHandler(SharedDataTable& sharedData, uint32_t index)
+void XMLParseHelperAction::actionEndHandler(SharedDataTable& sharedData, uint32_t index)
 {
 	if(index == 1)
 	{
 		assert(sharedData.mCurrentTable->is(ActionListIf::typeName()));
 		static_cast<ActionListIf*>(sharedData.mCurrentTable)->setCondition(mBuffer);
 	}
-	else if(index >= 0 || index <= 4)
+	else if(index != 5)
 	{
 		sharedData.mCurrentTable = (sharedData.mCurrentTable->getParent());
 	}
+}
+
+void XMLParseHelperAction::createActionEvent(SharedDataTable& sharedTable, const HashMap<string, string>& attributes)
+{
+	Action* temp = nullptr;
+	if (sharedTable.mCurrentTable->is(World::typeName()))
+	{
+		temp = &(static_cast<World*>(sharedTable.mCurrentTable)->createAction("ActionSetString", attributes["name"]));
+		sharedTable.mCurrentTable = temp;
+	}
+	else if (sharedTable.mCurrentTable->is(Sector::typeName()))
+	{
+		temp = &(static_cast<Sector*>(sharedTable.mCurrentTable)->createAction("ActionSetString", attributes["name"]));
+		sharedTable.mCurrentTable = temp;
+	}
+	else if (sharedTable.mCurrentTable->is(Entity::typeName()))
+	{
+		temp = &(static_cast<Entity*>(sharedTable.mCurrentTable)->createAction("ActionSetString", attributes["name"]));
+		sharedTable.mCurrentTable = temp;
+	}
+	else //if(sharedData.mCurrentTable->is(ActionList::typeName()))
+	{
+		temp = &(static_cast<ActionList*>(sharedTable.mCurrentTable)->createAction("ActionSetString", attributes["name"]));
+		sharedTable.mCurrentTable = temp;
+	}
+
+	(static_cast<ActionSetString*>(temp))->setStringValues(attributes["string"], attributes["value"]);
+}
+
+void XMLParseHelperAction::createActionSetString(SharedDataTable& sharedTable, const HashMap<string, string>& attributes)
+{
+	UNREFERENCED_PARAMETER(sharedTable);
+	UNREFERENCED_PARAMETER(attributes);
+}
+
+void XMLParseHelperAction::createReaction(SharedDataTable& sharedTable, const HashMap<string, string>& attributes)
+{
+	UNREFERENCED_PARAMETER(sharedTable);
+	UNREFERENCED_PARAMETER(attributes);
 }

@@ -79,6 +79,12 @@ namespace MahatmaGameEngine
 		*/
 		void createActionListIf(SharedDataTable& sharedData, const std::string& name);
 
+		void createActionEvent(SharedDataTable& sharedData, const HashMap<std::string, std::string>& attributesMap);
+
+		void createActionSetString(SharedDataTable& sharedData, const HashMap<std::string, std::string>& attributesMap);
+
+		void createReaction(SharedDataTable& sharedData, const HashMap<std::string, std::string>& attributesMap);
+
 		/**
 		* Handles the mBuffer as filled by the charDataHandler. This is called from the endElementHandler.
 		* @param sharedData the sharedData currently being used for the parsing.

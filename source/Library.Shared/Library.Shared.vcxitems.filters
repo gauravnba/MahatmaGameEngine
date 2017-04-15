@@ -191,9 +191,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AttributedMessage.h">
       <Filter>Scripting Interface\Reaction</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperReaction.h">
-      <Filter>XMLParser\XMLParseHelpers</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)HashMap.inl">

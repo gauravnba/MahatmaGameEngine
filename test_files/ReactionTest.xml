@@ -1,0 +1,9 @@
+<Scope name = "root">
+	<World name = "BigWorld">
+		<String name = "StringToChange" value = "Test"/>
+		<Integer name = "Condition" value = "0"/>
+		<Reaction name = "ReactionTest" class = "ReactionAttributed" subType = "ReactionTest"/>
+			<ActionSetString name = "ChangeString" string = "StringToChange" value = "Test Complete"/>
+		<ActionEvent name = "EventTest" subType = "ReactionTest" delay = "1000"/>
+	</World>
+</Scope>
