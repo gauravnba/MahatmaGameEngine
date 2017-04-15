@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "XMLParseHelperActionListIf.h"
+#include "XMLParseHelperAction.h"
 #include "World.h"
 #include "Action.h"
 #include "Entity.h"
@@ -12,8 +12,7 @@
 using namespace MahatmaGameEngine;
 using namespace std;
 
-XMLParseHelperAction::XMLParseHelperAction() :
-	mIsThen(false)
+XMLParseHelperAction::XMLParseHelperAction()
 {
 	mHandledTags.pushBack("if");
 	mHandledTags.pushBack("condition");
@@ -75,7 +74,6 @@ bool XMLParseHelperAction::endElementHandler(XMLParseMaster::SharedData* sharedD
 				{
 					assert(sharedData->is(SharedDataTable::typeName()));
 					actionEndHandler(*(static_cast<SharedDataTable*>(sharedData)), i);
-					mBuffer.clear();
 					break;
 				}
 			}
@@ -105,14 +103,12 @@ void XMLParseHelperAction::actionStartHandler(SharedDataTable& sharedData, uint3
 	{
 		assert(sharedData.mCurrentTable->is(ActionListIf::typeName()));
 		sharedData.mCurrentTable = &((*sharedData.mCurrentTable)["then"][0]);
-		mIsThen = true;
 		break;
 	}
 	case 3:
 	{
 		assert(sharedData.mCurrentTable->is(ActionListIf::typeName()));
 		sharedData.mCurrentTable = &((*sharedData.mCurrentTable)["else"][0]);
-		mIsThen = false;
 		break;
 	}
 	case 4:
@@ -130,7 +126,7 @@ void XMLParseHelperAction::actionStartHandler(SharedDataTable& sharedData, uint3
 			|| sharedData.mCurrentTable->is(Sector::typeName())
 			|| sharedData.mCurrentTable->is(Entity::typeName())
 			|| sharedData.mCurrentTable->is(ActionList::typeName()));
-		createAction(sharedData, attributesMap);
+		createReaction(sharedData, attributesMap);
 		break;
 	}
 	}
@@ -166,8 +162,9 @@ void XMLParseHelperAction::actionEndHandler(SharedDataTable& sharedData, uint32_
 	{
 		assert(sharedData.mCurrentTable->is(ActionListIf::typeName()));
 		static_cast<ActionListIf*>(sharedData.mCurrentTable)->setCondition(mBuffer);
+		mBuffer.clear();
 	}
-	else if(index != 5)
+	else
 	{
 		sharedData.mCurrentTable = (sharedData.mCurrentTable->getParent());
 	}
@@ -201,18 +198,26 @@ void XMLParseHelperAction::createAction(SharedDataTable& sharedTable, const Hash
 	setActionAttributes(*temp, attributes);
 }
 
+void XMLParseHelperAction::createReaction(SharedDataTable& sharedTable, const HashMap<string, string>& attributes)
+{
+	Reaction& temp = *(Factory<Reaction>::create("ReactionAttributed"));
+	sharedTable.mCurrentTable->adopt(&temp, "reactions");
+	sharedTable.mCurrentTable = &temp;
+	setActionAttributes(temp, attributes);
+}
+
 void XMLParseHelperAction::setActionAttributes(Action& temp, const HashMap<string, string>& attributes)
 {
-	if (temp.is(ActionSetString::typeName()))
+	if (temp.is(ReactionAttributed::typeName()))
 	{
-		static_cast<ActionSetString&>(temp).setStringValues(attributes["string"], attributes["value"]);
+		static_cast<ReactionAttributed&>(temp).setSubType(attributes["subType"]);
 	}
 	else if (temp.is(ActionEvent::typeName()))
 	{
 		static_cast<ActionEvent&>(temp).setAttributes(attributes["subType"], stoi(attributes["delay"]));
 	}
-	else if (temp.is(ReactionAttributed::typeName()))
+	else if (temp.is(ActionSetString::typeName()))
 	{
-		static_cast<ReactionAttributed&>(temp).setSubType(attributes["subType"]);
+		static_cast<ActionSetString&>(temp).setStringValues(attributes["string"], attributes["value"]);
 	}
 }

@@ -5,6 +5,7 @@
 
 namespace MahatmaGameEngine
 {
+	class Action;
 	/**
 	* Parsing helper class for floating point type.
 	*/
@@ -79,8 +80,25 @@ namespace MahatmaGameEngine
 		*/
 		void createActionListIf(SharedDataTable& sharedData, const std::string& name);
 
+		/**
+		* Call create action on the current type of class that is stored in the sharedData.
+		* @param sharedData the current table of contents used by the Parser.
+		* @param attributes Hashmap of XML attributes.
+		*/
 		void createAction(SharedDataTable& sharedData, const HashMap<std::string, std::string>& attributes);
 
+		/**
+		* Create Reaction using factory and adopt it to the sharedData table.
+		* @param sharedData the current table of contents used by the Parser.
+		* @param attributes Hashmap of XML attributes.
+		*/
+		void createReaction(SharedDataTable& sharedData, const HashMap<std::string, std::string>& attributes);
+
+		/**
+		* Create Reaction using factory and adopt it to the sharedData table.
+		* @param sharedData the current table of contents used by the Parser.
+		* @param attributes Hashmap of XML attributes.
+		*/
 		void setActionAttributes(Action& temp, const HashMap<std::string, std::string>& attributes);
 
 		/**
@@ -92,6 +110,5 @@ namespace MahatmaGameEngine
 
 		Vector<std::string> mHandledTags;	/**< The list of tags that the helper can handle. */
 		std::string mBuffer;				/**< The string buffer into which you read the character data. */
-		bool mIsThen;
 	};
 }

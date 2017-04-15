@@ -9,6 +9,7 @@
 #include "Foo.h"
 #include "TestMacros.h"
 #include "AttributedFoo.h"
+#include "SubscriberFoo.h"
 
 #include "DefaultHash.h"
 #include "HashMap.h"
@@ -21,6 +22,9 @@
 #include "SharedDataTable.h"
 #include "XMLParseMaster.h"
 #include "XMLParseHelper.h"
+#include "XMLParseHelperAction.h"
+#include "XMLParseHelperDatum.h"
+#include "XMLParseHelperScope.h"
 #include "GameTime.h"
 #include "GameClock.h"
 #include "Factory.h"
@@ -41,4 +45,3 @@
 #include "ReactionAttributed.h"
 #include "AttributedMessage.h"
 #include "ActionEvent.h"
-#include "SubscriberFoo.h"

@@ -2,8 +2,9 @@
 	<World name = "BigWorld">
 		<String name = "StringToChange" value = "Test"/>
 		<Integer name = "Condition" value = "0"/>
-		<Reaction name = "ReactionTest" class = "ReactionAttributed" subType = "ReactionTest"/>
+		<Reaction class = "ReactionAttributed" name = "ReactionTest" subType = "ReactionTest">
 			<Action class = "ActionSetString" name = "ChangeString" string = "StringToChange" value = "Test Passed"/>
-		<Action class = "ActionEvent" name = "TestEvent" subType = "ReactionTest" delay = "1000"/>
+		</Reaction>
+		<Action class = "ActionEvent" name = "TestEvent" subType = "ReactionTest" delay = "0"/>
 	</World>
 </Scope>

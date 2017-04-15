@@ -5,7 +5,7 @@
 #include "World.h"
 #include "XMLParseHelperDatum.h"
 #include "XMLParseHelperScope.h"
-#include "XMLParseHelperActionListIf.h"
+#include "XMLParseHelperAction.h"
 #include "ActionFoo.h"
 #include "ActionList.h"
 #include "GameTime.h"

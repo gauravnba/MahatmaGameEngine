@@ -22,10 +22,10 @@ namespace UnitTestLibraryDesktop
 		TEST_CLASS_INITIALIZE(InitializeEventList)
 		{
 			AttributedMessage message;
-			//Event<AttributedMessage> tempEvent(message);
 			ReactionAttributed reaction;
 			ActionSetString action;
 			ActionEvent actionEvent;
+			World world;
 		}
 
 		//This method sets up the initial memory state to check for memory leaks.
@@ -127,11 +127,34 @@ namespace UnitTestLibraryDesktop
 			delete &reaction;
 		}
 
-		TEST_METHOD(actionEventTest)
+		TEST_METHOD(reactionParserTest)
 		{
-			ActionEventFactory actionFactory;
-			Action* action = Factory<Action>::create("ActionEvent");
-			delete action;
+			SharedDataTable sharedData;
+			XMLParseMaster xmlParseMaster(sharedData);
+			XMLParseHelperDatum datumHelper;
+			XMLParseHelperScope scopeHelper;
+			XMLParseHelperAction actionHelper;
+			xmlParseMaster.addHelper(datumHelper);
+			xmlParseMaster.addHelper(scopeHelper);
+			xmlParseMaster.addHelper(actionHelper);
+			ActionSetStringFactory tempSetStringFactory;
+			ReactionAttributedFactory reactionFactory;
+			ActionEventFactory actionEventFactory;
+
+			xmlParseMaster.parseFromFile("test_scripts//ReactionTest.xml");
+
+			WorldState worldState;
+			EventQueue eventQueue;
+			GameTime gameTime;
+			worldState.mGameTime = &gameTime;
+			worldState.mEventQueue = &eventQueue;
+			World& world = static_cast<World&>((*(sharedData.mCurrentTable))["BigWorld"][0]);
+			world.update(worldState);
+			eventQueue.update(gameTime);
+
+			Assert::AreEqual(world["StringToChange"].get<string>(), string("Test Passed"));
+
+			delete sharedData.mCurrentTable;
 		}
 
 	private:

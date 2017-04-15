@@ -40,7 +40,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SharedDataTable.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)World.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WorldState.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperActionListIf.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperAction.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperDatum.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperScope.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseMaster.cpp" />
@@ -78,7 +78,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)World.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WorldState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelper.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperActionListIf.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperAction.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperDatum.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperScope.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseMaster.h" />
