@@ -101,4 +101,5 @@ void Sector::populateAttributed()
 	addToPrescribed("name");
 	addToPrescribed("entities");
 	addToPrescribed("actions");
+	addToPrescribed("reactions");
 }

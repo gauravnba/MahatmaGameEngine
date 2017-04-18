@@ -106,4 +106,6 @@ void World::populateAttributed()
 	appendExternalAttribute("name", &mName);
 	addToPrescribed("name");
 	addToPrescribed("sectors");
+	addToPrescribed("actions");
+	addToPrescribed("reactions");
 }

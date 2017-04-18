@@ -47,13 +47,15 @@ namespace UnitTestLibraryDesktop
 		TEST_METHOD(copyConstructorTest)
 		{
 			AttributedFoo foo1;
-
+			foo1.appendAuxiliaryAttribute("TestAttribute") = "Test";
 			AttributedFoo foo2 = foo1;
 
 			Assert::IsTrue(foo1.isAttribute("Integer"));
 			Assert::IsTrue(foo2.isAttribute("Integer"));
 			Assert::IsTrue(foo2.isPrescribedAttribute("Integer"));
 			Assert::AreEqual(foo1.auxiliaryBegin(), foo2.auxiliaryBegin());
+			Assert::IsTrue(foo2["TestAttribute"] == "Test");
+			Assert::IsTrue(foo2.isAuxiliaryAttribute("TestAttribute"));
 		}
 
 		TEST_METHOD(assignmentOperatorTest)

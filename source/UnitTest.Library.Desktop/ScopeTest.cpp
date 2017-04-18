@@ -264,6 +264,18 @@ namespace UnitTestLibraryDesktop
 			Assert::IsTrue(pointerOfNewChild == newChildTable);
 		}
 
+		TEST_METHOD(getPairTest)
+		{
+			SCOPE_TEST_DATA_DECLARATION
+
+			POPULATE_TEST_SCOPE
+
+			UNREFERENCED_PARAMETER(childTable);
+
+			Assert::IsTrue(testScope.getPair(0).second == testScope[0]);
+			Assert::AreEqual(testScope.getPair(1).first, floatType);
+		}
+
 	private:																			
 		static _CrtMemState sStartMemState;
 	};

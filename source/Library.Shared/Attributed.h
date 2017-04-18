@@ -88,10 +88,16 @@ namespace MahatmaGameEngine
 		Datum& appendAuxiliaryAttribute(const std::string& name);
 
 		/**
-		* Returns the number of Prescribed attributes in the Scope.
-		* @return unsigned int32 number of prescribed attributes. Or the number after which the Auxiliary attributes are populated.
+		* Returns the number of Prescribed Attributes.
+		* @return unsigned integer value of the count.
 		*/
 		std::uint32_t auxiliaryBegin() const;
+
+		/**
+		* Copies the auxiliary attributes to this from the parameter object.
+		* @param obj the object to copy the attributes from.
+		*/
+		void copyAuxiliaryAttributes(const Attributed& obj);
 
 	protected:
 		/**

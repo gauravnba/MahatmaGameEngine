@@ -48,9 +48,8 @@ AttributedFoo::AttributedFoo()
 }
 
 AttributedFoo::AttributedFoo(const AttributedFoo& obj)
-	:Attributed(obj)
+	:Attributed(obj), mFooExternal(obj.mFooExternal)
 {
-	mFooExternal = obj.mFooExternal;
 	fixUpDatums();
 }
 
@@ -92,7 +91,6 @@ void AttributedFoo::fixUpDatums()
 	(*this)["Vector"].setStorage(mVectorAttribute, 1);
 	(*this)["Matrix"].setStorage(mMatrixAttribute, 1);
 	(*this)["String"].setStorage(mStringAttribute, 1);
-	mScope = (*this)["Table"].get<Scope*>();
 	(*this)["RTTI"].setStorage(mRTTIAttribute, 1);
 }
 

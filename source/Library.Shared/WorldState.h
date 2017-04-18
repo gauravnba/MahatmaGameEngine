@@ -15,5 +15,6 @@ namespace MahatmaGameEngine
 		class Entity* mCurrentEntity;
 		class Action* mCurrentAction;
 		class GameTime* mGameTime;
+		class EventQueue* mEventQueue;
 	};
 }

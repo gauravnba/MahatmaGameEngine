@@ -59,9 +59,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionListIf.cpp">
       <Filter>Scripting Interface\Actions</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperActionListIf.cpp">
-      <Filter>XMLParser\XMLParseHelpers</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionSetString.cpp">
       <Filter>Scripting Interface\Actions</Filter>
     </ClCompile>
@@ -70,6 +67,21 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)EventQueue.cpp">
       <Filter>Scripting Interface\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ReactionAttributed.cpp">
+      <Filter>Scripting Interface\Reaction</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionEvent.cpp">
+      <Filter>Scripting Interface\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Reaction.cpp">
+      <Filter>Scripting Interface\Reaction</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AttributedMessage.cpp">
+      <Filter>Scripting Interface\Reaction</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)XMLParseHelperAction.cpp">
+      <Filter>XMLParser\XMLParseHelpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,9 +161,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionListIf.h">
       <Filter>Scripting Interface\Actions</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperActionListIf.h">
-      <Filter>XMLParser\XMLParseHelpers</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionSetString.h">
       <Filter>Scripting Interface\Actions</Filter>
     </ClInclude>
@@ -169,6 +178,18 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Reaction.h">
       <Filter>Scripting Interface\Reaction</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ReactionAttributed.h">
+      <Filter>Scripting Interface\Reaction</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionEvent.h">
+      <Filter>Scripting Interface\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AttributedMessage.h">
+      <Filter>Scripting Interface\Reaction</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)XMLParseHelperAction.h">
+      <Filter>XMLParser\XMLParseHelpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
