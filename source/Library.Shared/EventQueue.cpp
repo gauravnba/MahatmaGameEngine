@@ -33,24 +33,29 @@ void EventQueue::sendExpiredEvents(const TimePoint & timePoint)
 {
 	int32_t size = mEventQueue.size();
 	int32_t expiredIndex = size;
+	Vector<shared_ptr<EventPublisher>> queueCopy;
 
 	//For partitioning of the expired and existent events.
-	for (int32_t i = 0; i < expiredIndex; ++i)
 	{
-		if (mEventQueue[i]->isExpired(timePoint))
+		lock_guard<mutex> lock(mMutex);
+		for (int32_t i = 0; i < expiredIndex; ++i)
 		{
-			//Get index of the first event from the send that is not expired.
-			while ((expiredIndex > i) && (mEventQueue[--expiredIndex]->isExpired(timePoint)));
+			if (mEventQueue[i]->isExpired(timePoint))
+			{
+				//Get index of the first event from the send that is not expired.
+				while ((expiredIndex > i) && (mEventQueue[--expiredIndex]->isExpired(timePoint)));
 
-			mEventQueue[i].swap(mEventQueue[expiredIndex]);
+				mEventQueue[i].swap(mEventQueue[expiredIndex]);
+				queueCopy.pushBack(mEventQueue.popBack());
+			}
 		}
 	}
 
 	//deliver event and then remove it from the queue.
-	while (size > expiredIndex)
+	size = queueCopy.size();
+	while (!queueCopy.isEmpty())
 	{
-		mEventQueue[--size]->deliver();
-		mEventQueue.popBack();
+		queueCopy[--size]->deliver();
 	}
 }
 

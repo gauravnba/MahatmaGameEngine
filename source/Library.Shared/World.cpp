@@ -25,6 +25,7 @@ World::World(const string& name) :
 World::World(World&& obj) :
 	mName(obj.mName), Attributed(move(obj))
 {
+	(*this)["name"].setStorage(&mName);
 }
 
 World& World::operator=(World&& obj)
@@ -33,6 +34,8 @@ World& World::operator=(World&& obj)
 	{
 		mName = obj.mName;
 		Attributed::operator=(move(obj));
+
+		(*this)["name"].setStorage(&mName);
 	}
 	return *this;
 }
@@ -105,7 +108,10 @@ void World::populateAttributed()
 	setTheThisAttribute();
 	appendExternalAttribute("name", &mName);
 	addToPrescribed("name");
+	(*this)["sectors"].setType(DatumType::TABLE);
 	addToPrescribed("sectors");
+	(*this)["actions"].setType(DatumType::TABLE);
 	addToPrescribed("actions");
+	(*this)["reactions"].setType(DatumType::TABLE);
 	addToPrescribed("reactions");
 }

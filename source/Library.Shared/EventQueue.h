@@ -2,6 +2,7 @@
 #include "Vector.h"
 #include "EventPublisher.h"
 #include <memory>
+#include <mutex>
 
 namespace MahatmaGameEngine
 {
@@ -66,7 +67,8 @@ namespace MahatmaGameEngine
 		* @param timePoint the TimePoint at which the expiry of events needs to be checked.
 		*/
 		void sendExpiredEvents(const TimePoint& timePoint);
-
+		
 		Vector<std::shared_ptr<EventPublisher>> mEventQueue;		/**< The vector that queues the events. */
+		std::mutex mMutex;
 	};
 }

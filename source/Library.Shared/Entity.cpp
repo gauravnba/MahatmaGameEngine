@@ -15,13 +15,16 @@ Entity::Entity()
 	setTheThisAttribute();
 	appendExternalAttribute("name", &mName);
 	addToPrescribed("name");
+	(*this)["actions"].setType(DatumType::TABLE);
 	addToPrescribed("actions");
+	(*this)["reactions"].setType(DatumType::TABLE);
 	addToPrescribed("reactions");
 }
 
 Entity::Entity(Entity&& obj) :
 	mName(obj.mName), Attributed(move(obj))
 {
+	(*this)["name"].setStorage(&mName);
 }
 
 Entity& Entity::operator=(Entity&& obj)
@@ -30,6 +33,8 @@ Entity& Entity::operator=(Entity&& obj)
 	{
 		mName = obj.mName;
 		Attributed::operator=(move(obj));
+
+		(*this)["name"].setStorage(&mName);
 	}
 
 	return *this;
