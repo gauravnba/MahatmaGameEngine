@@ -4,6 +4,7 @@
 #include <chrono>
 #include "Vector.h"
 #include "EventSubscriber.h"
+#include <mutex>
 
 namespace MahatmaGameEngine
 {
@@ -18,9 +19,9 @@ namespace MahatmaGameEngine
 		/**
 		* Constructor of the EventPublisher requires an address to a list of subscribers and whether to delete the event after publishing.
 		* @param subscriberList is the Vector of EventSubscriber addresses
-		* @param deleteAfter bool value that states whether this event will be deleted after publishing.
+		* @param mut mutex to set the mMutex pointer to.
 		*/
-		EventPublisher(Vector<EventSubscriber*>& subscriberList);
+		EventPublisher(Vector<EventSubscriber*>& subscriberList, std::mutex& mut);
 
 		/**
 		* Copy constructor of EventPublisher constructs a copy of the EventPublisher passed as parameter.
@@ -82,5 +83,6 @@ namespace MahatmaGameEngine
 		TimePoint mTimeEnqueued;				/**< The time at which the event was enqueued. */
 		MilliSeconds mDelay;					/**< The delay after which the event will be published. */
 		Vector<EventSubscriber*>* mSubscribers;	/**< The list of subscribers to this event. */
+		std::mutex* mMutex;						/**< */
 	};
 }

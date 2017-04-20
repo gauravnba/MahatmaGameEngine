@@ -6,8 +6,11 @@ namespace MahatmaGameEngine
 	Vector<EventSubscriber*> Event<T>::mSubscribers;
 
 	template <typename T>
+	std::mutex Event<T>::mMutex;
+
+	template <typename T>
 	Event<T>::Event(const T& eventMessage) :
-		mPayload(eventMessage), EventPublisher(mSubscribers)
+		mPayload(eventMessage), EventPublisher(mSubscribers, mMutex)
 	{
 	}
 

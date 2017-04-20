@@ -234,7 +234,7 @@ namespace UnitTestLibraryDesktop
 
 			eQueue.clear(true);
 			Assert::IsTrue(eQueue.isEmpty());
-			Assert::AreEqual(subscriber1.getValue(), 4U);
+			Assert::AreEqual(subscriber1.getValue(), 3U);
 		}
 
 	private:

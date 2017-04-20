@@ -25,7 +25,6 @@ World::World(const string& name) :
 World::World(World&& obj) :
 	mName(obj.mName), Attributed(move(obj))
 {
-	(*this)["name"].setStorage(&mName);
 }
 
 World& World::operator=(World&& obj)
@@ -34,8 +33,6 @@ World& World::operator=(World&& obj)
 	{
 		mName = obj.mName;
 		Attributed::operator=(move(obj));
-
-		(*this)["name"].setStorage(&mName);
 	}
 	return *this;
 }

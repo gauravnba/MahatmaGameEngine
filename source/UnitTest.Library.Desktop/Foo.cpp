@@ -22,6 +22,12 @@ Foo::Foo(const Foo& obj)
 	*mVar = *(obj.mVar);
 }
 
+Foo::Foo(Foo&& obj) :
+	mVar(obj.mVar)
+{
+	obj.mVar = nullptr;
+}
+
 Foo::~Foo()
 {
 	delete mVar;
@@ -30,6 +36,16 @@ Foo::~Foo()
 Foo& Foo::operator=(const Foo& obj)
 {
 	*mVar = *(obj.mVar);
+	return *this;
+}
+
+Foo& Foo::operator=(Foo&& obj)
+{
+	if (this != &obj)
+	{
+		mVar = obj.mVar;
+		obj.mVar = nullptr;
+	}
 	return *this;
 }
 

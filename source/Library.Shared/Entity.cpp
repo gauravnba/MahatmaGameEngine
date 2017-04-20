@@ -24,7 +24,6 @@ Entity::Entity()
 Entity::Entity(Entity&& obj) :
 	mName(obj.mName), Attributed(move(obj))
 {
-	(*this)["name"].setStorage(&mName);
 }
 
 Entity& Entity::operator=(Entity&& obj)
@@ -33,8 +32,6 @@ Entity& Entity::operator=(Entity&& obj)
 	{
 		mName = obj.mName;
 		Attributed::operator=(move(obj));
-
-		(*this)["name"].setStorage(&mName);
 	}
 
 	return *this;
