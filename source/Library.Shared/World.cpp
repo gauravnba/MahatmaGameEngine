@@ -105,10 +105,7 @@ void World::populateAttributed()
 	setTheThisAttribute();
 	appendExternalAttribute("name", &mName);
 	addToPrescribed("name");
-	(*this)["sectors"].setType(DatumType::TABLE);
 	addToPrescribed("sectors");
-	(*this)["actions"].setType(DatumType::TABLE);
 	addToPrescribed("actions");
-	(*this)["reactions"].setType(DatumType::TABLE);
 	addToPrescribed("reactions");
 }

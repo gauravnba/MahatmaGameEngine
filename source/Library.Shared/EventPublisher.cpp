@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "EventPublisher.h"
+#include <vector>
 #include <future>
 
 using namespace MahatmaGameEngine;
@@ -18,10 +19,10 @@ EventPublisher::EventPublisher(const EventPublisher& obj) :
 }
 
 EventPublisher::EventPublisher(EventPublisher&& obj) :
-	mTimeEnqueued(move(obj.mTimeEnqueued)), mDelay(move(obj.mDelay)), mSubscribers(obj.mSubscribers), mMutex(obj.mMutex)
+	mTimeEnqueued(move(obj.mTimeEnqueued)), mDelay(move(obj.mDelay)), mSubscribers(obj.mSubscribers)
 {
-	obj.mSubscribers = nullptr;
 	obj.mMutex = nullptr;
+	obj.mSubscribers = nullptr;
 }
 
 EventPublisher& EventPublisher::operator=(const EventPublisher& obj)
@@ -64,7 +65,11 @@ TimePoint& EventPublisher::timeEnqueued()
 
 bool EventPublisher::isExpired(const TimePoint& currentTime)
 {
-	return (currentTime >= (mTimeEnqueued + mDelay));
+	if (currentTime >= (mTimeEnqueued + mDelay))
+	{
+		return true;
+	}
+	return false;
 }
 
 void EventPublisher::deliver()

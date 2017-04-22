@@ -99,10 +99,7 @@ void Sector::populateAttributed()
 	setTheThisAttribute();
 	appendExternalAttribute("name", &mName);
 	addToPrescribed("name");
-	(*this)["entities"].setType(DatumType::TABLE);
 	addToPrescribed("entities");
-	(*this)["actions"].setType(DatumType::TABLE);
 	addToPrescribed("actions");
-	(*this)["reactions"].setType(DatumType::TABLE);
 	addToPrescribed("reactions");
 }

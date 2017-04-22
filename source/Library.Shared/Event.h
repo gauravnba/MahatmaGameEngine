@@ -2,6 +2,7 @@
 
 #include "EventPublisher.h"
 #include "RTTI.h"
+#include <mutex>
 
 namespace MahatmaGameEngine
 {
@@ -73,8 +74,8 @@ namespace MahatmaGameEngine
 
 	private:
 		static Vector<EventSubscriber*> mSubscribers;	/**< The list of EventSubscribers subscribed to this event. */
-		T mPayload;										/**< The payload that the event is tasked to deliver. */
-		static std::mutex mMutex;						/**< Static mutex to use to lock mSubscribers. */
+		T mPayload;									/**< The payload that the event is tasked to deliver. */
+		static std::mutex mMutex;
 	};
 
 	template <typename T>

@@ -137,6 +137,9 @@
     <ClCompile Include="ReactionTests.cpp">
       <Filter>Test Classes\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="AsyncEventTests.cpp">
+      <Filter>Test Classes\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">

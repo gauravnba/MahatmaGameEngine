@@ -190,6 +190,7 @@
   <ItemGroup>
     <ClCompile Include="ActionFoo.cpp" />
     <ClCompile Include="ActionTest.cpp" />
+    <ClCompile Include="AsyncEventTests.cpp" />
     <ClCompile Include="AttributedBar.cpp" />
     <ClCompile Include="AttributedFoo.cpp" />
     <ClCompile Include="AttributedTests.cpp" />

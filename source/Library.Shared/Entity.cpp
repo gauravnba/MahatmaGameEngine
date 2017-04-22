@@ -15,9 +15,7 @@ Entity::Entity()
 	setTheThisAttribute();
 	appendExternalAttribute("name", &mName);
 	addToPrescribed("name");
-	(*this)["actions"].setType(DatumType::TABLE);
 	addToPrescribed("actions");
-	(*this)["reactions"].setType(DatumType::TABLE);
 	addToPrescribed("reactions");
 }
 

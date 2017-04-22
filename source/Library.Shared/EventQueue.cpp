@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "EventQueue.h"
+#include <vector>
 #include <future>
 
 using namespace MahatmaGameEngine;
@@ -38,14 +39,14 @@ void EventQueue::clear(bool sendExpired)
 
 void EventQueue::sendExpiredEvents(const TimePoint & timePoint)
 {
-	int32_t size = mEventQueue.size();
-	int32_t expiredIndex = size;
+	uint32_t size = mEventQueue.size();
+	uint32_t expiredIndex = size;
 	Vector<shared_ptr<EventPublisher>> queueCopy;
 
 	//For partitioning of the expired and existent events.
 	{
 		lock_guard<recursive_mutex> lock(mMutex);
-		for (int32_t i = 0; i < expiredIndex; ++i)
+		for (uint32_t i = 0; i < expiredIndex; ++i)
 		{
 			if (mEventQueue[i]->isExpired(timePoint))
 			{
@@ -53,23 +54,26 @@ void EventQueue::sendExpiredEvents(const TimePoint & timePoint)
 				while ((expiredIndex > i) && (mEventQueue[--expiredIndex]->isExpired(timePoint)));
 
 				mEventQueue[i].swap(mEventQueue[expiredIndex]);
-				queueCopy.pushBack(mEventQueue.popBack());
 			}
 		}
 	}
 
-	vector<future<void>> futures;
-
-	//deliver event and then remove it from the queue.
-	for(auto event : queueCopy)
+	for(uint32_t i = 0; i < (size - expiredIndex); ++i)
 	{
-		futures.emplace_back(std::async(&EventPublisher::deliver, event));
+		lock_guard<recursive_mutex> lock(mMutex);
+		queueCopy.pushBack(mEventQueue.popBack());
 	}
 
-	size = futures.size();
-	while (--size >= 0)
+	vector<future<void>> futures;
+
+	for (auto event : queueCopy)
 	{
-		futures[size].get();
+		futures.emplace_back(async(&EventPublisher::deliver, event));
+	}
+	
+	for (uint32_t i = 0; i < futures.size(); ++i)
+	{
+		futures[i].get();
 	}
 }
 

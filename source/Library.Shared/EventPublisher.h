@@ -19,7 +19,7 @@ namespace MahatmaGameEngine
 		/**
 		* Constructor of the EventPublisher requires an address to a list of subscribers and whether to delete the event after publishing.
 		* @param subscriberList is the Vector of EventSubscriber addresses
-		* @param mut mutex to set the mMutex pointer to.
+		* @param deleteAfter bool value that states whether this event will be deleted after publishing.
 		*/
 		EventPublisher(Vector<EventSubscriber*>& subscriberList, std::mutex& mut);
 
@@ -83,6 +83,6 @@ namespace MahatmaGameEngine
 		TimePoint mTimeEnqueued;				/**< The time at which the event was enqueued. */
 		MilliSeconds mDelay;					/**< The delay after which the event will be published. */
 		Vector<EventSubscriber*>* mSubscribers;	/**< The list of subscribers to this event. */
-		std::mutex* mMutex;						/**< */
+		std::mutex* mMutex;
 	};
 }
