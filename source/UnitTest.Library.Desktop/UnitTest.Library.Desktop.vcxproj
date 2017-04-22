@@ -216,6 +216,7 @@
     <ClCompile Include="EntityFoo.cpp" />
     <ClCompile Include="SubscriberAdd.cpp" />
     <ClCompile Include="SubscriberAddEvent.cpp" />
+    <ClCompile Include="SubscriberClearQueue.cpp" />
     <ClCompile Include="SubscriberFoo.cpp" />
     <ClCompile Include="SubscriberUnsubsribeAll.cpp" />
     <ClCompile Include="VectorIteratorTest.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="SharedDataMotorcycles.h" />
     <ClInclude Include="SubscriberAdd.h" />
     <ClInclude Include="SubscriberAddEvent.h" />
+    <ClInclude Include="SubscriberClearQueue.h" />
     <ClInclude Include="SubscriberFoo.h" />
     <ClInclude Include="SubscriberUnsubsribeAll.h" />
     <ClInclude Include="TestMacros.h" />

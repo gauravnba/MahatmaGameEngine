@@ -8,6 +8,7 @@
 #include "SubscriberUnsubsribeAll.h"
 #include "SubscriberAdd.h"
 #include "SubscriberAddEvent.h"
+#include "SubscriberClearQueue.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace MahatmaGameEngine;
@@ -208,16 +209,61 @@ namespace UnitTestLibraryDesktop
 			gameTime.setCurrentTime(Clock::now());
 			eventQueue.update(gameTime);
 			Assert::AreEqual(100U, eventQueue.size());
+			for (uint32_t i = 0; i < mNumSubscribers - 2; ++i)
+			{
+				Assert::AreEqual(100U, subscribers[i]->getValue());
+			}
 
 			Event<Foo>::unsubscribe(subscriber);
 			gameTime.setCurrentTime(Clock::now());
 			eventQueue.update(gameTime);
 			Assert::AreEqual(0U, eventQueue.size());
+			for (uint32_t i = 0; i < mNumSubscribers - 2; ++i)
+			{
+				Assert::AreEqual(200U, subscribers[i]->getValue());
+			}
 		}
 
 		TEST_METHOD(subscriberClearTest)
 		{
+			EventQueue eventQueue;
+			GameTime gameTime;
 
+			Vector<shared_ptr<SubscriberFoo>> subscribers;
+			for (uint32_t i = 0; i < mNumSubscribers / 2; ++i)
+			{
+				shared_ptr<SubscriberFoo> subscriber = make_unique<SubscriberFoo>();
+				subscribers.pushBack(subscriber);
+				Event<Foo>::subscribe(*subscriber);
+			}
+
+			SubscriberClearQueue subscriberClear(eventQueue);
+			Event<Foo>::subscribe(subscriberClear);
+
+			for (uint32_t i = (mNumSubscribers/2); i < mNumSubscribers - 1; ++i)
+			{
+				shared_ptr<SubscriberFoo> subscriber = make_unique<SubscriberFoo>();
+				subscribers.pushBack(subscriber);
+				Event<Foo>::subscribe(*subscriber);
+			}
+
+			Vector<shared_ptr<Event<Foo>>> events;
+			for (uint32_t i = 0; i < 100; ++i)
+			{
+				Foo foo(1);
+				shared_ptr<Event<Foo>> event = make_shared<Event<Foo>>(foo);
+				events.pushBack(event);
+				eventQueue.enqueue(event, gameTime);
+			}
+			Assert::AreEqual(100U, eventQueue.size());
+
+			gameTime.setCurrentTime(Clock::now());
+			eventQueue.update(gameTime);
+			Assert::AreEqual(0U, eventQueue.size());
+			for (uint32_t i = 0; i < mNumSubscribers - 1; ++i)
+			{
+				Assert::AreEqual(100U, subscribers[i]->getValue());
+			}
 		}
 
 	private:

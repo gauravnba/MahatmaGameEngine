@@ -149,6 +149,9 @@
     <ClCompile Include="SubscriberAdd.cpp">
       <Filter>Supporting Classes\EventSubscriberDerived</Filter>
     </ClCompile>
+    <ClCompile Include="SubscriberClearQueue.cpp">
+      <Filter>Test Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">
@@ -204,6 +207,9 @@
       <Filter>Supporting Classes\EventSubscriberDerived</Filter>
     </ClInclude>
     <ClInclude Include="SubscriberAddEvent.h">
+      <Filter>Supporting Classes\EventSubscriberDerived</Filter>
+    </ClInclude>
+    <ClInclude Include="SubscriberClearQueue.h">
       <Filter>Supporting Classes\EventSubscriberDerived</Filter>
     </ClInclude>
   </ItemGroup>
