@@ -140,6 +140,15 @@
     <ClCompile Include="AsyncEventTests.cpp">
       <Filter>Test Classes\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="SubscriberUnsubsribeAll.cpp">
+      <Filter>Supporting Classes\EventSubscriberDerived</Filter>
+    </ClCompile>
+    <ClCompile Include="SubscriberAddEvent.cpp">
+      <Filter>Supporting Classes\EventSubscriberDerived</Filter>
+    </ClCompile>
+    <ClCompile Include="SubscriberAdd.cpp">
+      <Filter>Supporting Classes\EventSubscriberDerived</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foo.h">
@@ -186,6 +195,15 @@
       <Filter>Supporting Classes\ActionDerived</Filter>
     </ClInclude>
     <ClInclude Include="SubscriberFoo.h">
+      <Filter>Supporting Classes\EventSubscriberDerived</Filter>
+    </ClInclude>
+    <ClInclude Include="SubscriberUnsubsribeAll.h">
+      <Filter>Supporting Classes\EventSubscriberDerived</Filter>
+    </ClInclude>
+    <ClInclude Include="SubscriberAdd.h">
+      <Filter>Supporting Classes\EventSubscriberDerived</Filter>
+    </ClInclude>
+    <ClInclude Include="SubscriberAddEvent.h">
       <Filter>Supporting Classes\EventSubscriberDerived</Filter>
     </ClInclude>
   </ItemGroup>

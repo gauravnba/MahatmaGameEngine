@@ -3,6 +3,7 @@
 #include "EventPublisher.h"
 #include "RTTI.h"
 #include <mutex>
+#include <future>
 
 namespace MahatmaGameEngine
 {

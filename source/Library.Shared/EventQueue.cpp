@@ -10,7 +10,7 @@ void EventQueue::enqueue(shared_ptr<EventPublisher> event, const GameTime& time,
 {
 	event->setTime(time.currentTime(), delay);
 	{
-		lock_guard<recursive_mutex> lock(mMutex);
+		lock_guard<mutex> lock(mMutex);
 		mEventQueue.pushBack(event);
 	}
 }
@@ -31,8 +31,9 @@ void EventQueue::clear(bool sendExpired)
 	{
 		sendExpiredEvents(Clock::now());
 	}
+
 	{
-		lock_guard<recursive_mutex> lock(mMutex);
+		lock_guard<mutex> lock(mMutex);
 		mEventQueue.clear();
 	}
 }
@@ -45,7 +46,7 @@ void EventQueue::sendExpiredEvents(const TimePoint & timePoint)
 
 	//For partitioning of the expired and existent events.
 	{
-		lock_guard<recursive_mutex> lock(mMutex);
+		lock_guard<mutex> lock(mMutex);
 		for (uint32_t i = 0; i < expiredIndex; ++i)
 		{
 			if (mEventQueue[i]->isExpired(timePoint))
@@ -56,35 +57,34 @@ void EventQueue::sendExpiredEvents(const TimePoint & timePoint)
 				mEventQueue[i].swap(mEventQueue[expiredIndex]);
 			}
 		}
-	}
 
-	for(uint32_t i = 0; i < (size - expiredIndex); ++i)
-	{
-		lock_guard<recursive_mutex> lock(mMutex);
-		queueCopy.pushBack(mEventQueue.popBack());
+		for (uint32_t i = 0; i < (size - expiredIndex); ++i)
+		{
+			queueCopy.pushBack(mEventQueue.popBack());
+		}
 	}
 
 	vector<future<void>> futures;
 
-	for (auto event : queueCopy)
+	for (auto& event : queueCopy)
 	{
 		futures.emplace_back(async(&EventPublisher::deliver, event));
 	}
 	
-	for (uint32_t i = 0; i < futures.size(); ++i)
+	for (auto& f : futures)
 	{
-		futures[i].get();
+		f.get();
 	}
 }
 
 bool EventQueue::isEmpty()
 {
-	lock_guard<recursive_mutex> lock(mMutex);
+	lock_guard<mutex> lock(mMutex);
 	return mEventQueue.isEmpty();
 }
 
 uint32_t EventQueue::size()
 {
-	lock_guard<recursive_mutex> lock(mMutex);
+	lock_guard<mutex> lock(mMutex);
 	return mEventQueue.size();
 }

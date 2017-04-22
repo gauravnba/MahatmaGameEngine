@@ -76,6 +76,7 @@ void EventPublisher::deliver()
 {
 	//Copy of list of subscribers that will be used asynchronously to call notify on each.
 	Vector<EventSubscriber*> subscribersCopy;
+
 	{
 		lock_guard<mutex> lock(*mMutex);
 		subscribersCopy = *mSubscribers;
@@ -83,14 +84,13 @@ void EventPublisher::deliver()
 
 	vector<future<void>> futures;
 
-	for (auto subscriber : subscribersCopy)
+	for (auto& subscriber : subscribersCopy)
 	{
 		futures.emplace_back(std::async(&EventSubscriber::notify, subscriber, cref(*this)));
 	}
 
-	uint32_t size = futures.size();
-	while (--size <= 0)
+	for (auto& f : futures)
 	{
-		futures[size].get();
+		f.get();
 	}
 }

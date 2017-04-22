@@ -186,15 +186,15 @@ namespace UnitTestLibraryDesktop
 			auto datumGetException = [&reaction] {reaction["StringToChange"].get<string>(); };
 			Assert::ExpectException<exception>(datumGetException);
 
-			////Test if event expires after delay.
-			//while (gameTime.totalGameTime() < 1050ms)
-			//{
-			//	gameClock.updateGameTime(gameTime);
-			//	world.update(worldState);
-			//	eventQueue.update(gameTime);
-			//}
+			//Test if event expires after delay.
+			while (gameTime.totalGameTime() < 1050ms)
+			{
+				gameClock.updateGameTime(gameTime);
+				world.update(worldState);
+				eventQueue.update(gameTime);
+			}
 
-			//Assert::AreEqual(reaction["StringToChange"].get<string>(), string("Test Passed"));
+			Assert::AreEqual(reaction["StringToChange"].get<string>(), string("Test Passed"));
 
 			delete sharedData.mCurrentTable;
 		}

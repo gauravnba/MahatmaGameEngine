@@ -51,18 +51,21 @@ namespace MahatmaGameEngine
 	template<typename T>
 	void Event<T>::subscribe(const EventSubscriber& subscriber)
 	{
+		std::lock_guard<std::mutex> lock(mMutex);
 		mSubscribers.pushBack(&(const_cast<EventSubscriber&>(subscriber)));
 	}
 
 	template<typename T>
 	void Event<T>::unsubscribe(const EventSubscriber& subscriber)
 	{
+		std::lock_guard<std::mutex> lock(mMutex);
 		mSubscribers.remove(&(const_cast<EventSubscriber&>(subscriber)));
 	}
 
 	template<typename T>
 	void Event<T>::unsubscribeAll()
 	{
+		std::lock_guard<std::mutex> lock(mMutex);
 		mSubscribers.clear();
 	}
 

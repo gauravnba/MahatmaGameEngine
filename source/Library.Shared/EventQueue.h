@@ -68,6 +68,6 @@ namespace MahatmaGameEngine
 		void sendExpiredEvents(const TimePoint& timePoint);
 
 		Vector<std::shared_ptr<EventPublisher>> mEventQueue;		/**< The vector that queues the events. */
-		std::recursive_mutex mMutex;
+		std::mutex mMutex;
 	};
 }

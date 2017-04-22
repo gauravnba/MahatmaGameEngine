@@ -2,6 +2,7 @@
 
 #include "SubscriberFoo.h"
 #include "Event.h"
+#include <future>
 
 using namespace MahatmaGameEngine;
 using namespace UnitTestLibraryDesktop;
@@ -16,8 +17,10 @@ void SubscriberFoo::notify(const EventPublisher& publisher)
 {
 	assert(publisher.is(Event<Foo>::typeIdClass()));
 	Foo foo = static_cast<const Event<Foo>&>(publisher).message();
-
-	mValue = foo.getVar() + mValue;
+	{
+		lock_guard<mutex> lock(mMutex);
+		mValue = foo.getVar() + mValue;
+	}
 }
 
 uint32_t SubscriberFoo::getValue()
