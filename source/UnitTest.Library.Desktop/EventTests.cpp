@@ -116,25 +116,24 @@ namespace UnitTestLibraryDesktop
 			Event<Foo>::subscribe(subscriber1);
 			Event<Foo>::subscribe(subscriber2);
 			Event<Foo>::subscribe(subscriber3);
-			Foo foo(1);
-			Event<Foo> event(foo);
+			Event<Foo> event(Foo(1));
 
-			////Deliver test
-			//event.deliver();
-			//Assert::AreEqual(subscriber1.getValue(), 1U);
+			//Deliver test
+			event.deliver();
+			Assert::AreEqual(subscriber1.getValue(), 1U);
 
-			////Unsubscribe test
-			////Event<Foo>::unsubscribe(subscriber1);
-			////event.deliver();
-			////Assert::AreEqual(subscriber2.getValue(), 2U);
-			////Assert::AreNotEqual(subscriber1.getValue(), 2U);
+			//Unsubscribe test
+			Event<Foo>::unsubscribe(subscriber1);
+			event.deliver();
+			Assert::AreEqual(subscriber2.getValue(), 2U);
+			Assert::AreNotEqual(subscriber1.getValue(), 2U);
 
-			//////UnsubscribeAll test
-			////Event<Foo>::unsubscribeAll();
-			////event.deliver();
-			////Assert::AreNotEqual(subscriber3.getValue(), 3U);
-			////Assert::AreEqual(subscriber3.getValue(), 2U);
-			////Assert::AreNotEqual(subscriber2.getValue(), 3U);
+			//UnsubscribeAll test
+			Event<Foo>::unsubscribeAll();
+			event.deliver();
+			Assert::AreNotEqual(subscriber3.getValue(), 3U);
+			Assert::AreEqual(subscriber3.getValue(), 2U);
+			Assert::AreNotEqual(subscriber2.getValue(), 3U);
 		}
 
 		TEST_METHOD(enqueueTest)
