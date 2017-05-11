@@ -36,6 +36,7 @@ void ReactionAttributed::notify(const EventPublisher& subscribedTo)
 
 	if (message.getSubType() == mSubType)
 	{
+		lock_guard<mutex> lock(mMutex);
 		copyAuxiliaryAttributes(message);
 		ActionList::update(message.getWorldState());
 	}

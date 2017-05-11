@@ -2,6 +2,7 @@
 
 #include "Reaction.h"
 #include "Factory.h"
+#include <mutex>
 
 namespace MahatmaGameEngine
 {
@@ -42,6 +43,7 @@ namespace MahatmaGameEngine
 
 	private:
 		std::string mSubType;		/**< Subtype associated to this instance.  */
+		std::mutex mMutex;
 	};
 
 	CONCRETE_FACTORY(Reaction, ReactionAttributed)

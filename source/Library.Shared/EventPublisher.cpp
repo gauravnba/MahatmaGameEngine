@@ -1,24 +1,27 @@
 #include "pch.h"
 #include "EventPublisher.h"
+#include <vector>
+#include <future>
 
 using namespace MahatmaGameEngine;
 using namespace std;
 
 RTTI_DEFINITIONS(EventPublisher)
 
-EventPublisher::EventPublisher(Vector<EventSubscriber*>& subscriberList) :
-	mSubscribers(&subscriberList)
+EventPublisher::EventPublisher(Vector<EventSubscriber*>& subscriberList, mutex& mut) :
+	mSubscribers(&subscriberList), mMutex(&mut)
 {
 }
 
 EventPublisher::EventPublisher(const EventPublisher& obj) :
-	mSubscribers(obj.mSubscribers), mTimeEnqueued(obj.mTimeEnqueued), mDelay(obj.mDelay)
+	mSubscribers(obj.mSubscribers), mTimeEnqueued(obj.mTimeEnqueued), mDelay(obj.mDelay), mMutex(obj.mMutex)
 {
 }
 
 EventPublisher::EventPublisher(EventPublisher&& obj) :
 	mTimeEnqueued(move(obj.mTimeEnqueued)), mDelay(move(obj.mDelay)), mSubscribers(obj.mSubscribers)
 {
+	obj.mMutex = nullptr;
 	obj.mSubscribers = nullptr;
 }
 
@@ -29,6 +32,7 @@ EventPublisher& EventPublisher::operator=(const EventPublisher& obj)
 		mSubscribers = obj.mSubscribers;
 		mTimeEnqueued = obj.mTimeEnqueued;
 		mDelay = obj.mDelay;
+		mMutex = obj.mMutex;
 	}
 	return *this;
 }
@@ -40,8 +44,10 @@ EventPublisher& EventPublisher::operator=(EventPublisher&& obj)
 		mSubscribers = obj.mSubscribers;
 		mTimeEnqueued = move(obj.mTimeEnqueued);
 		mDelay = move(obj.mDelay);
+		mMutex = obj.mMutex;
 
 		obj.mSubscribers = nullptr;
+		obj.mMutex = nullptr;
 	}
 	return *this;
 }
@@ -68,8 +74,23 @@ bool EventPublisher::isExpired(const TimePoint& currentTime)
 
 void EventPublisher::deliver()
 {
-	for (auto subscriber : *mSubscribers)
+	//Copy of list of subscribers that will be used asynchronously to call notify on each.
+	Vector<EventSubscriber*> subscribersCopy;
+
 	{
-		subscriber->notify(*this);
+		lock_guard<mutex> lock(*mMutex);
+		subscribersCopy = *mSubscribers;
+	}
+
+	vector<future<void>> futures;
+
+	for (auto& subscriber : subscribersCopy)
+	{
+		futures.emplace_back(std::async(&EventSubscriber::notify, subscriber, cref(*this)));
+	}
+
+	for (auto& f : futures)
+	{
+		f.get();
 	}
 }

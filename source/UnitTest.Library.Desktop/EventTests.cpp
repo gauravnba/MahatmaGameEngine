@@ -116,8 +116,7 @@ namespace UnitTestLibraryDesktop
 			Event<Foo>::subscribe(subscriber1);
 			Event<Foo>::subscribe(subscriber2);
 			Event<Foo>::subscribe(subscriber3);
-			Foo foo(1);
-			Event<Foo> event(foo);
+			Event<Foo> event(Foo(1));
 
 			//Deliver test
 			event.deliver();
