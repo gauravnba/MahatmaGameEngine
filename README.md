@@ -1,13 +1,13 @@
 # Mahatma Game Engine
-A Data-driven game engine that I created in my time at Florida Interactive Entertainment Academy. The project was built in Visual Studio 2015, primarily using C++, with a C library to parse XML files (Expat). The primary objectives of this project were:
+A Data-driven game engine that I created in my time at Florida Interactive Entertainment Academy. The project was built in Visual Studio 2015, primarily using C++, with a C library to parse XML files (Expat). 
+For a **detailed folder structure**, please refer to the index.html file in the **docs/html** folder, which details all the documentation of the project.
+## The primary objectives of this project were:
  - To learn how game engines are structured.
  - To learn advanced concepts of C++.
  - To see how compiler structures are made.
  - To learn asynchronous programming.
  - To better understand how the STL library is designed.
  - To implement complete unit testing practices.
- 
- For a detailed folder structure, please refer to the index.html file in the docs folder, which details all the documentation of the project.
 
 ### What this project is:
  - An engine (or framework) that provides a generic game world structure with Worlds, Sectors and Entities.
